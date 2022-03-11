@@ -71,8 +71,8 @@ class _DataPageAcadYrState extends State<DataPageAcadYr> {
       destinationUrl: mainDomain,
     );
     var showAcadYr_responseBody = json.decode(showAcadYr_responseBodyJSON!);
-    print("showAcadYr_responseBody .runtimeType = ${showAcadYr_responseBody.runtimeType}");
-    print("showAcadYr_responseBody  = ${showAcadYr_responseBody[0]["_id"]}");
+    // print("showAcadYr_responseBody .runtimeType = ${showAcadYr_responseBody.runtimeType}");
+    // print("showAcadYr_responseBody  = ${showAcadYr_responseBody[0]["_id"]}");
     List<Map<String, dynamic>> showAcadYr_responseBodyTemp = [];
     showAcadYr_responseBody.forEach((e) {
       showAcadYr_responseBodyTemp.add(e);

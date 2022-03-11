@@ -69,8 +69,8 @@ class _DataPageClassViewState extends State<DataPageClassView> {
       destinationUrl:mainDomain,
     );
     var showClass_responseBody = await json.decode(showClass_responseBodyJSON!);
-    print("showClass_responseBody.runtimeType = ${showClass_responseBody.runtimeType}");
-    print("showClass_responseBody = ${showClass_responseBody[0]["_id"]}");
+    // print("showClass_responseBody.runtimeType = ${showClass_responseBody.runtimeType}");
+    // print("showClass_responseBody = ${showClass_responseBody[0]["_id"]}");
     List<Map<String,dynamic>> showClass_responseBodyTemp = [];
     await showClass_responseBody.forEach((e){showClass_responseBodyTemp.add(e);});
     for(int i =  0 ; i < showClass_responseBodyTemp.length; i++){

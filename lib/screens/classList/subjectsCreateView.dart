@@ -189,7 +189,7 @@ class _SubjectCreateViewSUBState extends State<SubjectCreateViewSUB> {
                                                 );
                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                               });
-                                            } else {
+                                            }else {
                                               setState(() {
                                                 final snackBar = SnackBar(
                                                   content: const Text('Sorry encountered a server error'),
@@ -323,6 +323,21 @@ class _SubjectCreateViewDELETEState extends State<SubjectCreateViewDELETE> {
                                     setState(() {
                                       final snackBar = SnackBar(
                                         content: Text("Subject $deleteSubject has been deleted"),
+                                        backgroundColor: (Colors.red),
+                                        action: SnackBarAction(
+                                          label: 'dismiss',
+                                          textColor: Colors.white,
+                                          onPressed: () {},
+                                        ),
+                                      );
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                    });
+                                  }
+                                  else if (deleteSubject_responseBody == "Subject is in use in one or more of the divisions") {
+                                    print("deleteSubject_responseBody.toString() = ${deleteSubject_responseBody.toString()}");
+                                    setState(() {
+                                      final snackBar = SnackBar(
+                                        content: Text("Subject $deleteSubject is in use in one or more of the divisions"),
                                         backgroundColor: (Colors.red),
                                         action: SnackBarAction(
                                           label: 'dismiss',

@@ -23,14 +23,15 @@ Future<String> httpPost({destinationUrl, destinationPort, destinationPost, requi
     );
     if (res.statusCode == 200) {
       // print(res.body);
-      print(res.statusCode);
+      print("res.statusCode = ${res.statusCode}");
       resBody = res.body;
       return Future.delayed(const Duration(microseconds: 1), () => resBody);
     } else {
-      print(res.statusCode);
+      print("res.statusCode = ${res.statusCode}");
       return Future.delayed(const Duration(microseconds: 1), () => "");
     }
   } catch (e) {
+    print("ERROR HAS HAPPENED ASIM");
     print(e);
     return Future.delayed(const Duration(microseconds: 1), () => "");
   }
@@ -86,8 +87,8 @@ class Data extends ChangeNotifier {
 
 //Not Empty and only Numbers(infinite)
 String? funcValEmptyOrNumber(assignval, nameofField) {
-  print("nameofField = $nameofField");
-  print("assignval = $assignval");
+  // print("nameofField = $nameofField");
+  // print("assignval = $assignval");
   bool tempDecimal = false;
 
   String assignvalString = assignval == null ? "" : assignval.toString();
@@ -118,8 +119,8 @@ String? funcValEmptyOrNumber(assignval, nameofField) {
   // else{return null;}
 }
 String? funcValEmptyOrNumberAdmissionFee(assignval, nameofField) {
-  print("nameofField = $nameofField");
-  print("assignval = $assignval");
+  // print("nameofField = $nameofField");
+  // print("assignval = $assignval");
   bool tempDecimal = false;
 
   String assignvalString = assignval == null ? "" : assignval.toString();
@@ -154,7 +155,7 @@ String? funcValEmptyOrNumberAdmissionFee(assignval, nameofField) {
 }
 
 bool? funcValEmptyOrNumberBool(assignval) {
-  print("assignval = $assignval");
+  // print("assignval = $assignval");
   bool tempDecimal = false;
 
   String assignvalString = assignval == null ? "" : assignval.toString();
@@ -201,7 +202,7 @@ String? funcValEmptyOnly(assignval, nameofField) {
 double functoChkBalFee(totalfees, listofFeesTotal, feenum) {
   double tempTotalofSubFees = 0;
   double tempBalanceFees = 0;
-  for (int i = 2; i < listofFeesTotal[feenum].length; i++) {
+  for (int i = 3; i < listofFeesTotal[feenum].length; i++) {
     if (listofFeesTotal[feenum][i][1] != "^") {
       double? tempSubFeeAmount = double.tryParse(listofFeesTotal[feenum][i][1]);
       tempSubFeeAmount = tempSubFeeAmount ?? 0;
@@ -216,15 +217,15 @@ double functoChkBalFee(totalfees, listofFeesTotal, feenum) {
   }
 
   tempBalanceFees = tempTotalFees - tempTotalofSubFees;
-  print("tempBalanceFees = $tempBalanceFees");
+  // print("tempBalanceFees = $tempBalanceFees");
   return tempBalanceFees;
 }
 //__________________________________________________ Function to check balance fees Closed _________________________________________________________________________
 
 bool funcChkIfStringHasMoreThanOneDecimal(abc) {
-  print("listOfMainFees[0] =========== ${listOfMainFees[0]}");
+  // print("listOfMainFees[0] =========== ${listOfMainFees[0]}");
   // print("listOfMainFees[0][1 + widget.subdivofMainfeeNumber][2] =========== ${listOfMainFees[0][1 + j][2]}");
-  print("ABC =========== $abc");
+  // print("ABC =========== $abc");
 
   if (abc != null) {
     int tempCount = 0;

@@ -49,8 +49,8 @@ class _DataPageSubjeectState extends State<DataPageSubjeect> {
       destinationUrl:mainDomain,
     );
     var showSubject_responseBody = json.decode(showSubject_responseBodyJSON!);
-    print("showSubject_responseBody.runtimeType = ${showSubject_responseBody.runtimeType}");
-    print("showSubject_responseBody  = ${showSubject_responseBody[0]["_id"]}");
+    // print("showSubject_responseBody.runtimeType = ${showSubject_responseBody.runtimeType}");
+    // print("showSubject_responseBody  = ${showSubject_responseBody[0]["_id"]}");
     List<Map<String,dynamic>> showSubject_responseBodyTemp = [];
     showSubject_responseBody.forEach((e){ showSubject_responseBodyTemp.add(e);});
     for(int i =  0 ; i <  showSubject_responseBodyTemp.length; i++){

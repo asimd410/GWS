@@ -340,6 +340,19 @@ class _ClassCreateViewDELETEState extends State<ClassCreateViewDELETE> {
                                     );
                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                   });
+                                }else if (deleteClass_responseBody == "Class is in use in one or more of the divisions") {
+                                  setState(() {
+                                    final snackBar = SnackBar(
+                                      content: Text("Class $deleteClass is in use in one or more of the Divisions"),
+                                      backgroundColor: (Colors.red),
+                                      action: SnackBarAction(
+                                        label: 'dismiss',
+                                        textColor: Colors.white,
+                                        onPressed: () {},
+                                      ),
+                                    );
+                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  });
                                 } else {
                                   setState((){
                                     final snackBar = SnackBar(

@@ -50,9 +50,9 @@ class _DataPageDivisionState extends State<DataPageDivision> {
       destinationPost: "/addDivision/viewDivisionInDB",
       destinationUrl:mainDomain,
     );
-    print("showDivision_responseBodyJSON  = ${showDivision_responseBodyJSON}");
+    // print("showDivision_responseBodyJSON  = ${showDivision_responseBodyJSON}");
     var showDivision_responseBody = json.decode(showDivision_responseBodyJSON!);
-    print("showDivision_responseBody.runtimeType = ${showDivision_responseBody.runtimeType}");
+    // print("showDivision_responseBody.runtimeType = ${showDivision_responseBody.runtimeType}");
 
     List<Map<String,dynamic>> showDivision_responseBodyTemp = [];
     showDivision_responseBody.forEach((e){ showDivision_responseBodyTemp.add(e);});
@@ -740,15 +740,18 @@ class _DropDownContainerState extends State<_DropDownContainer> {
 
                       listOfMainFeesEDIT.clear();
                       widget.data["fees"]["main_fees"].forEach((e){
+                        editDivMainFee_idToEdit = e["_id"].toString();
                         editDivMainFeeTitleToEdit = e["fee_title"];
                         editDivMainFeeAmountToEdit = e["total_fees"].toString();
                         listOfMainFeesEDIT.add(editDivMainFeeTitleToEdit);
                         listOfMainFeesEDIT.add(editDivMainFeeAmountToEdit.toString());
+                        listOfMainFeesEDIT.add(editDivMainFee_idToEdit);
                         e["sub_of_fees"].forEach((b){
                           List<dynamic> _sub_fees = [
                             b["sub_fees_title"] ,
                             b["sub_amount"].toString(),
                             b["fee_priority"],
+                            b["_id"].toString(),
                           ];
                           // editListofMainFeeSubsToEdit.add(_sub_fees);
                           listOfMainFeesEDIT.add(_sub_fees);
@@ -758,7 +761,10 @@ class _DropDownContainerState extends State<_DropDownContainer> {
 
                       listOfMainFees.clear();
                       listOfMainFees.add(listOfMainFeesEDIT);
-                      // print("%%%%%%%%%%%%%%%editListofMainFeeSubs%%%%%%%%%%%%%% = $editListofMainFeeSubsToEdit");
+
+
+                      //---------- Extra Fee EDIT ---------------
+                      print("^^^^^^^^^^^^^^^^^ widget.data =  ${widget.data}");
                       editListofExtraFeesToEdit.clear();
                       listOfExtraFees.clear();
                       widget.data["fees"]["extra_fee"].forEach((e){
@@ -767,11 +773,13 @@ class _DropDownContainerState extends State<_DropDownContainer> {
 
                         _tempExtraFee.add(e["extra_fee_title"]);
                         _tempExtraFee.add(e["extra_total_fee"].toString());
+                        _tempExtraFee.add(e["_id"].toString());
                         e["extra_sub_of_fees"].forEach((b){
                         List<dynamic> _sub_fees = [
                            b["extra_sub_fees_title"] ,
                            b["extra_sub_amount"].toString(),
                            b["extra_fee_priority"].toString(),
+                           b["_id"].toString(),
                           ];
                           _tempExtraFeeSubs.add(_sub_fees);
                         });

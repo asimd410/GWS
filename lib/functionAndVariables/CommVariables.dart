@@ -87,6 +87,8 @@ List<String>? editDivSubjectsToEdit;
 
 String? editDivMainFeeTitleToEdit;
 
+String? editDivMainFee_idToEdit;
+
 String? editDivMainFeeAmountToEdit;
 
 List<List<dynamic>> editListofMainFeeSubsToEdit = [];

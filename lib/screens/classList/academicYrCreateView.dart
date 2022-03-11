@@ -447,6 +447,19 @@ class _AcadYrCreateViewDELETEState extends State<AcadYrCreateViewDELETE> {
                                       );
                                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                     });
+                                  }else if (deleteAcadYr_responseBody == "Academic year is in use in one or more of the divisions") {
+                                    setState(() {
+                                      final snackBar = SnackBar(
+                                        content: Text("Academic Year $deleteAcadYrYear is in use in one or more of the Divisions"),
+                                        backgroundColor: (Colors.red),
+                                        action: SnackBarAction(
+                                          label: 'dismiss',
+                                          textColor: Colors.white,
+                                          onPressed: () {},
+                                        ),
+                                      );
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                    });
                                   } else {
                                     setState(() {
                                       final snackBar = SnackBar(

@@ -17,7 +17,8 @@ List<dynamic> listOfMainFees = [
   [
     "^",
     "^",
-    ["^", "^", "^"]
+    "^",
+    ["^","^", "^", "^"] //last "^" is _id
   ]
 ];
 List<dynamic> listOfExtraFees = [];
@@ -77,6 +78,7 @@ class DevisionCreateViewSUB extends StatefulWidget {
 class _DevisionCreateViewSUBState extends State<DevisionCreateViewSUB> {
   @override
   Widget build(BuildContext context) {
+
     return Stack(
       children: [
         Column(
@@ -169,7 +171,7 @@ class DivisionCreateViewADD extends StatefulWidget {
 
 class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
   late ScrollController _controllerOne = ScrollController();
-  late TextEditingController _controllerAdmissionFees;
+  // late TextEditingController _controllerAdmissionFees;
 
   @override
   void initState() {
@@ -181,7 +183,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
     _chosenValueAdmissionFees = null;
     _chosenValueSubjects = null;
 
-    _controllerAdmissionFees = TextEditingController(text: editAdmissionFeesToEdit);
+    // _controllerAdmissionFees = TextEditingController(text: editAdmissionFeesToEdit);
   }
 
   @override
@@ -193,6 +195,18 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
 
   @override
   Widget build(BuildContext context) {
+    listOfMainFees = [
+    [
+      "^",
+      "^",
+      "^",
+      ["^","^", "^", "^"] //last "^" is _id
+    ]
+  ];
+  listOfExtraFees = [];
+  ExtraFeesNumber = 0;
+  ExtraFeesWig = [];
+
     return GlassContainer(
       width: (widget.screenW) - 2,
       child: Center(
@@ -230,11 +244,13 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                     [
                                       "^",
                                       "^",
-                                      ["^", "^", "^"]
+                                      "^",
+                                      ["^", "^", "^","^"]
                                     ]
                                   ];
                                   setState(() {
                                     addDivision = false;
+                                    Provider.of<Data>(context, listen: false).refPageEditDivision(true);
                                   });
                                 },
                                 splashColor: Colors.white,
@@ -345,7 +361,6 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                               ), //SUBJECTS
                                               const SizedBox(height: 20),
                                               TextField(
-                                                controller: _controllerAdmissionFees,
                                                 onChanged: (val) {
                                                   setState(() {
                                                     _chosenValueAdmissionFees = val;
@@ -364,6 +379,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                     child: ElevatedButton(
                                                         //CREATE DIVISION
                                                         onPressed: () async {
+                                                          print("listOfMainFees = $listOfMainFees");
+                                                          print("listOfExtraFees = $listOfExtraFees");
                                                           bool isValid = true;
                                                           //---------------- VALIDATION --------------------
                                                           if (divisionName == null) {
@@ -381,7 +398,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                               );
                                                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                             });
-                                                          } else if (_chosenValueAcadYr == null) {
+                                                          }
+                                                          else if (_chosenValueAcadYr == null) {
                                                             isValid = false;
                                                             print("error2");
                                                             setState(() {
@@ -396,7 +414,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                               );
                                                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                             });
-                                                          } else if (_chosenValueClass == null) {
+                                                          }
+                                                          else if (_chosenValueClass == null) {
                                                             isValid = false;
                                                             print("error3");
                                                             setState(() {
@@ -411,7 +430,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                               );
                                                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                             });
-                                                          } else if (funcValEmptyOrNumberBool(_chosenValueAdmissionFees) == true) {
+                                                          }
+                                                          else if (funcValEmptyOrNumberBool(_chosenValueAdmissionFees) == true) {
                                                             isValid = false;
                                                             print("error3");
                                                             setState(() {
@@ -426,7 +446,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                               );
                                                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                             });
-                                                          } else if (_chosenValueSubjects == null) {
+                                                          }
+                                                          else if (_chosenValueSubjects == null) {
                                                             isValid = false;
                                                             print("error4");
                                                             setState(() {
@@ -459,7 +480,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                               );
                                                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                             });
-                                                          } else if (listOfMainFees[0][1] == "^" || listOfMainFees[0][1] == null) {
+                                                          }
+                                                          else if (listOfMainFees[0][1] == "^" || listOfMainFees[0][1] == null) {
                                                             isValid = false;
                                                             print("error6");
                                                             setState(() {
@@ -474,7 +496,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                               );
                                                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                             });
-                                                          } else if (funcValEmptyOrNumberBool(listOfMainFees[0][1]) == true) {
+                                                          }
+                                                          else if (funcValEmptyOrNumberBool(listOfMainFees[0][1]) == true) {
                                                             isValid = false;
                                                             print("error6.1");
                                                             setState(() {
@@ -491,7 +514,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                             });
                                                           }
 
-                                                          for (int i = 2; i < listOfMainFees[0].length; i++) {
+                                                          for (int i = 3; i < listOfMainFees[0].length; i++) {
                                                             if (listOfMainFees[0][i][0] == "^" || listOfMainFees[0][i][0] == "") {
                                                               isValid = false;
                                                               print("error7");
@@ -507,7 +530,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                 );
                                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                               });
-                                                            } else if (listOfMainFees[0][i][1] == "^" || listOfMainFees[0][i][1] == "") {
+                                                            }
+                                                            else if (listOfMainFees[0][i][1] == "^" || listOfMainFees[0][i][1] == "") {
                                                               isValid = false;
                                                               print("error8");
                                                               setState(() {
@@ -522,7 +546,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                 );
                                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                               });
-                                                            } else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][1]) == true) {
+                                                            }
+                                                            else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][1]) == true) {
                                                               isValid = false;
                                                               print("error8");
                                                               setState(() {
@@ -538,7 +563,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                 );
                                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                               });
-                                                            } else if (listOfMainFees[0][i][2] == "^" || listOfMainFees[0][i][2] == "") {
+                                                            }
+                                                            else if (listOfMainFees[0][i][2] == "^" || listOfMainFees[0][i][2] == "") {
                                                               isValid = false;
                                                               print("error9");
                                                               setState(() {
@@ -553,7 +579,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                 );
                                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                               });
-                                                            } else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][2]) == true) {
+                                                            }
+                                                            else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][2]) == true) {
                                                               isValid = false;
                                                               print("error9");
                                                               setState(() {
@@ -609,7 +636,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                   );
                                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                                 });
-                                                              } else if (listOfExtraFees[i][1] != "^" || listOfExtraFees[i][1] != "") {
+                                                              }
+                                                              else if (listOfExtraFees[i][1] != "^" || listOfExtraFees[i][1] != "") {
                                                                 String? _tempNotANummber = funcValEmptyOrNumber(listOfExtraFees[i][1], "Total Fee");
                                                                 if (_tempNotANummber != null) {
                                                                   if (_tempNotANummber == "Total Fee has to be a number" ||
@@ -647,7 +675,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                 }
                                                               }
 
-                                                              for (int j = 2; j < listOfExtraFees[i].length; j++) {
+                                                              for (int j = 3; j < listOfExtraFees[i].length; j++) {
                                                                 if (listOfExtraFees[i][j][0] == "^" || listOfExtraFees[i][j][0] == "") {
                                                                   isValid = false;
                                                                   print("error14");
@@ -663,7 +691,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                     );
                                                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                                   });
-                                                                } else if (listOfExtraFees[i][j][1] == "^" || listOfExtraFees[i][j][1] == "") {
+                                                                }
+                                                                else if (listOfExtraFees[i][j][1] == "^" || listOfExtraFees[i][j][1] == "") {
                                                                   isValid = false;
                                                                   print("error15");
                                                                   setState(() {
@@ -679,7 +708,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                     );
                                                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                                   });
-                                                                } else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][1]) == true) {
+                                                                }
+                                                                else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][1]) == true) {
                                                                   isValid = false;
                                                                   print("error15");
                                                                   setState(() {
@@ -695,7 +725,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                     );
                                                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                                   });
-                                                                } else if (listOfExtraFees[i][j][2] == "^" || listOfExtraFees[i][j][2] == "") {
+                                                                }
+                                                                else if (listOfExtraFees[i][j][2] == "^" || listOfExtraFees[i][j][2] == "") {
                                                                   isValid = false;
                                                                   print("error16");
                                                                   setState(() {
@@ -711,7 +742,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                     );
                                                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                                   });
-                                                                } else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][2]) == true) {
+                                                                }
+                                                                else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][2]) == true) {
                                                                   isValid = false;
                                                                   print("error16");
                                                                   setState(() {
@@ -755,8 +787,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                           Map<String, dynamic> tempFeesCompiled = {};
                                                           print("%%%%%%%^^^^^^^^^&&&&&&$listOfMainFees%%%%%%%%%%##########@@@@@@@@@@@@");
                                                           List<Map<String, dynamic>> _tempMainFeesSubList = [];
-                                                          if (listOfMainFees[0].length > 3) {
-                                                            for (int i = 2; i < listOfMainFees[0].length; i++) {
+                                                          if (listOfMainFees[0].length > 4) {
+                                                            for (int i = 3; i < listOfMainFees[0].length; i++) {
                                                               // MainFeesSub _tempMainFeesSub =
                                                               //     MainFeesSub(sub_fees_title: listOfMainFees[0][i][0],sub_amount:listOfMainFees[0][i][1] ,fee_priority:listOfMainFees[0][i][2] );
                                                               // _tempMainFeesSubList.add(_tempMainFeesSub);
@@ -764,15 +796,16 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                               Map<String, dynamic> _tempMainFeesSub = {
                                                                 "sub_fees_title": listOfMainFees[0][i][0],
                                                                 "sub_amount": listOfMainFees[0][i][1],
-                                                                "fee_priority": listOfMainFees[0][i][2]
+                                                                "fee_priority": listOfMainFees[0][i][2],
                                                               };
                                                               _tempMainFeesSubList.add(_tempMainFeesSub);
                                                             }
-                                                          } else {
+                                                          }
+                                                          else {
                                                             Map<String, dynamic> _tempMainFeesSub = {
-                                                              "sub_fees_title": listOfMainFees[0][2][0],
-                                                              "sub_amount": listOfMainFees[0][2][1],
-                                                              "fee_priority": listOfMainFees[0][2][2]
+                                                              "sub_fees_title": listOfMainFees[0][3][0],
+                                                              "sub_amount": listOfMainFees[0][3][1],
+                                                              "fee_priority": listOfMainFees[0][3][2],
                                                             };
                                                             _tempMainFeesSubList.add(_tempMainFeesSub);
                                                           }
@@ -789,26 +822,30 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                           if (listOfExtraFees.isNotEmpty) {
                                                             for (List<dynamic> i in listOfExtraFees) {
                                                               List<Map<String, dynamic>> _tempExtraFeesSubList = [];
-                                                              if (i.length > 3) {
-                                                                for (int j = 2; j < i.length; j++) {
+                                                              if (i.length > 4) {
+                                                                for (int j = 3; j < i.length; j++) {
                                                                   Map<String, dynamic> _tempExtraFeesSub = {
                                                                     "extra_sub_fees_title": i[j][0],
                                                                     "extra_sub_amount": i[j][1],
-                                                                    "extra_fee_priority": i[j][2]
+                                                                    "extra_fee_priority": i[j][2],
+                                                                    "_id": i[j][3],
                                                                   };
                                                                   _tempExtraFeesSubList.add(_tempExtraFeesSub);
                                                                 }
-                                                              } else {
+                                                              }
+                                                              else {
                                                                 Map<String, dynamic> _tempExtraFeesSub = {
-                                                                  "extra_sub_fees_title": i[2][0],
-                                                                  "extra_sub_amount": i[2][1],
-                                                                  "extra_fee_priority": i[2][2]
+                                                                  "extra_sub_fees_title": i[3][0],
+                                                                  "extra_sub_amount": i[3][1],
+                                                                  "extra_fee_priority": i[3][2],
+                                                                  "_id": i[3][3],
                                                                 };
                                                                 _tempExtraFeesSubList.add(_tempExtraFeesSub);
                                                               }
                                                               Map<String, dynamic> _tempExtraFees = {
                                                                 "extra_fee_title": i[0],
                                                                 "extra_total_fee": i[1],
+                                                                "_id": i[2],
                                                                 "extra_sub_of_fees": _tempExtraFeesSubList
                                                               };
                                                               _tempExtraFeesList.add(_tempExtraFees);
@@ -818,11 +855,11 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                           tempFeesCompiled["extra_fee"] = _tempExtraFeesList;
                                                           tempFeesCompiled["admission_fees"] = _chosenValueAdmissionFees;
 
-                                                          print("**************************************************************************");
-                                                          print("isValid == $isValid");
-                                                          print("tempFeesCompiled.toString() = ${tempFeesCompiled.toString()}");
-                                                          print("**************************************************************************");
-
+                                                          // print("**************************************************************************");
+                                                          // print("isValid == $isValid");
+                                                          // print("tempFeesCompiled.toString() = ${tempFeesCompiled.toString()}");
+                                                          // print("**************************************************************************");
+//----------------------------------------------------------------------------------------------------------------------------------------------------
                                                           if (isValid == true) {
                                                             print("isValid == true");
                                                             createDivision_responseBody = await httpPost(
@@ -838,11 +875,11 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                               destinationPost: "/addDivision",
                                                               destinationUrl: mainDomain,
                                                             );
-                                                            print("tempFeesCompiled.toString() = ${tempFeesCompiled.toString()}");
+                                                            // print("tempFeesCompiled.toString() = ${tempFeesCompiled.toString()}");
                                                             setState(() {
                                                               addDivision = false;
                                                             });
-                                                            if (editDivision_responseBody == "Saved") {
+                                                            if (createDivision_responseBody  == "Saved") {
                                                               setState(() {
                                                                 final snackBar = SnackBar(
                                                                   content: const Text("Division has been successfully created"),
@@ -857,7 +894,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                 addDivision = false;
                                                                 Provider.of<Data>(context, listen: false).refPageEditDivision(true);
                                                               });
-                                                            } else if (editDivision_responseBody == "Division Alread Exists") {
+                                                            }
+                                                            else if (createDivision_responseBody == "Division Alread Exists") {
                                                               setState(() {
                                                                 final snackBar = SnackBar(
                                                                   content: const Text("Division Alread Exists"),
@@ -872,10 +910,11 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                 addDivision = false;
                                                                 Provider.of<Data>(context, listen: false).refPageEditDivision(true);
                                                               });
-                                                            } else {
+                                                            }
+                                                            else {
                                                               setState(() {
                                                                 final snackBar = SnackBar(
-                                                                  content: const Text('Sorry encountered a server error'),
+                                                                  content: Text('Sorry encountered a server error ************* ${createDivision_responseBody }'),
                                                                   backgroundColor: (Colors.red),
                                                                   action: SnackBarAction(
                                                                     label: 'dismiss',
@@ -923,7 +962,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                         listOfExtraFees.add([
                                                           "^",
                                                           "^",
-                                                          ["^", "^", "^"]
+                                                          "^",
+                                                          ["^", "^", "^","^"]
                                                         ]);
                                                         ExtraFeesWig.add(FeesAddInDivisionExtraFees(
                                                           extrafeeNumber: ExtraFeesNumber - 1,
@@ -1034,7 +1074,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                               ), //SUBJECTS
                                               const SizedBox(height: 20),
                                               TextField(
-                                                controller: _controllerAdmissionFees,
+
                                                 onChanged: (val) {
                                                   setState(() {
                                                     _chosenValueAdmissionFees = val;
@@ -1074,7 +1114,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                         listOfExtraFees.add([
                                                           "^",
                                                           "^",
-                                                          ["^", "^", "^"]
+                                                          "^",
+                                                          ["^", "^", "^", "^"]
                                                         ]);
                                                         ExtraFeesWig.add(FeesAddInDivisionExtraFees(
                                                           extrafeeNumber: ExtraFeesNumber - 1,
@@ -1125,7 +1166,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                   );
                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                 });
-                                              } else if (_chosenValueAcadYr == null) {
+                                              }
+                                              else if (_chosenValueAcadYr == null) {
                                                 isValid = false;
                                                 print("error2");
                                                 setState(() {
@@ -1140,7 +1182,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                   );
                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                 });
-                                              } else if (_chosenValueClass == null) {
+                                              }
+                                              else if (_chosenValueClass == null) {
                                                 isValid = false;
                                                 print("error3");
                                                 setState(() {
@@ -1155,7 +1198,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                   );
                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                 });
-                                              } else if (funcValEmptyOrNumberBool(_chosenValueAdmissionFees) == true) {
+                                              }
+                                              else if (funcValEmptyOrNumberBool(_chosenValueAdmissionFees) == true) {
                                                 isValid = false;
                                                 print("error3");
                                                 setState(() {
@@ -1170,7 +1214,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                   );
                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                 });
-                                              } else if (_chosenValueSubjects == null) {
+                                              }
+                                              else if (_chosenValueSubjects == null) {
                                                 isValid = false;
                                                 print("error4");
                                                 setState(() {
@@ -1203,7 +1248,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                   );
                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                 });
-                                              } else if (listOfMainFees[0][1] == "^" || listOfMainFees[0][1] == null) {
+                                              }
+                                              else if (listOfMainFees[0][1] == "^" || listOfMainFees[0][1] == null) {
                                                 isValid = false;
                                                 print("error6");
                                                 setState(() {
@@ -1218,7 +1264,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                   );
                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                 });
-                                              } else if (funcValEmptyOrNumberBool(listOfMainFees[0][1]) == true) {
+                                              }
+                                              else if (funcValEmptyOrNumberBool(listOfMainFees[0][1]) == true) {
                                                 isValid = false;
                                                 print("error6.1");
                                                 setState(() {
@@ -1235,7 +1282,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                 });
                                               }
 
-                                              for (int i = 2; i < listOfMainFees[0].length; i++) {
+                                              for (int i = 3; i < listOfMainFees[0].length; i++) {
                                                 if (listOfMainFees[0][i][0] == "^" || listOfMainFees[0][i][0] == "") {
                                                   isValid = false;
                                                   print("error7");
@@ -1251,7 +1298,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                     );
                                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                   });
-                                                } else if (listOfMainFees[0][i][1] == "^" || listOfMainFees[0][i][1] == "") {
+                                                }
+                                                else if (listOfMainFees[0][i][1] == "^" || listOfMainFees[0][i][1] == "") {
                                                   isValid = false;
                                                   print("error8");
                                                   setState(() {
@@ -1266,12 +1314,14 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                     );
                                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                   });
-                                                } else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][1]) == true) {
+                                                }
+                                                else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][1]) == true) {
                                                   isValid = false;
                                                   print("error8");
                                                   setState(() {
                                                     final snackBar = SnackBar(
-                                                      content: Text('Sub Fee Amount ${i - 1} of Main Fee cannot be empty or an invalid number'),
+                                                      content: Text(
+                                                          'Sub Fee Amount ${i - 1} of Main Fee cannot be empty or an invalid number'),
                                                       backgroundColor: (Colors.red),
                                                       action: SnackBarAction(
                                                         label: 'dismiss',
@@ -1281,7 +1331,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                     );
                                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                   });
-                                                } else if (listOfMainFees[0][i][2] == "^" || listOfMainFees[0][i][2] == "") {
+                                                }
+                                                else if (listOfMainFees[0][i][2] == "^" || listOfMainFees[0][i][2] == "") {
                                                   isValid = false;
                                                   print("error9");
                                                   setState(() {
@@ -1296,12 +1347,14 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                     );
                                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                   });
-                                                } else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][2]) == true) {
+                                                }
+                                                else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][2]) == true) {
                                                   isValid = false;
                                                   print("error9");
                                                   setState(() {
                                                     final snackBar = SnackBar(
-                                                      content: Text('Sub Fee Priority ${i - 1} of Main Fee cannot be empty or an invalid number'),
+                                                      content: Text(
+                                                          'Sub Fee Priority ${i - 1} of Main Fee cannot be empty or an invalid number'),
                                                       backgroundColor: (Colors.red),
                                                       action: SnackBarAction(
                                                         label: 'dismiss',
@@ -1351,7 +1404,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                       );
                                                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                     });
-                                                  } else if (listOfExtraFees[i][1] != "^" || listOfExtraFees[i][1] != "") {
+                                                  }
+                                                  else if (listOfExtraFees[i][1] != "^" || listOfExtraFees[i][1] != "") {
                                                     String? _tempNotANummber = funcValEmptyOrNumber(listOfExtraFees[i][1], "Total Fee");
                                                     if (_tempNotANummber != null) {
                                                       if (_tempNotANummber == "Total Fee has to be a number" ||
@@ -1389,7 +1443,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                     }
                                                   }
 
-                                                  for (int j = 2; j < listOfExtraFees[i].length; j++) {
+                                                  for (int j = 3; j < listOfExtraFees[i].length; j++) {
                                                     if (listOfExtraFees[i][j][0] == "^" || listOfExtraFees[i][j][0] == "") {
                                                       isValid = false;
                                                       print("error14");
@@ -1405,12 +1459,14 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                         );
                                                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                       });
-                                                    } else if (listOfExtraFees[i][j][1] == "^" || listOfExtraFees[i][j][1] == "") {
+                                                    }
+                                                    else if (listOfExtraFees[i][j][1] == "^" || listOfExtraFees[i][j][1] == "") {
                                                       isValid = false;
                                                       print("error15");
                                                       setState(() {
                                                         final snackBar = SnackBar(
-                                                          content: Text('Sub Fee Amount ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
+                                                          content:
+                                                          Text('Sub Fee Amount ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
                                                           backgroundColor: (Colors.red),
                                                           action: SnackBarAction(
                                                             label: 'dismiss',
@@ -1420,7 +1476,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                         );
                                                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                       });
-                                                    } else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][1]) == true) {
+                                                    }
+                                                    else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][1]) == true) {
                                                       isValid = false;
                                                       print("error15");
                                                       setState(() {
@@ -1436,12 +1493,14 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                         );
                                                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                       });
-                                                    } else if (listOfExtraFees[i][j][2] == "^" || listOfExtraFees[i][j][2] == "") {
+                                                    }
+                                                    else if (listOfExtraFees[i][j][2] == "^" || listOfExtraFees[i][j][2] == "") {
                                                       isValid = false;
                                                       print("error16");
                                                       setState(() {
                                                         final snackBar = SnackBar(
-                                                          content: Text('Sub Fee Priority ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
+                                                          content:
+                                                          Text('Sub Fee Priority ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
                                                           backgroundColor: (Colors.red),
                                                           action: SnackBarAction(
                                                             label: 'dismiss',
@@ -1451,7 +1510,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                         );
                                                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                       });
-                                                    } else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][2]) == true) {
+                                                    }
+                                                    else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][2]) == true) {
                                                       isValid = false;
                                                       print("error16");
                                                       setState(() {
@@ -1495,8 +1555,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                               Map<String, dynamic> tempFeesCompiled = {};
                                               print("%%%%%%%^^^^^^^^^&&&&&&$listOfMainFees%%%%%%%%%%##########@@@@@@@@@@@@");
                                               List<Map<String, dynamic>> _tempMainFeesSubList = [];
-                                              if (listOfMainFees[0].length > 3) {
-                                                for (int i = 2; i < listOfMainFees[0].length; i++) {
+                                              if (listOfMainFees[0].length > 4) {
+                                                for (int i = 3; i < listOfMainFees[0].length; i++) {
                                                   // MainFeesSub _tempMainFeesSub =
                                                   //     MainFeesSub(sub_fees_title: listOfMainFees[0][i][0],sub_amount:listOfMainFees[0][i][1] ,fee_priority:listOfMainFees[0][i][2] );
                                                   // _tempMainFeesSubList.add(_tempMainFeesSub);
@@ -1504,15 +1564,16 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                   Map<String, dynamic> _tempMainFeesSub = {
                                                     "sub_fees_title": listOfMainFees[0][i][0],
                                                     "sub_amount": listOfMainFees[0][i][1],
-                                                    "fee_priority": listOfMainFees[0][i][2]
+                                                    "fee_priority": listOfMainFees[0][i][2],
                                                   };
                                                   _tempMainFeesSubList.add(_tempMainFeesSub);
                                                 }
-                                              } else {
+                                              }
+                                              else {
                                                 Map<String, dynamic> _tempMainFeesSub = {
                                                   "sub_fees_title": listOfMainFees[0][2][0],
                                                   "sub_amount": listOfMainFees[0][2][1],
-                                                  "fee_priority": listOfMainFees[0][2][2]
+                                                  "fee_priority": listOfMainFees[0][2][2],
                                                 };
                                                 _tempMainFeesSubList.add(_tempMainFeesSub);
                                               }
@@ -1529,26 +1590,30 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                               if (listOfExtraFees.isNotEmpty) {
                                                 for (List<dynamic> i in listOfExtraFees) {
                                                   List<Map<String, dynamic>> _tempExtraFeesSubList = [];
-                                                  if (i.length > 3) {
-                                                    for (int j = 2; j < i.length; j++) {
+                                                  if (i.length > 4) {
+                                                    for (int j = 3; j < i.length; j++) {
                                                       Map<String, dynamic> _tempExtraFeesSub = {
                                                         "extra_sub_fees_title": i[j][0],
                                                         "extra_sub_amount": i[j][1],
-                                                        "extra_fee_priority": i[j][2]
+                                                        "extra_fee_priority": i[j][2],
+                                                        "_id": i[j][3],
                                                       };
                                                       _tempExtraFeesSubList.add(_tempExtraFeesSub);
                                                     }
-                                                  } else {
+                                                  }
+                                                  else {
                                                     Map<String, dynamic> _tempExtraFeesSub = {
                                                       "extra_sub_fees_title": i[2][0],
                                                       "extra_sub_amount": i[2][1],
-                                                      "extra_fee_priority": i[2][2]
+                                                      "extra_fee_priority": i[2][2],
+                                                      "_id": i[2][3],
                                                     };
                                                     _tempExtraFeesSubList.add(_tempExtraFeesSub);
                                                   }
                                                   Map<String, dynamic> _tempExtraFees = {
                                                     "extra_fee_title": i[0],
                                                     "extra_total_fee": i[1],
+                                                    "_id": i[2],
                                                     "extra_sub_of_fees": _tempExtraFeesSubList
                                                   };
                                                   _tempExtraFeesList.add(_tempExtraFees);
@@ -1597,7 +1662,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                     addDivision = false;
                                                     Provider.of<Data>(context, listen: false).refPageEditDivision(true);
                                                   });
-                                                } else if (editDivision_responseBody == "Division Alread Exists") {
+                                                }
+                                                else if (editDivision_responseBody == "Division Alread Exists") {
                                                   setState(() {
                                                     final snackBar = SnackBar(
                                                       content: const Text("Division Alread Exists"),
@@ -1612,7 +1678,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                     addDivision = false;
                                                     Provider.of<Data>(context, listen: false).refPageEditDivision(true);
                                                   });
-                                                } else {
+                                                }
+                                                else {
                                                   setState(() {
                                                     final snackBar = SnackBar(
                                                       content: const Text('Sorry encountered a server error'),
@@ -1783,7 +1850,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                     [
                                       "^",
                                       "^",
-                                      ["^", "^", "^"]
+                                      "^",
+                                      ["^", "^", "^","^"]
                                     ]
                                   ];
                                   setState(() {
@@ -1940,7 +2008,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                               );
                                                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                             });
-                                                          } else if (_chosenValueAcadYr == null) {
+                                                          }
+                                                          else if (_chosenValueAcadYr == null) {
                                                             isValid = false;
                                                             print("error2");
                                                             setState(() {
@@ -1955,7 +2024,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                               );
                                                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                             });
-                                                          } else if (_chosenValueClass == null) {
+                                                          }
+                                                          else if (_chosenValueClass == null) {
                                                             isValid = false;
                                                             print("error3");
                                                             setState(() {
@@ -1970,7 +2040,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                               );
                                                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                             });
-                                                          } else if (funcValEmptyOrNumberBool(_chosenValueAdmissionFees) == true) {
+                                                          }
+                                                          else if (funcValEmptyOrNumberBool(_chosenValueAdmissionFees) == true) {
                                                             isValid = false;
                                                             print("error3");
                                                             setState(() {
@@ -1985,7 +2056,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                               );
                                                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                             });
-                                                          } else if (_chosenValueSubjects == null) {
+                                                          }
+                                                          else if (_chosenValueSubjects == null) {
                                                             isValid = false;
                                                             print("error4");
                                                             setState(() {
@@ -2018,7 +2090,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                               );
                                                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                             });
-                                                          } else if (listOfMainFees[0][1] == "^" || listOfMainFees[0][1] == null) {
+                                                          }
+                                                          else if (listOfMainFees[0][1] == "^" || listOfMainFees[0][1] == null) {
                                                             isValid = false;
                                                             print("error6");
                                                             setState(() {
@@ -2033,7 +2106,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                               );
                                                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                             });
-                                                          } else if (funcValEmptyOrNumberBool(listOfMainFees[0][1]) == true) {
+                                                          }
+                                                          else if (funcValEmptyOrNumberBool(listOfMainFees[0][1]) == true) {
                                                             isValid = false;
                                                             print("error6.1");
                                                             setState(() {
@@ -2050,7 +2124,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                             });
                                                           }
 
-                                                          for (int i = 2; i < listOfMainFees[0].length; i++) {
+                                                          for (int i = 3; i < listOfMainFees[0].length; i++) {
                                                             if (listOfMainFees[0][i][0] == "^" || listOfMainFees[0][i][0] == "") {
                                                               isValid = false;
                                                               print("error7");
@@ -2066,7 +2140,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                 );
                                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                               });
-                                                            } else if (listOfMainFees[0][i][1] == "^" || listOfMainFees[0][i][1] == "") {
+                                                            }
+                                                            else if (listOfMainFees[0][i][1] == "^" || listOfMainFees[0][i][1] == "") {
                                                               isValid = false;
                                                               print("error8");
                                                               setState(() {
@@ -2081,7 +2156,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                 );
                                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                               });
-                                                            } else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][1]) == true) {
+                                                            }
+                                                            else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][1]) == true) {
                                                               isValid = false;
                                                               print("error8");
                                                               setState(() {
@@ -2097,7 +2173,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                 );
                                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                               });
-                                                            } else if (listOfMainFees[0][i][2] == "^" || listOfMainFees[0][i][2] == "") {
+                                                            }
+                                                            else if (listOfMainFees[0][i][2] == "^" || listOfMainFees[0][i][2] == "") {
                                                               isValid = false;
                                                               print("error9");
                                                               setState(() {
@@ -2112,7 +2189,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                 );
                                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                               });
-                                                            } else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][2]) == true) {
+                                                            }
+                                                            else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][2]) == true) {
                                                               isValid = false;
                                                               print("error9");
                                                               setState(() {
@@ -2168,7 +2246,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                   );
                                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                                 });
-                                                              } else if (listOfExtraFees[i][1] != "^" || listOfExtraFees[i][1] != "") {
+                                                              }
+                                                              else if (listOfExtraFees[i][1] != "^" || listOfExtraFees[i][1] != "") {
                                                                 String? _tempNotANummber = funcValEmptyOrNumber(listOfExtraFees[i][1], "Total Fee");
                                                                 if (_tempNotANummber != null) {
                                                                   if (_tempNotANummber == "Total Fee has to be a number" ||
@@ -2206,7 +2285,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                 }
                                                               }
 
-                                                              for (int j = 2; j < listOfExtraFees[i].length; j++) {
+                                                              for (int j = 3; j < listOfExtraFees[i].length; j++) {
                                                                 if (listOfExtraFees[i][j][0] == "^" || listOfExtraFees[i][j][0] == "") {
                                                                   isValid = false;
                                                                   print("error14");
@@ -2222,7 +2301,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                     );
                                                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                                   });
-                                                                } else if (listOfExtraFees[i][j][1] == "^" || listOfExtraFees[i][j][1] == "") {
+                                                                }
+                                                                else if (listOfExtraFees[i][j][1] == "^" || listOfExtraFees[i][j][1] == "") {
                                                                   isValid = false;
                                                                   print("error15");
                                                                   setState(() {
@@ -2238,7 +2318,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                     );
                                                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                                   });
-                                                                } else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][1]) == true) {
+                                                                }
+                                                                else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][1]) == true) {
                                                                   isValid = false;
                                                                   print("error15");
                                                                   setState(() {
@@ -2254,7 +2335,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                     );
                                                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                                   });
-                                                                } else if (listOfExtraFees[i][j][2] == "^" || listOfExtraFees[i][j][2] == "") {
+                                                                }
+                                                                else if (listOfExtraFees[i][j][2] == "^" || listOfExtraFees[i][j][2] == "") {
                                                                   isValid = false;
                                                                   print("error16");
                                                                   setState(() {
@@ -2270,7 +2352,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                     );
                                                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                                   });
-                                                                } else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][2]) == true) {
+                                                                }
+                                                                else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][2]) == true) {
                                                                   isValid = false;
                                                                   print("error16");
                                                                   setState(() {
@@ -2314,8 +2397,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                           Map<String, dynamic> tempFeesCompiled = {};
 
                                                           List<Map<String, dynamic>> _tempMainFeesSubList = [];
-                                                          if (listOfMainFees[0].length > 3) {
-                                                            for (int i = 2; i < listOfMainFees[0].length; i++) {
+                                                          if (listOfMainFees[0].length > 4) {
+                                                            for (int i = 3; i < listOfMainFees[0].length; i++) {
                                                               // MainFeesSub _tempMainFeesSub =
                                                               //     MainFeesSub(sub_fees_title: listOfMainFees[0][i][0],sub_amount:listOfMainFees[0][i][1] ,fee_priority:listOfMainFees[0][i][2] );
                                                               // _tempMainFeesSubList.add(_tempMainFeesSub);
@@ -2323,15 +2406,18 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                               Map<String, dynamic> _tempMainFeesSub = {
                                                                 "sub_fees_title": listOfMainFees[0][i][0],
                                                                 "sub_amount": listOfMainFees[0][i][1],
-                                                                "fee_priority": listOfMainFees[0][i][2]
+                                                                "fee_priority": listOfMainFees[0][i][2],
+                                                                "_id":listOfMainFees[0][i][3],
                                                               };
                                                               _tempMainFeesSubList.add(_tempMainFeesSub);
                                                             }
-                                                          } else {
+                                                          }
+                                                          else {
                                                             Map<String, dynamic> _tempMainFeesSub = {
                                                               "sub_fees_title": listOfMainFees[0][2][0],
                                                               "sub_amount": listOfMainFees[0][2][1],
-                                                              "fee_priority": listOfMainFees[0][2][2]
+                                                              "fee_priority": listOfMainFees[0][2][2],
+                                                              "_id": listOfMainFees[0][2][3],
                                                             };
                                                             _tempMainFeesSubList.add(_tempMainFeesSub);
                                                           }
@@ -2339,35 +2425,40 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                           Map<String, dynamic> _tempMainFees = {
                                                             "fee_title": listOfMainFees[0][0],
                                                             "total_fees": listOfMainFees[0][1],
-                                                            "sub_of_fees": _tempMainFeesSubList
+                                                            "_id": listOfMainFees[0][2],
+                                                            "sub_of_fees": _tempMainFeesSubList,
                                                           };
                                                           tempFeesCompiled["main_fees"] = [_tempMainFees];
 
+                                                          //------ Extra Fee -----------------------------
                                                           List<Map<String, dynamic>> _tempExtraFeesList = [];
 
                                                           if (listOfExtraFees.isNotEmpty) {
                                                             for (List<dynamic> i in listOfExtraFees) {
                                                               List<Map<String, dynamic>> _tempExtraFeesSubList = [];
-                                                              if (i.length > 3) {
-                                                                for (int j = 2; j < i.length; j++) {
+                                                              if (i.length > 4) {
+                                                                for (int j = 3; j < i.length; j++) {
                                                                   Map<String, dynamic> _tempExtraFeesSub = {
                                                                     "extra_sub_fees_title": i[j][0],
                                                                     "extra_sub_amount": i[j][1],
-                                                                    "extra_fee_priority": i[j][2]
+                                                                    "extra_fee_priority": i[j][2],
+                                                                    "_id": i[j][3],
                                                                   };
                                                                   _tempExtraFeesSubList.add(_tempExtraFeesSub);
                                                                 }
                                                               } else {
                                                                 Map<String, dynamic> _tempExtraFeesSub = {
-                                                                  "extra_sub_fees_title": i[2][0],
-                                                                  "extra_sub_amount": i[2][1],
-                                                                  "extra_fee_priority": i[2][2]
+                                                                  "extra_sub_fees_title": i[3][0],
+                                                                  "extra_sub_amount": i[3][1],
+                                                                  "extra_fee_priority": i[3][2],
+                                                                  "_id": i[3][3],
                                                                 };
                                                                 _tempExtraFeesSubList.add(_tempExtraFeesSub);
                                                               }
                                                               Map<String, dynamic> _tempExtraFees = {
                                                                 "extra_fee_title": i[0],
                                                                 "extra_total_fee": i[1],
+                                                                "_id": i[2],
                                                                 "extra_sub_of_fees": _tempExtraFeesSubList
                                                               };
                                                               _tempExtraFeesList.add(_tempExtraFees);
@@ -2479,7 +2570,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                         listOfExtraFees.add([
                                                           "^",
                                                           "^",
-                                                          ["^", "^", "^"]
+                                                          "^",
+                                                          ["^", "^", "^", "^"]
                                                         ]);
                                                         ExtraFeesWig.add(FeesAddInDivisionExtraFees(
                                                           extrafeeNumber: ExtraFeesNumber - 1,
@@ -2635,7 +2727,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                       listOfExtraFees.add([
                                                         "^",
                                                         "^",
-                                                        ["^", "^", "^"]
+                                                        "^",
+                                                        ["^", "^", "^", "^"]
                                                       ]);
                                                       ExtraFeesWig.add(FeesAddInDivisionExtraFees(
                                                         extrafeeNumber: ExtraFeesNumber - 1,
@@ -2688,7 +2781,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                 );
                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                               });
-                                            } else if (_chosenValueAcadYr == null) {
+                                            }
+                                            else if (_chosenValueAcadYr == null) {
                                               isValid = false;
                                               print("error2");
                                               setState(() {
@@ -2703,7 +2797,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                 );
                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                               });
-                                            } else if (_chosenValueClass == null) {
+                                            }
+                                            else if (_chosenValueClass == null) {
                                               isValid = false;
                                               print("error3");
                                               setState(() {
@@ -2718,7 +2813,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                 );
                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                               });
-                                            } else if (funcValEmptyOrNumberBool(_chosenValueAdmissionFees) == true) {
+                                            }
+                                            else if (funcValEmptyOrNumberBool(_chosenValueAdmissionFees) == true) {
                                               isValid = false;
                                               print("error3");
                                               setState(() {
@@ -2733,7 +2829,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                 );
                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                               });
-                                            } else if (_chosenValueSubjects == null) {
+                                            }
+                                            else if (_chosenValueSubjects == null) {
                                               isValid = false;
                                               print("error4");
                                               setState(() {
@@ -2766,7 +2863,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                 );
                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                               });
-                                            } else if (listOfMainFees[0][1] == "^" || listOfMainFees[0][1] == null) {
+                                            }
+                                            else if (listOfMainFees[0][1] == "^" || listOfMainFees[0][1] == null) {
                                               isValid = false;
                                               print("error6");
                                               setState(() {
@@ -2781,7 +2879,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                 );
                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                               });
-                                            } else if (funcValEmptyOrNumberBool(listOfMainFees[0][1]) == true) {
+                                            }
+                                            else if (funcValEmptyOrNumberBool(listOfMainFees[0][1]) == true) {
                                               isValid = false;
                                               print("error6.1");
                                               setState(() {
@@ -2798,7 +2897,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                               });
                                             }
 
-                                            for (int i = 2; i < listOfMainFees[0].length; i++) {
+                                            for (int i = 3; i < listOfMainFees[0].length; i++) {
                                               if (listOfMainFees[0][i][0] == "^" || listOfMainFees[0][i][0] == "") {
                                                 isValid = false;
                                                 print("error7");
@@ -2814,7 +2913,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                   );
                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                 });
-                                              } else if (listOfMainFees[0][i][1] == "^" || listOfMainFees[0][i][1] == "") {
+                                              }
+                                              else if (listOfMainFees[0][i][1] == "^" || listOfMainFees[0][i][1] == "") {
                                                 isValid = false;
                                                 print("error8");
                                                 setState(() {
@@ -2829,7 +2929,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                   );
                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                 });
-                                              } else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][1]) == true) {
+                                              }
+                                              else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][1]) == true) {
                                                 isValid = false;
                                                 print("error8");
                                                 setState(() {
@@ -2845,7 +2946,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                   );
                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                 });
-                                              } else if (listOfMainFees[0][i][2] == "^" || listOfMainFees[0][i][2] == "") {
+                                              }
+                                              else if (listOfMainFees[0][i][2] == "^" || listOfMainFees[0][i][2] == "") {
                                                 isValid = false;
                                                 print("error9");
                                                 setState(() {
@@ -2860,7 +2962,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                   );
                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                 });
-                                              } else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][2]) == true) {
+                                              }
+                                              else if (funcValEmptyOrNumberBool(listOfMainFees[0][i][2]) == true) {
                                                 isValid = false;
                                                 print("error9");
                                                 setState(() {
@@ -2916,7 +3019,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                     );
                                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                   });
-                                                } else if (listOfExtraFees[i][1] != "^" || listOfExtraFees[i][1] != "") {
+                                                }
+                                                else if (listOfExtraFees[i][1] != "^" || listOfExtraFees[i][1] != "") {
                                                   String? _tempNotANummber = funcValEmptyOrNumber(listOfExtraFees[i][1], "Total Fee");
                                                   if (_tempNotANummber != null) {
                                                     if (_tempNotANummber == "Total Fee has to be a number" ||
@@ -2954,7 +3058,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                   }
                                                 }
 
-                                                for (int j = 2; j < listOfExtraFees[i].length; j++) {
+                                                for (int j = 3; j < listOfExtraFees[i].length; j++) {
                                                   if (listOfExtraFees[i][j][0] == "^" || listOfExtraFees[i][j][0] == "") {
                                                     isValid = false;
                                                     print("error14");
@@ -2970,7 +3074,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                       );
                                                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                     });
-                                                  } else if (listOfExtraFees[i][j][1] == "^" || listOfExtraFees[i][j][1] == "") {
+                                                  }
+                                                  else if (listOfExtraFees[i][j][1] == "^" || listOfExtraFees[i][j][1] == "") {
                                                     isValid = false;
                                                     print("error15");
                                                     setState(() {
@@ -2986,7 +3091,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                       );
                                                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                     });
-                                                  } else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][1]) == true) {
+                                                  }
+                                                  else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][1]) == true) {
                                                     isValid = false;
                                                     print("error15");
                                                     setState(() {
@@ -3002,7 +3108,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                       );
                                                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                     });
-                                                  } else if (listOfExtraFees[i][j][2] == "^" || listOfExtraFees[i][j][2] == "") {
+                                                  }
+                                                  else if (listOfExtraFees[i][j][2] == "^" || listOfExtraFees[i][j][2] == "") {
                                                     isValid = false;
                                                     print("error16");
                                                     setState(() {
@@ -3018,7 +3125,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                       );
                                                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                     });
-                                                  } else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][2]) == true) {
+                                                  }
+                                                  else if (funcValEmptyOrNumberBool(listOfExtraFees[i][j][2]) == true) {
                                                     isValid = false;
                                                     print("error16");
                                                     setState(() {
@@ -3062,8 +3170,8 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                             Map<String, dynamic> tempFeesCompiled = {};
 
                                             List<Map<String, dynamic>> _tempMainFeesSubList = [];
-                                            if (listOfMainFees[0].length > 3) {
-                                              for (int i = 2; i < listOfMainFees[0].length; i++) {
+                                            if (listOfMainFees[0].length > 4) {
+                                              for (int i = 3; i < listOfMainFees[0].length; i++) {
                                                 // MainFeesSub _tempMainFeesSub =
                                                 //     MainFeesSub(sub_fees_title: listOfMainFees[0][i][0],sub_amount:listOfMainFees[0][i][1] ,fee_priority:listOfMainFees[0][i][2] );
                                                 // _tempMainFeesSubList.add(_tempMainFeesSub);
@@ -3071,15 +3179,18 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                 Map<String, dynamic> _tempMainFeesSub = {
                                                   "sub_fees_title": listOfMainFees[0][i][0],
                                                   "sub_amount": listOfMainFees[0][i][1],
-                                                  "fee_priority": listOfMainFees[0][i][2]
+                                                  "fee_priority": listOfMainFees[0][i][2],
+                                                  "_id": listOfMainFees[0][i][3],
                                                 };
                                                 _tempMainFeesSubList.add(_tempMainFeesSub);
                                               }
-                                            } else {
+                                            }
+                                            else {
                                               Map<String, dynamic> _tempMainFeesSub = {
                                                 "sub_fees_title": listOfMainFees[0][2][0],
                                                 "sub_amount": listOfMainFees[0][2][1],
-                                                "fee_priority": listOfMainFees[0][2][2]
+                                                "fee_priority": listOfMainFees[0][2][2],
+                                                "_id": listOfMainFees[0][2][3],
                                               };
                                               _tempMainFeesSubList.add(_tempMainFeesSub);
                                             }
@@ -3087,6 +3198,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                             Map<String, dynamic> _tempMainFees = {
                                               "fee_title": listOfMainFees[0][0],
                                               "total_fees": listOfMainFees[0][1],
+                                              "_id": listOfMainFees[0][2],
                                               "sub_of_fees": _tempMainFeesSubList
                                             };
                                             tempFeesCompiled["main_fees"] = [_tempMainFees];
@@ -3096,12 +3208,13 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                             if (listOfExtraFees.isNotEmpty) {
                                               for (List<dynamic> i in listOfExtraFees) {
                                                 List<Map<String, dynamic>> _tempExtraFeesSubList = [];
-                                                if (i.length > 3) {
-                                                  for (int j = 2; j < i.length; j++) {
+                                                if (i.length > 4) {
+                                                  for (int j = 3; j < i.length; j++) {
                                                     Map<String, dynamic> _tempExtraFeesSub = {
                                                       "extra_sub_fees_title": i[j][0],
                                                       "extra_sub_amount": i[j][1],
-                                                      "extra_fee_priority": i[j][2]
+                                                      "extra_fee_priority": i[j][2],
+                                                      "_id": i[j][3],
                                                     };
                                                     _tempExtraFeesSubList.add(_tempExtraFeesSub);
                                                   }
@@ -3109,13 +3222,15 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                   Map<String, dynamic> _tempExtraFeesSub = {
                                                     "extra_sub_fees_title": i[2][0],
                                                     "extra_sub_amount": i[2][1],
-                                                    "extra_fee_priority": i[2][2]
+                                                    "extra_fee_priority": i[2][2],
+                                                    "_id": i[2][3],
                                                   };
                                                   _tempExtraFeesSubList.add(_tempExtraFeesSub);
                                                 }
                                                 Map<String, dynamic> _tempExtraFees = {
                                                   "extra_fee_title": i[0],
                                                   "extra_total_fee": i[1],
+                                                  "_id": i[2],
                                                   "extra_sub_of_fees": _tempExtraFeesSubList
                                                 };
                                                 _tempExtraFeesList.add(_tempExtraFees);
@@ -3314,7 +3429,7 @@ class _DevisionCreateViewDELETEState extends State<DevisionCreateViewDELETE> {
                                     print("deletDivision_responseBody.toString() = ${deletDivision_responseBody.toString()}");
                                     setState(() {
                                       final snackBar = SnackBar(
-                                        content: Text("Diision $deleteDivisionName has been deleted"),
+                                        content: Text("Divsion $deleteDivisionName has been deleted"),
                                         backgroundColor: (Colors.red),
                                         action: SnackBarAction(
                                           label: 'dismiss',
@@ -3470,7 +3585,7 @@ class _FeesAddInDivisionMainFeesState extends State<FeesAddInDivisionMainFees> {
                                 setState(() {
                                   subdivmainFees = subdivmainFees + 1;
                                   if (subdivmainFees != 1) {
-                                    listOfMainFees[widget.mainfeeNumber].add(["^", "^", "^"]);
+                                    listOfMainFees[widget.mainfeeNumber].add(["^", "^", "^","^"]);
                                   }
                                   subdivmainFeesWig.add(SubDivOfMainFees(
                                     subdivofMainfeeNumber: subdivmainFees,
@@ -3541,34 +3656,34 @@ class _SubDivOfMainFeesState extends State<SubDivOfMainFees> {
               onChanged: (val) {
                 setState(() {
                   val == null ? val = "" : val;
-                  listOfMainFees[0][1 + widget.subdivofMainfeeNumber][0] = val;
+                  listOfMainFees[0][2 + widget.subdivofMainfeeNumber][0] = val;
                 });
               },
               decoration: InputDecoration(
-                  errorText: funcValEmptyOnly(listOfMainFees[0][1 + widget.subdivofMainfeeNumber][0], "Sub Fee Title"),
+                  errorText: funcValEmptyOnly(listOfMainFees[0][2 + widget.subdivofMainfeeNumber][0], "Sub Fee Title"),
                   label: Text("Sub Fee Title  ${widget.subdivofMainfeeNumber}")),
             ),
             TextField(
               onChanged: (val) {
                 setState(() {
                   val == null ? val = "" : val;
-                  listOfMainFees[0][1 + widget.subdivofMainfeeNumber][1] = val;
+                  listOfMainFees[0][2 + widget.subdivofMainfeeNumber][1] = val;
                   Provider.of<Data>(context, listen: false).refPage(true);
                 });
               },
               decoration: InputDecoration(
-                  errorText: funcValEmptyOrNumber(listOfMainFees[0][1 + widget.subdivofMainfeeNumber][1], "Sub Fee Amount"),
+                  errorText: funcValEmptyOrNumber(listOfMainFees[0][2 + widget.subdivofMainfeeNumber][1], "Sub Fee Amount"),
                   label: const Text("Sub Fee Amount")),
             ),
             TextField(
               onChanged: (val) {
                 setState(() {
                   val == null ? val = "" : val;
-                  listOfMainFees[0][1 + widget.subdivofMainfeeNumber][2] = val;
+                  listOfMainFees[0][2 + widget.subdivofMainfeeNumber][2] = val;
                 });
               },
               decoration: InputDecoration(
-                  errorText: funcValEmptyOrNumber(listOfMainFees[0][1 + widget.subdivofMainfeeNumber][2], "Sub Fee Priority"),
+                  errorText: funcValEmptyOrNumber(listOfMainFees[0][2 + widget.subdivofMainfeeNumber][2], "Sub Fee Priority"),
                   label: const Text("Sub Fee Priority")),
             ),
             const Padding(
@@ -3594,12 +3709,12 @@ class FeesAddInDivisionMainFeesEDIT extends StatefulWidget {
 }
 
 class _FeesAddInDivisionMainFeesEDITState extends State<FeesAddInDivisionMainFeesEDIT> {
-  int subdivmainFees = listOfMainFees[0].length - 2;
+  int subdivmainFees = listOfMainFees[0].length - 3;
   List<dynamic> _tempMainFees = [];
 
   funcGetSubValueInList() {
     print("@@@@@@@@@@@@@@@@@@@@@@@@@$listOfMainFees@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-    for (int i = 2; i < listOfMainFees[0].length; i++) {
+    for (int i = 3; i < listOfMainFees[0].length; i++) {
       _tempMainFees.add(listOfMainFees[0][i]);
     }
   }
@@ -3706,7 +3821,7 @@ class _FeesAddInDivisionMainFeesEDITState extends State<FeesAddInDivisionMainFee
                                 setState(() {
                                   subdivmainFees = subdivmainFees + 1;
                                   if (subdivmainFees != 1) {
-                                    listOfMainFees[widget.mainfeeNumber].add(["^", "^", "^"]);
+                                    listOfMainFees[widget.mainfeeNumber].add(["^", "^", "^", "^"]);
                                   }
                                   subdivmainFeesWig.add(SubDivOfMainFees(
                                     subdivofMainfeeNumber: subdivmainFees,
@@ -3807,11 +3922,11 @@ class _SubDivOfMainFeesEDITState extends State<SubDivOfMainFeesEDIT> {
               onChanged: (val) {
                 setState(() {
                   val == null ? val = "" : val;
-                  listOfMainFees[0][1 + widget.subdivofMainfeeNumber][0] = val;
+                  listOfMainFees[0][2 + widget.subdivofMainfeeNumber][0] = val;
                 });
               },
               decoration: InputDecoration(
-                  errorText: funcValEmptyOnly(listOfMainFees[0][1 + widget.subdivofMainfeeNumber][0], "Sub Fee Title"),
+                  errorText: funcValEmptyOnly(listOfMainFees[0][2 + widget.subdivofMainfeeNumber][0], "Sub Fee Title"),
                   label: Text("Sub Fee Title  ${widget.subdivofMainfeeNumber}")),
             ),
             TextField(
@@ -3819,12 +3934,12 @@ class _SubDivOfMainFeesEDITState extends State<SubDivOfMainFeesEDIT> {
               onChanged: (val) {
                 setState(() {
                   val == null ? val = "" : val;
-                  listOfMainFees[0][1 + widget.subdivofMainfeeNumber][1] = val;
+                  listOfMainFees[0][2 + widget.subdivofMainfeeNumber][1] = val;
                   Provider.of<Data>(context, listen: false).refPage(true);
                 });
               },
               decoration: InputDecoration(
-                  errorText: funcValEmptyOrNumber(listOfMainFees[0][1 + widget.subdivofMainfeeNumber][1], "Sub Fee Amount"),
+                  errorText: funcValEmptyOrNumber(listOfMainFees[0][2 + widget.subdivofMainfeeNumber][1], "Sub Fee Amount"),
                   label: const Text("Sub Fee Amount")),
             ),
             TextField(
@@ -3832,11 +3947,11 @@ class _SubDivOfMainFeesEDITState extends State<SubDivOfMainFeesEDIT> {
               onChanged: (val) {
                 setState(() {
                   val == null ? val = "" : val;
-                  listOfMainFees[0][1 + widget.subdivofMainfeeNumber][2] = val;
+                  listOfMainFees[0][2 + widget.subdivofMainfeeNumber][2] = val;
                 });
               },
               decoration: InputDecoration(
-                  errorText: funcValEmptyOrNumber(listOfMainFees[0][1 + widget.subdivofMainfeeNumber][2], "Sub Fee Priority"),
+                  errorText: funcValEmptyOrNumber(listOfMainFees[0][2 + widget.subdivofMainfeeNumber][2], "Sub Fee Priority"),
                   label: const Text("Sub Fee Priority")),
             ),
             const Padding(
@@ -3942,7 +4057,7 @@ class _FeesAddInDivisionExtraFeesState extends State<FeesAddInDivisionExtraFees>
                                     setState(() {
                                       subdivextraFees = subdivextraFees + 1;
                                       if (subdivextraFees != 1) {
-                                        listOfExtraFees[widget.extrafeeNumber].add(["^", "^", "^"]);
+                                        listOfExtraFees[widget.extrafeeNumber].add(["^", "^", "^","^"]);
                                       }
                                       subdivextraFeeWig.add(SubDivOfExtraFees(
                                         subdivofExtrafeeNumber: subdivextraFees,
@@ -4017,34 +4132,34 @@ class _SubDivOfExtraFeesState extends State<SubDivOfExtraFees> {
               onChanged: (val) {
                 setState(() {
                   val == null ? val = "" : val;
-                  listOfExtraFees[widget.extraFeeNumber][1 + widget.subdivofExtrafeeNumber][0] = val;
+                  listOfExtraFees[widget.extraFeeNumber][2 + widget.subdivofExtrafeeNumber][0] = val;
                 });
               },
               decoration: InputDecoration(
-                  errorText: funcValEmptyOnly(listOfExtraFees[widget.extraFeeNumber][1 + widget.subdivofExtrafeeNumber][0], "Sub Fee Title"),
+                  errorText: funcValEmptyOnly(listOfExtraFees[widget.extraFeeNumber][2 + widget.subdivofExtrafeeNumber][0], "Sub Fee Title"),
                   label: Text("Sub Fee Title ${widget.subdivofExtrafeeNumber}")),
             ),
             TextField(
               onChanged: (val) {
                 setState(() {
                   val == null ? val = "" : val;
-                  listOfExtraFees[widget.extraFeeNumber][1 + widget.subdivofExtrafeeNumber][1] = val;
+                  listOfExtraFees[widget.extraFeeNumber][2 + widget.subdivofExtrafeeNumber][1] = val;
                   Provider.of<Data>(context, listen: false).refPage(true);
                 });
               },
               decoration: InputDecoration(
-                  errorText: funcValEmptyOrNumber(listOfExtraFees[widget.extraFeeNumber][1 + widget.subdivofExtrafeeNumber][1], "Sub Fee Amount"),
+                  errorText: funcValEmptyOrNumber(listOfExtraFees[widget.extraFeeNumber][2 + widget.subdivofExtrafeeNumber][1], "Sub Fee Amount"),
                   label: const Text("Sub Fee Amount")),
             ),
             TextField(
               onChanged: (val) {
                 setState(() {
                   val == null ? val = "" : val;
-                  listOfExtraFees[widget.extraFeeNumber][1 + widget.subdivofExtrafeeNumber][2] = val;
+                  listOfExtraFees[widget.extraFeeNumber][2 + widget.subdivofExtrafeeNumber][2] = val;
                 });
               },
               decoration: InputDecoration(
-                  errorText: funcValEmptyOrNumber(listOfExtraFees[widget.extraFeeNumber][1 + widget.subdivofExtrafeeNumber][2], "Sub Fee Priority"),
+                  errorText: funcValEmptyOrNumber(listOfExtraFees[widget.extraFeeNumber][2 + widget.subdivofExtrafeeNumber][2], "Sub Fee Priority"),
                   label: const Text("Sub Fee Priority")),
             ),
             const Padding(
@@ -4086,8 +4201,8 @@ class _FeesAddInDivisionExtraFeesEDITState extends State<FeesAddInDivisionExtraF
 
   funcGetSubValueInList() {
     print("@@@@@@@@@@@@@@@@@@@@@@@@@$listOfExtraFees@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-    subdivextraFees = listOfExtraFees[widget.extrafeeNumber].length - 2;
-    for (int i = 2; i < listOfExtraFees[widget.extrafeeNumber].length; i++) {
+    subdivextraFees = listOfExtraFees[widget.extrafeeNumber].length - 3;
+    for (int i = 3; i < listOfExtraFees[widget.extrafeeNumber].length; i++) {
       _tempMainFees.add(listOfExtraFees[widget.extrafeeNumber][i]);
     }
   }
@@ -4199,7 +4314,7 @@ class _FeesAddInDivisionExtraFeesEDITState extends State<FeesAddInDivisionExtraF
                                     setState(() {
                                       subdivextraFees = subdivextraFees! + 1;
                                       if (subdivextraFees != 1) {
-                                        listOfExtraFees[widget.extrafeeNumber].add(["^", "^", "^"]);
+                                        listOfExtraFees[widget.extrafeeNumber].add(["^", "^", "^","^"]);
                                       }
                                       subdivextraFeeWig.add(SubDivOfExtraFees(
                                         subdivofExtrafeeNumber: subdivextraFees!,
@@ -4309,11 +4424,11 @@ class _SubDivOfExtraFeesEDITState extends State<SubDivOfExtraFeesEDIT> {
               onChanged: (val) {
                 setState(() {
                   val == null ? val = "" : val;
-                  listOfExtraFees[widget.extraFeeNumber][1 + widget.subdivofExtrafeeNumber][0] = val;
+                  listOfExtraFees[widget.extraFeeNumber][2 + widget.subdivofExtrafeeNumber][0] = val;
                 });
               },
               decoration: InputDecoration(
-                  errorText: funcValEmptyOnly(listOfExtraFees[widget.extraFeeNumber][1 + widget.subdivofExtrafeeNumber][0], "Sub Fee Title"),
+                  errorText: funcValEmptyOnly(listOfExtraFees[widget.extraFeeNumber][2 + widget.subdivofExtrafeeNumber][0], "Sub Fee Title"),
                   label: Text("Sub Fee Title ${widget.subdivofExtrafeeNumber}")),
             ),
             TextField(
@@ -4321,12 +4436,12 @@ class _SubDivOfExtraFeesEDITState extends State<SubDivOfExtraFeesEDIT> {
               onChanged: (val) {
                 setState(() {
                   val == null ? val = "" : val;
-                  listOfExtraFees[widget.extraFeeNumber][1 + widget.subdivofExtrafeeNumber][1] = val;
+                  listOfExtraFees[widget.extraFeeNumber][2 + widget.subdivofExtrafeeNumber][1] = val;
                   Provider.of<Data>(context, listen: false).refPage(true);
                 });
               },
               decoration: InputDecoration(
-                  errorText: funcValEmptyOrNumber(listOfExtraFees[widget.extraFeeNumber][1 + widget.subdivofExtrafeeNumber][1], "Sub Fee Amount"),
+                  errorText: funcValEmptyOrNumber(listOfExtraFees[widget.extraFeeNumber][2 + widget.subdivofExtrafeeNumber][1], "Sub Fee Amount"),
                   label: const Text("Sub Fee Amount")),
             ),
             TextField(
@@ -4334,11 +4449,11 @@ class _SubDivOfExtraFeesEDITState extends State<SubDivOfExtraFeesEDIT> {
               onChanged: (val) {
                 setState(() {
                   val == null ? val = "" : val;
-                  listOfExtraFees[widget.extraFeeNumber][1 + widget.subdivofExtrafeeNumber][2] = val;
+                  listOfExtraFees[widget.extraFeeNumber][2 + widget.subdivofExtrafeeNumber][2] = val;
                 });
               },
               decoration: InputDecoration(
-                  errorText: funcValEmptyOrNumber(listOfExtraFees[widget.extraFeeNumber][1 + widget.subdivofExtrafeeNumber][2], "Sub Fee Priority"),
+                  errorText: funcValEmptyOrNumber(listOfExtraFees[widget.extraFeeNumber][2 + widget.subdivofExtrafeeNumber][2], "Sub Fee Priority"),
                   label: const Text("Sub Fee Priority")),
             ),
             const Padding(
