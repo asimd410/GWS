@@ -103,22 +103,47 @@ bool delDivision = false;
 String? deleteDivision_id;
 String? deleteDivisionName;
 
-//----------------------------------- Students ----------------------------------------
+//--------------------------------------------------- STUDENT -----------------------------------------------------
+//----------------------------------- Students Get Student Name for Sibling----------------------------------------
 String ? getdataStudentsNames_responseBody;
 String? getdataStudentsNames_responseBodyJSON;
+String ? addStudent_http_responseBody;
+String? addStudent_http_responseBodyJSON;
+
+
+//----------------------------------- Students Filtered Search ----------------------------------------------------
+String? showStudentFilteredSearch_responseBodyJSON;
+
+
+//----------------------------------- Students Edit ---------------------------------------------------------------
+String? edit_ID;
+String? editStudent_http_responseBodyJSON;
+bool showEditStudentDetials = false;
+//----------------------------------- Students Delete ---------------------------------------------------------------
+String? delete_ID;
+bool showDeleteStudentPage = false;
+String? deleteStudent_http_responseBodyJSON;
+//----------------------------------- Division Get Division ----------------------------------------
+String? getdataDivision_responseBody;
+String? getdataDivision_responseBodyJSON;
 
 //----------------------------------- Main VARS ----------------------------------------
 
 double screenWMinus = 0;
-
 double mobileBrkPoint = 1000;
 
 //------------------------------------ Colors--------------------------------------------
 
 Color expansionPanelMainBodyColor = Colors.grey.shade50;
 Color containerBorderColor = Colors.black38;
-
+Color snackbarErrorBg = Colors.red;
+Color snackbarErrorTxt = Colors.white;
+Color snackbarSuccessBg = Colors.black;
+Color snackbarSuccessTxt = Colors.white;
 //--------------------------UX Vars-----------------------------------------------------
 
 Color editButtonAll = Colors.blue.shade700;
 Color deleteButtonAll = Colors.red;
+
+
+bool refreshStudentTable = true;

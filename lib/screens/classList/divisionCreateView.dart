@@ -39,14 +39,7 @@ class DivCreateView extends StatefulWidget {
 
 class _DivCreateViewState extends State<DivCreateView> {
   final ScrollController _controllerOne = ScrollController();
-
-  // final ScrollController _controllerTwo = ScrollController();
-  @override
-  void initState() {
-    // TODO: implement initState
-  }
-
-  @override
+    @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
@@ -195,17 +188,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
 
   @override
   Widget build(BuildContext context) {
-    listOfMainFees = [
-    [
-      "^",
-      "^",
-      "^",
-      ["^","^", "^", "^"] //last "^" is _id
-    ]
-  ];
-  listOfExtraFees = [];
-  ExtraFeesNumber = 0;
-  ExtraFeesWig = [];
+
 
     return GlassContainer(
       width: (widget.screenW) - 2,
@@ -245,9 +228,12 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                       "^",
                                       "^",
                                       "^",
-                                      ["^", "^", "^","^"]
+                                      ["^","^", "^", "^"] //last "^" is _id
                                     ]
                                   ];
+                                  listOfExtraFees = [];
+                                  ExtraFeesNumber = 0;
+                                  ExtraFeesWig = [];
                                   setState(() {
                                     addDivision = false;
                                     Provider.of<Data>(context, listen: false).refPageEditDivision(true);
@@ -520,7 +506,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                               print("error7");
                                                               setState(() {
                                                                 final snackBar = SnackBar(
-                                                                  content: Text('Sub Fee Title ${i - 1} of Main Fee cannot be empty'),
+                                                                  content: Text('Sub Fee Title ${i - 2} of Main Fee cannot be empty'),
                                                                   backgroundColor: (Colors.red),
                                                                   action: SnackBarAction(
                                                                     label: 'dismiss',
@@ -536,7 +522,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                               print("error8");
                                                               setState(() {
                                                                 final snackBar = SnackBar(
-                                                                  content: Text('Sub Fee Amount ${i - 1} of Main Fee cannot be empty'),
+                                                                  content: Text('Sub Fee Amount ${i - 2} of Main Fee cannot be empty'),
                                                                   backgroundColor: (Colors.red),
                                                                   action: SnackBarAction(
                                                                     label: 'dismiss',
@@ -553,7 +539,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                               setState(() {
                                                                 final snackBar = SnackBar(
                                                                   content: Text(
-                                                                      'Sub Fee Amount ${i - 1} of Main Fee cannot be empty or an invalid number'),
+                                                                      'Sub Fee Amount ${i - 2} of Main Fee cannot be empty or an invalid number'),
                                                                   backgroundColor: (Colors.red),
                                                                   action: SnackBarAction(
                                                                     label: 'dismiss',
@@ -569,7 +555,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                               print("error9");
                                                               setState(() {
                                                                 final snackBar = SnackBar(
-                                                                  content: Text('Sub Fee Priority ${i - 1} of Main Fee cannot be empty'),
+                                                                  content: Text('Sub Fee Priority ${i - 2} of Main Fee cannot be empty'),
                                                                   backgroundColor: (Colors.red),
                                                                   action: SnackBarAction(
                                                                     label: 'dismiss',
@@ -586,7 +572,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                               setState(() {
                                                                 final snackBar = SnackBar(
                                                                   content: Text(
-                                                                      'Sub Fee Priority ${i - 1} of Main Fee cannot be empty or an invalid number'),
+                                                                      'Sub Fee Priority ${i - 2} of Main Fee cannot be empty or an invalid number'),
                                                                   backgroundColor: (Colors.red),
                                                                   action: SnackBarAction(
                                                                     label: 'dismiss',
@@ -646,7 +632,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                     print("error12");
                                                                     setState(() {
                                                                       final snackBar = SnackBar(
-                                                                        content: Text('Total Fee for Extra Fee ${i + 1} has to be a Valid Number'),
+                                                                        content: Text('Total Fee for Extra Fee ${i +1} has to be a Valid Number'),
                                                                         backgroundColor: (Colors.red),
                                                                         action: SnackBarAction(
                                                                           label: 'dismiss',
@@ -681,7 +667,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                   print("error14");
                                                                   setState(() {
                                                                     final snackBar = SnackBar(
-                                                                      content: Text('Sub Fee Title ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
+                                                                      content: Text('Sub Fee Title ${j - 2} for Extra Fees ${i + 1} cannot be empty'),
                                                                       backgroundColor: (Colors.red),
                                                                       action: SnackBarAction(
                                                                         label: 'dismiss',
@@ -698,7 +684,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                   setState(() {
                                                                     final snackBar = SnackBar(
                                                                       content:
-                                                                          Text('Sub Fee Amount ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
+                                                                          Text('Sub Fee Amount ${j-2} for Extra Fees ${i + 1} cannot be empty'),
                                                                       backgroundColor: (Colors.red),
                                                                       action: SnackBarAction(
                                                                         label: 'dismiss',
@@ -715,7 +701,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                   setState(() {
                                                                     final snackBar = SnackBar(
                                                                       content: Text(
-                                                                          'Sub Fee Amount ${j - 1} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
+                                                                          'Sub Fee Amount ${j - 2} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
                                                                       backgroundColor: (Colors.red),
                                                                       action: SnackBarAction(
                                                                         label: 'dismiss',
@@ -732,7 +718,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                   setState(() {
                                                                     final snackBar = SnackBar(
                                                                       content:
-                                                                          Text('Sub Fee Priority ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
+                                                                          Text('Sub Fee Priority ${j - 2} for Extra Fees ${i + 1} cannot be empty'),
                                                                       backgroundColor: (Colors.red),
                                                                       action: SnackBarAction(
                                                                         label: 'dismiss',
@@ -749,7 +735,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                   setState(() {
                                                                     final snackBar = SnackBar(
                                                                       content: Text(
-                                                                          'Sub Fee Priority ${j - 1} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
+                                                                          'Sub Fee Priority ${j - 2} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
                                                                       backgroundColor: (Colors.red),
                                                                       action: SnackBarAction(
                                                                         label: 'dismiss',
@@ -864,7 +850,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                             print("isValid == true");
                                                             createDivision_responseBody = await httpPost(
                                                               msgToSend: {
-                                                                "division_name": divisionName,
+                                                                "division_name": "$_chosenValueClass $divisionName ($_chosenValueAcadYr)",
                                                                 "academic_year": _chosenValueAcadYr!,
                                                                 "std": _chosenValueClass!,
                                                                 "subjects": _chosenValueSubjects!,
@@ -892,6 +878,17 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                                 );
                                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                                 addDivision = false;
+                                                                listOfMainFees = [
+                                                                  [
+                                                                    "^",
+                                                                    "^",
+                                                                    "^",
+                                                                    ["^","^", "^", "^"] //last "^" is _id
+                                                                  ]
+                                                                ];
+                                                                listOfExtraFees = [];
+                                                                ExtraFeesNumber = 0;
+                                                                ExtraFeesWig = [];
                                                                 Provider.of<Data>(context, listen: false).refPageEditDivision(true);
                                                               });
                                                             }
@@ -1149,6 +1146,8 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                         child: ElevatedButton(
                                             //CREATE DIVISION
                                             onPressed: () async {
+                                              print("listOfMainFees = $listOfMainFees");
+                                              print("listOfExtraFees = $listOfExtraFees");
                                               bool isValid = true;
                                               //---------------- VALIDATION --------------------
                                               if (divisionName == null) {
@@ -1288,7 +1287,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                   print("error7");
                                                   setState(() {
                                                     final snackBar = SnackBar(
-                                                      content: Text('Sub Fee Title ${i - 1} of Main Fee cannot be empty'),
+                                                      content: Text('Sub Fee Title ${i - 2} of Main Fee cannot be empty'),
                                                       backgroundColor: (Colors.red),
                                                       action: SnackBarAction(
                                                         label: 'dismiss',
@@ -1304,7 +1303,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                   print("error8");
                                                   setState(() {
                                                     final snackBar = SnackBar(
-                                                      content: Text('Sub Fee Amount ${i - 1} of Main Fee cannot be empty'),
+                                                      content: Text('Sub Fee Amount ${i - 2} of Main Fee cannot be empty'),
                                                       backgroundColor: (Colors.red),
                                                       action: SnackBarAction(
                                                         label: 'dismiss',
@@ -1321,7 +1320,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                   setState(() {
                                                     final snackBar = SnackBar(
                                                       content: Text(
-                                                          'Sub Fee Amount ${i - 1} of Main Fee cannot be empty or an invalid number'),
+                                                          'Sub Fee Amount ${i - 2} of Main Fee cannot be empty or an invalid number'),
                                                       backgroundColor: (Colors.red),
                                                       action: SnackBarAction(
                                                         label: 'dismiss',
@@ -1337,7 +1336,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                   print("error9");
                                                   setState(() {
                                                     final snackBar = SnackBar(
-                                                      content: Text('Sub Fee Priority ${i - 1} of Main Fee cannot be empty'),
+                                                      content: Text('Sub Fee Priority ${i - 2} of Main Fee cannot be empty'),
                                                       backgroundColor: (Colors.red),
                                                       action: SnackBarAction(
                                                         label: 'dismiss',
@@ -1354,7 +1353,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                   setState(() {
                                                     final snackBar = SnackBar(
                                                       content: Text(
-                                                          'Sub Fee Priority ${i - 1} of Main Fee cannot be empty or an invalid number'),
+                                                          'Sub Fee Priority ${i - 2} of Main Fee cannot be empty or an invalid number'),
                                                       backgroundColor: (Colors.red),
                                                       action: SnackBarAction(
                                                         label: 'dismiss',
@@ -1414,7 +1413,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                         print("error12");
                                                         setState(() {
                                                           final snackBar = SnackBar(
-                                                            content: Text('Total Fee for Extra Fee ${i + 1} has to be a Valid Number'),
+                                                            content: Text('Total Fee for Extra Fee ${i +1} has to be a Valid Number'),
                                                             backgroundColor: (Colors.red),
                                                             action: SnackBarAction(
                                                               label: 'dismiss',
@@ -1449,7 +1448,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                       print("error14");
                                                       setState(() {
                                                         final snackBar = SnackBar(
-                                                          content: Text('Sub Fee Title ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
+                                                          content: Text('Sub Fee Title ${j - 2} for Extra Fees ${i + 1} cannot be empty'),
                                                           backgroundColor: (Colors.red),
                                                           action: SnackBarAction(
                                                             label: 'dismiss',
@@ -1466,7 +1465,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                       setState(() {
                                                         final snackBar = SnackBar(
                                                           content:
-                                                          Text('Sub Fee Amount ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
+                                                          Text('Sub Fee Amount ${j-2} for Extra Fees ${i + 1} cannot be empty'),
                                                           backgroundColor: (Colors.red),
                                                           action: SnackBarAction(
                                                             label: 'dismiss',
@@ -1483,7 +1482,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                       setState(() {
                                                         final snackBar = SnackBar(
                                                           content: Text(
-                                                              'Sub Fee Amount ${j - 1} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
+                                                              'Sub Fee Amount ${j - 2} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
                                                           backgroundColor: (Colors.red),
                                                           action: SnackBarAction(
                                                             label: 'dismiss',
@@ -1500,7 +1499,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                       setState(() {
                                                         final snackBar = SnackBar(
                                                           content:
-                                                          Text('Sub Fee Priority ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
+                                                          Text('Sub Fee Priority ${j - 2} for Extra Fees ${i + 1} cannot be empty'),
                                                           backgroundColor: (Colors.red),
                                                           action: SnackBarAction(
                                                             label: 'dismiss',
@@ -1517,7 +1516,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                       setState(() {
                                                         final snackBar = SnackBar(
                                                           content: Text(
-                                                              'Sub Fee Priority ${j - 1} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
+                                                              'Sub Fee Priority ${j - 2} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
                                                           backgroundColor: (Colors.red),
                                                           action: SnackBarAction(
                                                             label: 'dismiss',
@@ -1571,9 +1570,9 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                               }
                                               else {
                                                 Map<String, dynamic> _tempMainFeesSub = {
-                                                  "sub_fees_title": listOfMainFees[0][2][0],
-                                                  "sub_amount": listOfMainFees[0][2][1],
-                                                  "fee_priority": listOfMainFees[0][2][2],
+                                                  "sub_fees_title": listOfMainFees[0][3][0],
+                                                  "sub_amount": listOfMainFees[0][3][1],
+                                                  "fee_priority": listOfMainFees[0][3][2],
                                                 };
                                                 _tempMainFeesSubList.add(_tempMainFeesSub);
                                               }
@@ -1603,10 +1602,10 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                   }
                                                   else {
                                                     Map<String, dynamic> _tempExtraFeesSub = {
-                                                      "extra_sub_fees_title": i[2][0],
-                                                      "extra_sub_amount": i[2][1],
-                                                      "extra_fee_priority": i[2][2],
-                                                      "_id": i[2][3],
+                                                      "extra_sub_fees_title": i[3][0],
+                                                      "extra_sub_amount": i[3][1],
+                                                      "extra_fee_priority": i[3][2],
+                                                      "_id": i[3][3],
                                                     };
                                                     _tempExtraFeesSubList.add(_tempExtraFeesSub);
                                                   }
@@ -1623,16 +1622,16 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                               tempFeesCompiled["extra_fee"] = _tempExtraFeesList;
                                               tempFeesCompiled["admission_fees"] = _chosenValueAdmissionFees;
 
-                                              print("**************************************************************************");
-                                              print("isValid == $isValid");
-                                              print("tempFeesCompiled.toString() = ${tempFeesCompiled.toString()}");
-                                              print("**************************************************************************");
-
+                                              // print("**************************************************************************");
+                                              // print("isValid == $isValid");
+                                              // print("tempFeesCompiled.toString() = ${tempFeesCompiled.toString()}");
+                                              // print("**************************************************************************");
+//----------------------------------------------------------------------------------------------------------------------------------------------------
                                               if (isValid == true) {
                                                 print("isValid == true");
                                                 createDivision_responseBody = await httpPost(
                                                   msgToSend: {
-                                                    "division_name": divisionName,
+                                                    "division_name": "$_chosenValueClass $divisionName ($_chosenValueAcadYr)",
                                                     "academic_year": _chosenValueAcadYr!,
                                                     "std": _chosenValueClass!,
                                                     "subjects": _chosenValueSubjects!,
@@ -1643,11 +1642,11 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                   destinationPost: "/addDivision",
                                                   destinationUrl: mainDomain,
                                                 );
-                                                print("tempFeesCompiled.toString() = ${tempFeesCompiled.toString()}");
+                                                // print("tempFeesCompiled.toString() = ${tempFeesCompiled.toString()}");
                                                 setState(() {
                                                   addDivision = false;
                                                 });
-                                                if (editDivision_responseBody == "Saved") {
+                                                if (createDivision_responseBody  == "Saved") {
                                                   setState(() {
                                                     final snackBar = SnackBar(
                                                       content: const Text("Division has been successfully created"),
@@ -1660,10 +1659,21 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                     );
                                                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                     addDivision = false;
+                                                    listOfMainFees = [
+                                                      [
+                                                        "^",
+                                                        "^",
+                                                        "^",
+                                                        ["^","^", "^", "^"] //last "^" is _id
+                                                      ]
+                                                    ];
+                                                    listOfExtraFees = [];
+                                                    ExtraFeesNumber = 0;
+                                                    ExtraFeesWig = [];
                                                     Provider.of<Data>(context, listen: false).refPageEditDivision(true);
                                                   });
                                                 }
-                                                else if (editDivision_responseBody == "Division Alread Exists") {
+                                                else if (createDivision_responseBody == "Division Alread Exists") {
                                                   setState(() {
                                                     final snackBar = SnackBar(
                                                       content: const Text("Division Alread Exists"),
@@ -1682,7 +1692,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                 else {
                                                   setState(() {
                                                     final snackBar = SnackBar(
-                                                      content: const Text('Sorry encountered a server error'),
+                                                      content: Text('Sorry encountered a server error ************* ${createDivision_responseBody }'),
                                                       backgroundColor: (Colors.red),
                                                       action: SnackBarAction(
                                                         label: 'dismiss',
@@ -1851,9 +1861,12 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                       "^",
                                       "^",
                                       "^",
-                                      ["^", "^", "^","^"]
+                                      ["^","^", "^", "^"] //last "^" is _id
                                     ]
                                   ];
+                                  listOfExtraFees = [];
+                                  ExtraFeesNumber = 0;
+                                  ExtraFeesWig = [];
                                   setState(() {
                                     showEditDivision = false;
                                     Provider.of<Data>(context, listen: false).refPageEditDivision(true);
@@ -1869,11 +1882,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                       Icons.cancel,
                                       color: Colors.white,
                                     )
-                                        // const Text("X",
-                                        //   style: TextStyle(fontWeight: FontWeight.bold ,
-                                        //       color: Colors.white),),
-                                        // )
-                                        )),
+                                        ),),
                               ),
                             )
                           ],
@@ -2130,7 +2139,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                               print("error7");
                                                               setState(() {
                                                                 final snackBar = SnackBar(
-                                                                  content: Text('Sub Fee Title ${i - 1} of Main Fee cannot be empty'),
+                                                                  content: Text('Sub Fee Title ${i - 2} of Main Fee cannot be empty'),
                                                                   backgroundColor: (Colors.red),
                                                                   action: SnackBarAction(
                                                                     label: 'dismiss',
@@ -2146,7 +2155,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                               print("error8");
                                                               setState(() {
                                                                 final snackBar = SnackBar(
-                                                                  content: Text('Sub Fee Amount ${i - 1} of Main Fee cannot be empty'),
+                                                                  content: Text('Sub Fee Amount ${i - 2} of Main Fee cannot be empty'),
                                                                   backgroundColor: (Colors.red),
                                                                   action: SnackBarAction(
                                                                     label: 'dismiss',
@@ -2163,7 +2172,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                               setState(() {
                                                                 final snackBar = SnackBar(
                                                                   content: Text(
-                                                                      'Sub Fee Amount ${i - 1} of Main Fee cannot be empty or an invalid number'),
+                                                                      'Sub Fee Amount ${i - 2} of Main Fee cannot be empty or an invalid number'),
                                                                   backgroundColor: (Colors.red),
                                                                   action: SnackBarAction(
                                                                     label: 'dismiss',
@@ -2179,7 +2188,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                               print("error9");
                                                               setState(() {
                                                                 final snackBar = SnackBar(
-                                                                  content: Text('Sub Fee Priority ${i - 1} of Main Fee cannot be empty'),
+                                                                  content: Text('Sub Fee Priority ${i - 2} of Main Fee cannot be empty'),
                                                                   backgroundColor: (Colors.red),
                                                                   action: SnackBarAction(
                                                                     label: 'dismiss',
@@ -2196,7 +2205,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                               setState(() {
                                                                 final snackBar = SnackBar(
                                                                   content: Text(
-                                                                      'Sub Fee Priority ${i - 1} of Main Fee cannot be empty or an invalid number'),
+                                                                      'Sub Fee Priority ${i - 2} of Main Fee cannot be empty or an invalid number'),
                                                                   backgroundColor: (Colors.red),
                                                                   action: SnackBarAction(
                                                                     label: 'dismiss',
@@ -2291,7 +2300,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                   print("error14");
                                                                   setState(() {
                                                                     final snackBar = SnackBar(
-                                                                      content: Text('Sub Fee Title ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
+                                                                      content: Text('Sub Fee Title ${j - 2} for Extra Fees ${i + 1} cannot be empty'),
                                                                       backgroundColor: (Colors.red),
                                                                       action: SnackBarAction(
                                                                         label: 'dismiss',
@@ -2308,7 +2317,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                   setState(() {
                                                                     final snackBar = SnackBar(
                                                                       content:
-                                                                          Text('Sub Fee Amount ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
+                                                                          Text('Sub Fee Amount ${j - 2} for Extra Fees ${i + 1} cannot be empty'),
                                                                       backgroundColor: (Colors.red),
                                                                       action: SnackBarAction(
                                                                         label: 'dismiss',
@@ -2325,7 +2334,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                   setState(() {
                                                                     final snackBar = SnackBar(
                                                                       content: Text(
-                                                                          'Sub Fee Amount ${j - 1} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
+                                                                          'Sub Fee Amount ${j - 2} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
                                                                       backgroundColor: (Colors.red),
                                                                       action: SnackBarAction(
                                                                         label: 'dismiss',
@@ -2342,7 +2351,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                   setState(() {
                                                                     final snackBar = SnackBar(
                                                                       content:
-                                                                          Text('Sub Fee Priority ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
+                                                                          Text('Sub Fee Priority ${j - 2} for Extra Fees ${i + 1} cannot be empty'),
                                                                       backgroundColor: (Colors.red),
                                                                       action: SnackBarAction(
                                                                         label: 'dismiss',
@@ -2359,7 +2368,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                   setState(() {
                                                                     final snackBar = SnackBar(
                                                                       content: Text(
-                                                                          'Sub Fee Priority ${j - 1} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
+                                                                          'Sub Fee Priority ${j - 2} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
                                                                       backgroundColor: (Colors.red),
                                                                       action: SnackBarAction(
                                                                         label: 'dismiss',
@@ -2414,10 +2423,10 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                           }
                                                           else {
                                                             Map<String, dynamic> _tempMainFeesSub = {
-                                                              "sub_fees_title": listOfMainFees[0][2][0],
-                                                              "sub_amount": listOfMainFees[0][2][1],
-                                                              "fee_priority": listOfMainFees[0][2][2],
-                                                              "_id": listOfMainFees[0][2][3],
+                                                              "sub_fees_title": listOfMainFees[0][3][0],
+                                                              "sub_amount": listOfMainFees[0][3][1],
+                                                              "fee_priority": listOfMainFees[0][3][2],
+                                                              "_id": listOfMainFees[0][3][3],
                                                             };
                                                             _tempMainFeesSubList.add(_tempMainFeesSub);
                                                           }
@@ -2478,7 +2487,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                               msgToSend: {
                                                                 "msg": "editDivisionInDB",
                                                                 "idToEdit": editIdToEdit,
-                                                                "division_name": divisionName,
+                                                                "division_name": "$_chosenValueClass $divisionName ($_chosenValueAcadYr)",
                                                                 "academic_year": _chosenValueAcadYr!,
                                                                 "std": _chosenValueClass!,
                                                                 "subjects": _chosenValueSubjects!,
@@ -2505,6 +2514,17 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                                 showEditDivision = false;
                                                                 Provider.of<Data>(context, listen: false).refPageEditDivision(true);
+                                                                listOfMainFees = [
+                                                                  [
+                                                                    "^",
+                                                                    "^",
+                                                                    "^",
+                                                                    ["^","^", "^", "^"] //last "^" is _id
+                                                                  ]
+                                                                ];
+                                                                listOfExtraFees = [];
+                                                                ExtraFeesNumber = 0;
+                                                                ExtraFeesWig = [];
                                                               });
                                                             } else if (editDivision_responseBody == "Division Alread Exists") {
                                                               setState(() {
@@ -2903,7 +2923,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                 print("error7");
                                                 setState(() {
                                                   final snackBar = SnackBar(
-                                                    content: Text('Sub Fee Title ${i - 1} of Main Fee cannot be empty'),
+                                                    content: Text('Sub Fee Title ${i - 2} of Main Fee cannot be empty'),
                                                     backgroundColor: (Colors.red),
                                                     action: SnackBarAction(
                                                       label: 'dismiss',
@@ -2919,7 +2939,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                 print("error8");
                                                 setState(() {
                                                   final snackBar = SnackBar(
-                                                    content: Text('Sub Fee Amount ${i - 1} of Main Fee cannot be empty'),
+                                                    content: Text('Sub Fee Amount ${i - 2} of Main Fee cannot be empty'),
                                                     backgroundColor: (Colors.red),
                                                     action: SnackBarAction(
                                                       label: 'dismiss',
@@ -2936,7 +2956,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                 setState(() {
                                                   final snackBar = SnackBar(
                                                     content: Text(
-                                                        'Sub Fee Amount ${i - 1} of Main Fee cannot be empty or an invalid number'),
+                                                        'Sub Fee Amount ${i - 2} of Main Fee cannot be empty or an invalid number'),
                                                     backgroundColor: (Colors.red),
                                                     action: SnackBarAction(
                                                       label: 'dismiss',
@@ -2952,7 +2972,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                 print("error9");
                                                 setState(() {
                                                   final snackBar = SnackBar(
-                                                    content: Text('Sub Fee Priority ${i - 1} of Main Fee cannot be empty'),
+                                                    content: Text('Sub Fee Priority ${i - 2} of Main Fee cannot be empty'),
                                                     backgroundColor: (Colors.red),
                                                     action: SnackBarAction(
                                                       label: 'dismiss',
@@ -2969,7 +2989,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                 setState(() {
                                                   final snackBar = SnackBar(
                                                     content: Text(
-                                                        'Sub Fee Priority ${i - 1} of Main Fee cannot be empty or an invalid number'),
+                                                        'Sub Fee Priority ${i - 2} of Main Fee cannot be empty or an invalid number'),
                                                     backgroundColor: (Colors.red),
                                                     action: SnackBarAction(
                                                       label: 'dismiss',
@@ -3064,7 +3084,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                     print("error14");
                                                     setState(() {
                                                       final snackBar = SnackBar(
-                                                        content: Text('Sub Fee Title ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
+                                                        content: Text('Sub Fee Title ${j - 2} for Extra Fees ${i + 1} cannot be empty'),
                                                         backgroundColor: (Colors.red),
                                                         action: SnackBarAction(
                                                           label: 'dismiss',
@@ -3081,7 +3101,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                     setState(() {
                                                       final snackBar = SnackBar(
                                                         content:
-                                                        Text('Sub Fee Amount ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
+                                                        Text('Sub Fee Amount ${j - 2} for Extra Fees ${i + 1} cannot be empty'),
                                                         backgroundColor: (Colors.red),
                                                         action: SnackBarAction(
                                                           label: 'dismiss',
@@ -3098,7 +3118,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                     setState(() {
                                                       final snackBar = SnackBar(
                                                         content: Text(
-                                                            'Sub Fee Amount ${j - 1} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
+                                                            'Sub Fee Amount ${j - 2} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
                                                         backgroundColor: (Colors.red),
                                                         action: SnackBarAction(
                                                           label: 'dismiss',
@@ -3115,7 +3135,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                     setState(() {
                                                       final snackBar = SnackBar(
                                                         content:
-                                                        Text('Sub Fee Priority ${j - 1} for Extra Fees ${i + 1} cannot be empty'),
+                                                        Text('Sub Fee Priority ${j - 2} for Extra Fees ${i + 1} cannot be empty'),
                                                         backgroundColor: (Colors.red),
                                                         action: SnackBarAction(
                                                           label: 'dismiss',
@@ -3132,7 +3152,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                     setState(() {
                                                       final snackBar = SnackBar(
                                                         content: Text(
-                                                            'Sub Fee Priority ${j - 1} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
+                                                            'Sub Fee Priority ${j - 2} for Extra Fees ${i + 1} cannot be empty or an invalid number'),
                                                         backgroundColor: (Colors.red),
                                                         action: SnackBarAction(
                                                           label: 'dismiss',
@@ -3172,25 +3192,21 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                             List<Map<String, dynamic>> _tempMainFeesSubList = [];
                                             if (listOfMainFees[0].length > 4) {
                                               for (int i = 3; i < listOfMainFees[0].length; i++) {
-                                                // MainFeesSub _tempMainFeesSub =
-                                                //     MainFeesSub(sub_fees_title: listOfMainFees[0][i][0],sub_amount:listOfMainFees[0][i][1] ,fee_priority:listOfMainFees[0][i][2] );
-                                                // _tempMainFeesSubList.add(_tempMainFeesSub);
-
                                                 Map<String, dynamic> _tempMainFeesSub = {
                                                   "sub_fees_title": listOfMainFees[0][i][0],
                                                   "sub_amount": listOfMainFees[0][i][1],
                                                   "fee_priority": listOfMainFees[0][i][2],
-                                                  "_id": listOfMainFees[0][i][3],
+                                                  "_id":listOfMainFees[0][i][3],
                                                 };
                                                 _tempMainFeesSubList.add(_tempMainFeesSub);
                                               }
                                             }
                                             else {
                                               Map<String, dynamic> _tempMainFeesSub = {
-                                                "sub_fees_title": listOfMainFees[0][2][0],
-                                                "sub_amount": listOfMainFees[0][2][1],
-                                                "fee_priority": listOfMainFees[0][2][2],
-                                                "_id": listOfMainFees[0][2][3],
+                                                "sub_fees_title": listOfMainFees[0][3][0],
+                                                "sub_amount": listOfMainFees[0][3][1],
+                                                "fee_priority": listOfMainFees[0][3][2],
+                                                "_id": listOfMainFees[0][3][3],
                                               };
                                               _tempMainFeesSubList.add(_tempMainFeesSub);
                                             }
@@ -3199,10 +3215,11 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                               "fee_title": listOfMainFees[0][0],
                                               "total_fees": listOfMainFees[0][1],
                                               "_id": listOfMainFees[0][2],
-                                              "sub_of_fees": _tempMainFeesSubList
+                                              "sub_of_fees": _tempMainFeesSubList,
                                             };
                                             tempFeesCompiled["main_fees"] = [_tempMainFees];
 
+                                            //------ Extra Fee -----------------------------
                                             List<Map<String, dynamic>> _tempExtraFeesList = [];
 
                                             if (listOfExtraFees.isNotEmpty) {
@@ -3220,10 +3237,10 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                   }
                                                 } else {
                                                   Map<String, dynamic> _tempExtraFeesSub = {
-                                                    "extra_sub_fees_title": i[2][0],
-                                                    "extra_sub_amount": i[2][1],
-                                                    "extra_fee_priority": i[2][2],
-                                                    "_id": i[2][3],
+                                                    "extra_sub_fees_title": i[3][0],
+                                                    "extra_sub_amount": i[3][1],
+                                                    "extra_fee_priority": i[3][2],
+                                                    "_id": i[3][3],
                                                   };
                                                   _tempExtraFeesSubList.add(_tempExtraFeesSub);
                                                 }
@@ -3250,7 +3267,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                 msgToSend: {
                                                   "msg": "editDivisionInDB",
                                                   "idToEdit": editIdToEdit,
-                                                  "division_name": divisionName,
+                                                  "division_name": "$_chosenValueClass $divisionName ($_chosenValueAcadYr)",
                                                   "academic_year": _chosenValueAcadYr!,
                                                   "std": _chosenValueClass!,
                                                   "subjects": _chosenValueSubjects!,
@@ -3277,6 +3294,17 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
                                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                   showEditDivision = false;
                                                   Provider.of<Data>(context, listen: false).refPageEditDivision(true);
+                                                  listOfMainFees = [
+                                                    [
+                                                      "^",
+                                                      "^",
+                                                      "^",
+                                                      ["^","^", "^", "^"] //last "^" is _id
+                                                    ]
+                                                  ];
+                                                  listOfExtraFees = [];
+                                                  ExtraFeesNumber = 0;
+                                                  ExtraFeesWig = [];
                                                 });
                                               } else if (editDivision_responseBody == "Division Alread Exists") {
                                                 setState(() {
@@ -3540,6 +3568,7 @@ class _FeesAddInDivisionMainFeesState extends State<FeesAddInDivisionMainFees> {
                   setState(() {
                     val == null ? val = "" : val;
                     listOfMainFees[0][0] = val;
+                    print("listOfMainFees = $listOfMainFees");
                   });
                 },
                 decoration:
@@ -3550,7 +3579,7 @@ class _FeesAddInDivisionMainFeesState extends State<FeesAddInDivisionMainFees> {
                   setState(() {
                     val == null ? val = "" : val;
                     listOfMainFees[0][1] = val;
-                    Provider.of<Data>(context, listen: false).refPage(true);
+                    // Provider.of<Data>(context, listen: false).refPage(true);
                   });
                 },
                 decoration: InputDecoration(

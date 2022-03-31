@@ -99,7 +99,7 @@ class _DataPageSubjeectState extends State<DataPageSubjeect> {
     });
   }
 
-  _resetData({start: 0}) async {
+  _resetData({start = 0}) async {
     setState(() => _isLoading = true);
     var _expandedLen =
     _total - start < _currentPerPage! ? _total - start : _currentPerPage;

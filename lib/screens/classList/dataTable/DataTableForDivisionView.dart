@@ -59,9 +59,6 @@ class _DataPageDivisionState extends State<DataPageDivision> {
     for(int i =  0 ; i <  showDivision_responseBodyTemp.length; i++){
       showDivision_responseBodyTemp[i]["ShowID"] = i+1;
       showDivision_responseBodyTemp[i].remove("__v") ;
-
-
-
     }
     _expanded = List.generate(_currentPerPage!, (index) => false);
     setState(() {
@@ -726,7 +723,9 @@ class _DropDownContainerState extends State<_DropDownContainer> {
                   ElevatedButton(
                     onPressed: () async {
                       editIdToEdit = widget.data["_id"].toString();
-                      editDivNameToEdit = widget.data["division_name"].toString();
+                      String _tempeditDivNameToEdit = widget.data["division_name"].toString();
+                      List<String> _tempListofDivNames = _tempeditDivNameToEdit.split(" ");
+                      editDivNameToEdit = _tempListofDivNames[1];
                       editDivAcadYrToEdit = widget.data["academic_year"]["year"].toString();
                       editDivClassToEdit = widget.data["std"]["standard_name"].toString();
                       editAdmissionFeesToEdit = (widget.data["fees"]["admission_fees"]??0).toString();

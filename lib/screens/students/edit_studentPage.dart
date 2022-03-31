@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'dart:convert';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,137 +15,139 @@ import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import 'StudentsMain.dart';
+import 'add_student_page.dart';
 
-String? studentFirstNameAdd;
-String? studentLastNameAdd;
-String? fathersNameAdd;
-String? mothersNameAdd;
-String? guardiansNameAdd;
-String? addressNameAdd;
-//---- Father's ----------
-String? fathersPhoneNoEXT = "+91";
-String? fathersPhoneNoMain;
-
-bool fathersPhoneNofisttime = true;
-//---- Mother's ----------
-String? mothersPhoneNoEXT = "+91";
-String? mothersPhoneNoMain;
-
-bool mothersPhoneNofisttime = true;
-//---- Guardian's ----------
-String? guardiansPhoneNoEXT = "+91";
-String? guardiansPhoneNoMain;
-
-bool guardiansPhoneNofisttime = true;
-
-String? studentNameAdd = "$studentFirstNameAdd $fathersNameAdd $studentLastNameAdd";
-
-String gender = "Male";
-
-String? studentID;
-
-String? grNumber;
-bool grNumberAddfirstTime = true;
-
-String? nationalityNameAdd = "Indian";
-String? motherTongueNameAdd;
-
-//------------------------------------
-String? userNameAdd;
-String? initialValueUserName;
-String? usernameErrorString;
-
-String? passwordAdd;
-String? passwordErrorString;
-bool passwordnotTyped = true;
-String? initialValuePassword;
-
-List<String>? siblingsList = [];
-
-//------------- Aadhar -----------------------
-String? aadharNumberAdd;
-bool aadharNumberAddfirstTime = true;
-
-//------------- First Class -----------------------
-List<String> firstNlastClassDetials = [];
-String? firstAcadYr;
-String? firstClass;
-String? firstDiv;
-
-//------------- Last Class -----------------------
-String? lastAcadYr;
-String? lastClass;
-String? lastDiv;
-
-//------------- Enum ---------------------------
-enum Status {
-  dropdown,
-  add,
-  delete,
-}
-
-//------------- Religion -----------------------
-List<String> religionAdd = [];
-List<dynamic> religionAddasStringList = [Status.dropdown];
-
-//------------- Caste -----------------------
-List<String> casteListAdd = [];
-List<dynamic> casteAddasStringList = [Status.dropdown];
-
-//------------- SubCaste -----------------------
-List<String> subcasteListAdd = [];
-List<dynamic> subcasteAddasStringList = [Status.dropdown];
-
-//------------- Different Abeled -----------------------
-List<String> differentlyAbledListAdd = [];
-List<dynamic> differentlyAbledAddasStringList = [Status.dropdown];
-bool differentlyAbledBool = false;
-
-bool rTE = false;
-bool enableStatus = true;
-bool inSchool = true;
-
-//------------- Date of Birth -----------------------
-var selectedDateofBirth = [DateTime.now()];
-
-//------------- Place of Birth -----------------------
-String? placeOfBirthAddVillageorCity;
-String? placeOfBirthAddTaluka;
-String? placeOfBirthAddDistrict;
-String? placeOfBirthAddState;
-String? placeOfBirthAddCountry;
-
-//------------- Last School Attended -----------------------
-String? lastSchoolAttended;
-String? lastSchoolStandardAttended;
-String? uDISEpreviousSchool;
-bool uDISEpreviousSchoolAddfirstTime = true;
-
-//--------------- Date Of Admission -----------------------
-var selectedDateofAdmission = [DateTime.now()];
-
-//--------------- Leaving ---------------------------------
-String? progressAdd;
-String? conductAdd;
-String? reasonForLeavingAdd;
-var selectedSchoolLeavingDate = [DateTime.now()];
-
-
-List<String>? divList = [];
-List<dynamic>? divData;
-List<dynamic>? acadYearNClassAdd;
-String? currentDivision;
-bool refDivGetter = true;
+// String? studentFirstNameAdd;
+// String? studentLastNameAdd;
+// String? fathersNameAdd;
+// String? mothersNameAdd;
+// String? guardiansNameAdd;
+// String? addressNameAdd;
+// //---- Father's ----------
+// String? fathersPhoneNoEXT = "+91";
+// String? fathersPhoneNoMain;
+// String? fathersPhoneNoFinal = "$fathersPhoneNoEXT$fathersPhoneNoMain";
+// bool fathersPhoneNofisttime = true;
+// //---- Mother's ----------
+// String? mothersPhoneNoEXT = "+91";
+// String? mothersPhoneNoMain;
+// String? mothersPhoneNoFinal = "$mothersPhoneNoEXT$mothersPhoneNoMain";
+// bool mothersPhoneNofisttime = true;
+// //---- Guardian's ----------
+// String? guardiansPhoneNoEXT = "+91";
+// String? guardiansPhoneNoMain;
+// String? guardiansPhoneNoFinal = "$guardiansPhoneNoEXT$guardiansPhoneNoMain";
+// bool guardiansPhoneNofisttime = true;
+//
+// String? studentNameAdd = "$studentFirstNameAdd $fathersNameAdd $studentLastNameAdd";
+//
+// String gender = "Male";
+//
+// String? studentID;
+//
+// String? grNumber;
+// bool grNumberAddfirstTime = true;
+//
+// String? nationalityNameAdd;
+// String? motherTongueNameAdd;
+//
+// //------------------------------------
+// String? userNameAdd;
+// String? initialValueUserName;
+// String? usernameErrorString;
+//
+// String? passwordAdd;
+// String? passwordErrorString;
+// bool passwordnotTyped = true;
+// String? initialValuePassword;
+//
+// List<String>? siblingsList = [];
+//
+// //------------- Aadhar -----------------------
+// String? aadharNumberAdd;
+// bool aadharNumberAddfirstTime = true;
+//
+// //------------- First Class -----------------------
+// List<String> firstNlastClassDetials = [];
+// String? firstAcadYr;
+// String? firstClass;
+// String? firstDiv;
+//
+// //------------- Last Class -----------------------
+// String? lastAcadYr;
+// String? lastClass;
+// String? lastDiv;
+//
+// //------------- Enum ---------------------------
+// enum Status {
+//   dropdown,
+//   add,
+//   delete,
+// }
+//
+// //------------- Religion -----------------------
+// List<String> religionAdd = [];
+// List<dynamic> religionAddasStringList = [Status.dropdown];
+//
+// //------------- Caste -----------------------
+// List<String> casteListAdd = [];
+// List<dynamic> casteAddasStringList = [Status.dropdown];
+//
+// //------------- SubCaste -----------------------
+// List<String> subcasteListAdd = [];
+// List<dynamic> subcasteAddasStringList = [Status.dropdown];
+//
+// //------------- Different Abeled -----------------------
+// List<String> differentlyAbledListAdd = [];
+// List<dynamic> differentlyAbledAddasStringList = [Status.dropdown];
+// bool differentlyAbledBool = false;
+//
+// bool rTE = false;
+// bool enableStatus = true;
+// bool inSchool = true;
+//
+// //------------- Date of Birth -----------------------
+// var selectedDateofBirth = [DateTime.now()];
+//
+// //------------- Place of Birth -----------------------
+// String? placeOfBirthAddVillageorCity;
+// String? placeOfBirthAddTaluka;
+// String? placeOfBirthAddDistrict;
+// String? placeOfBirthAddState;
+// String? placeOfBirthAddCountry;
+//
+// //------------- Last School Attended -----------------------
+// String? lastSchoolAttended;
+// String? lastSchoolStandardAttended;
+// String? uDISEpreviousSchool;
+// bool uDISEpreviousSchoolAddfirstTime = true;
+//
+// //--------------- Date Of Admission -----------------------
+// var selectedDateofAdmission = [DateTime.now()];
+//
+// //--------------- Leaving ---------------------------------
+// String? progressAdd;
+// String? conductAdd;
+// String? reasonForLeavingAdd;
+// var selectedSchoolLeavingDate = [DateTime.now()];
+// var selectedSchoolLeavingDateToSend =
+// inSchool == true ? null : "${selectedSchoolLeavingDate[0].day}/${selectedSchoolLeavingDate[0].month}/${selectedSchoolLeavingDate[0].year}";
+//
+// List<String>? divList = [];
+// List<dynamic>? divData;
+// List<dynamic>? acadYearNClassAdd;
+// String? currentDivision;
+// bool refDivGetter = true;
 
 //-------------------------------------------------------------------------------------------------------
-class AddStudentPage extends StatefulWidget {
-  const AddStudentPage({Key? key}) : super(key: key);
+class EditStudentPage extends StatefulWidget {
+  const EditStudentPage({Key? key}) : super(key: key);
 
   @override
-  State<AddStudentPage> createState() => _AddStudentPageState();
+  State<EditStudentPage> createState() => _EditStudentPageState();
 }
 
-class _AddStudentPageState extends State<AddStudentPage> {
+class _EditStudentPageState extends State<EditStudentPage> {
   //---------- Function for Picking Date -----------------
   Future<void> _selectDate(BuildContext context, selectedDateVar) async {
     final DateTime? pickedDate =
@@ -202,7 +206,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                   child: Padding(
                                     padding: EdgeInsets.only(left: 15.0),
                                     child: Text(
-                                      "Add Student",
+                                      "Edit Student",
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
@@ -214,8 +218,9 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                   onTap: () {
                                     funcMakeVarNullStudents();
                                     setState(() {
-                                      showAddStudent = false;
+                                      showEditStudentDetials = false;
                                       Provider.of<Data>(context, listen: false).refreshStudentMainfunc(true);
+                                      refreshStudentTable = true;
                                     });
                                   },
                                   splashColor: Colors.white,
@@ -248,7 +253,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: studentFirstNameAdd,
                                           onChanged: (val) {
                                             setState(() {
                                               studentFirstNameAdd = val;
@@ -260,12 +266,13 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                               label: const Text('Student First Name*')),
                                         ),
                                       ),
-                                    ), //STUDENT NAME //ValidateD
+                                    ), //FIRST NAME //ValidateD
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: studentLastNameAdd,
                                           onChanged: (val) {
                                             setState(() {
                                               studentLastNameAdd = val;
@@ -283,6 +290,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
                                         child: DropdownSearch<String>.multiSelection(
+                                          selectedItems: siblingsList!,
                                           dropdownSearchDecoration: const InputDecoration(
                                             labelText: "Choose Sibling",
                                             border: OutlineInputBorder(),
@@ -300,7 +308,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: fathersNameAdd,
                                           onChanged: (val) {
                                             setState(() {
                                               fathersNameAdd = val;
@@ -316,7 +325,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: mothersNameAdd,
                                           onChanged: (val) {
                                             setState(() {
                                               mothersNameAdd = val;
@@ -332,7 +342,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: guardiansNameAdd,
                                           onChanged: (val) {
                                             setState(() {
                                               guardiansNameAdd = val;
@@ -408,7 +419,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                             Padding(
                                               padding: const EdgeInsets.only(top: 20.0),
                                               child: CountryCodePicker(
-                                                initialSelection: 'IN',
+                                                initialSelection: fathersPhoneNoEXT,
                                                 onChanged: (v) {
                                                   fathersPhoneNoEXT = v.toString();
                                                   print("fathersPhoneNoEXT = $fathersPhoneNoEXT    v = $v");
@@ -417,7 +428,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                             ),
                                             Container(
                                               constraints: const BoxConstraints(maxWidth: 150),
-                                              child: TextField(
+                                              child: TextFormField(
+                                                initialValue: fathersPhoneNoMain,
                                                 onChanged: (val) {
                                                   setState(() {
                                                     fathersPhoneNofisttime = false;
@@ -447,7 +459,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                             Padding(
                                               padding: const EdgeInsets.only(top: 20.0),
                                               child: CountryCodePicker(
-                                                initialSelection: 'IN',
+                                                initialSelection: mothersPhoneNoEXT,
                                                 onChanged: (v) {
                                                   mothersPhoneNoEXT = v.toString();
                                                 },
@@ -455,7 +467,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                             ),
                                             Container(
                                               constraints: const BoxConstraints(maxWidth: 150),
-                                              child: TextField(
+                                              child: TextFormField(
+                                                initialValue: mothersPhoneNoMain,
                                                 onChanged: (val) {
                                                   setState(() {
                                                     mothersPhoneNofisttime = false;
@@ -485,7 +498,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                             Padding(
                                               padding: const EdgeInsets.only(top: 20.0),
                                               child: CountryCodePicker(
-                                                initialSelection: 'IN',
+                                                initialSelection: guardiansPhoneNoEXT,
                                                 onChanged: (v) {
                                                   guardiansPhoneNoEXT = v.toString();
                                                 },
@@ -493,7 +506,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                             ),
                                             Container(
                                               constraints: const BoxConstraints(maxWidth: 150),
-                                              child: TextField(
+                                              child: TextFormField(
+                                                initialValue: guardiansPhoneNoMain,
                                                 onChanged: (val) {
                                                   setState(() {
                                                     guardiansPhoneNofisttime = false;
@@ -517,7 +531,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: studentID,
                                           onChanged: (val) {
                                             setState(() {
                                               studentID = val;
@@ -533,7 +548,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: grNumber,
                                           onChanged: (val) {
                                             setState(() {
                                               grNumber = val;
@@ -550,7 +566,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: addressNameAdd,
                                           onChanged: (val) {
                                             setState(() {
                                               addressNameAdd = val;
@@ -567,7 +584,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
                                         child: TextFormField(
-                                          initialValue: "Indian",
+                                          initialValue: nationalityNameAdd,
                                           onChanged: (val) {
                                             setState(() {
                                               nationalityNameAdd = val;
@@ -583,7 +600,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: motherTongueNameAdd,
                                           onChanged: (val) {
                                             setState(() {
                                               motherTongueNameAdd = val;
@@ -599,7 +617,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: aadharNumberAdd,
                                           onChanged: (val) {
                                             setState(() {
                                               aadharNumberAdd = val;
@@ -615,6 +634,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       ),
                                     ), //AADHAR NUMBER
                                     DropDownAndTextFieldWig(
+                                      selectedItem: religionAdd.isNotEmpty ? religionAdd[0] : null,
                                       status: religionAddasStringList,
                                       postLinkDel: "/getReligionData/delReligion",
                                       postLink: "/getReligionData",
@@ -623,6 +643,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       fieldName: "Religion",
                                     ), //RELIGION
                                     DropDownAndTextFieldWig(
+                                      selectedItem: casteListAdd.isNotEmpty ? casteListAdd[0] : null,
                                       status: casteAddasStringList,
                                       valueHolderVar: casteListAdd,
                                       keyTosend: "caste_name",
@@ -631,6 +652,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       postLinkDel: "/getDataCaste/delCaste",
                                     ), //CASTE
                                     DropDownAndTextFieldWig(
+                                      selectedItem: subcasteListAdd.isNotEmpty ? subcasteListAdd[0] : null,
                                       status: subcasteAddasStringList,
                                       valueHolderVar: subcasteListAdd,
                                       keyTosend: "subcaste_name",
@@ -723,7 +745,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: placeOfBirthAddVillageorCity,
                                           onChanged: (val) {
                                             setState(() {
                                               placeOfBirthAddVillageorCity = val;
@@ -739,7 +762,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: placeOfBirthAddTaluka,
                                           onChanged: (val) {
                                             setState(() {
                                               placeOfBirthAddTaluka = val;
@@ -755,7 +779,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: placeOfBirthAddDistrict,
                                           onChanged: (val) {
                                             setState(() {
                                               placeOfBirthAddDistrict = val;
@@ -771,7 +796,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: placeOfBirthAddState,
                                           onChanged: (val) {
                                             setState(() {
                                               placeOfBirthAddState = val;
@@ -787,7 +813,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: placeOfBirthAddCountry,
                                           onChanged: (val) {
                                             setState(() {
                                               placeOfBirthAddCountry = val;
@@ -803,7 +830,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: lastSchoolAttended,
                                           onChanged: (val) {
                                             setState(() {
                                               lastSchoolAttended = val;
@@ -819,7 +847,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: lastSchoolStandardAttended,
                                           onChanged: (val) {
                                             lastSchoolStandardAttended = val;
                                           },
@@ -833,7 +862,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
-                                        child: TextField(
+                                        child: TextFormField(
+                                          initialValue: uDISEpreviousSchool,
                                           onChanged: (val) {
                                             setState(() {
                                               uDISEpreviousSchool = val;
@@ -879,6 +909,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
                                         child: DropdownSearch<String>.multiSelection(
+                                          selectedItems: divList!,
                                           dropdownSearchDecoration: const InputDecoration(
                                             labelText: "Choose Division",
                                             border: OutlineInputBorder(),
@@ -913,7 +944,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                               refDivGetter = !refDivGetter;
                                             });
                                           },
-                                          onFind: (filter) => refDivGetter == true ?getDatadivision(filter):getDatadivision(filter),
+                                          onFind: (filter) => refDivGetter == true ? getDatadivision(filter) : getDatadivision(filter),
                                         ),
                                       ),
                                     ), //SELECT DIVISIONS
@@ -1082,7 +1113,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                             child: InkWell(
                                               onTap: () {
                                                 _selectDate(context, selectedSchoolLeavingDate);
-                                                print("selectedDateofBirth = $selectedSchoolLeavingDate");
+                                                print("_____________________selectedDateofBirth = $selectedSchoolLeavingDate");
                                               },
                                               child: Container(
                                                 width: 300,
@@ -1103,7 +1134,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                             padding: const EdgeInsets.all(8.0),
                                             child: Container(
                                               constraints: const BoxConstraints(maxWidth: 300),
-                                              child: TextField(
+                                              child: TextFormField(
+                                                initialValue: progressAdd,
                                                 onChanged: (val) {
                                                   setState(() {
                                                     progressAdd = val;
@@ -1118,7 +1150,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                             padding: const EdgeInsets.all(8.0),
                                             child: Container(
                                               constraints: const BoxConstraints(maxWidth: 300),
-                                              child: TextField(
+                                              child: TextFormField(
+                                                initialValue: conductAdd,
                                                 onChanged: (val) {
                                                   setState(() {
                                                     conductAdd = val;
@@ -1133,7 +1166,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                             padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 8, top: 60),
                                             child: Container(
                                               constraints: const BoxConstraints(maxWidth: 300),
-                                              child: TextField(
+                                              child: TextFormField(
+                                                initialValue: reasonForLeavingAdd,
                                                 onChanged: (val) {
                                                   setState(() {
                                                     reasonForLeavingAdd = val;
@@ -1206,6 +1240,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                     funcIfElseWidgetReturnTrue(
                                       differentlyAbledBool,
                                       DropDownAndTextFieldWig(
+                                        selectedItem: differentlyAbledListAdd.isNotEmpty ? differentlyAbledListAdd[0] : null,
                                         status: differentlyAbledAddasStringList,
                                         valueHolderVar: differentlyAbledListAdd,
                                         keyTosend: "student_differently_abled",
@@ -1312,11 +1347,11 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                         List<String> _tempSplitofE = e.split(" ");
                                         String _tempAcadYear = _tempSplitofE[2];
                                         divList!.forEach((j) {
-                                          if(j.contains(_tempAcadYear)){
+                                          if (j.contains(_tempAcadYear)) {
                                             _count++;
                                           }
                                         });
-                                        if(_count >1){
+                                        if (_count > 1) {
                                           setState(() {
                                             final snackBar = SnackBar(
                                               content: Text("Two or more Divisions have the same Academic Year"),
@@ -1333,139 +1368,152 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                         }
                                       });
 
+                                      if (isValid == true) {
+                                        editStudent_http_responseBodyJSON = await httpPost(
+                                          msgToSend: {
+                                            "msg": "editStudent",
+                                            "student_id": edit_ID,
+                                            "student_first_name": studentFirstNameAdd,
+                                            "student_last_name": studentLastNameAdd,
+                                            "student_middle_name": fathersNameAdd,
+                                            "student_name": "$studentFirstNameAdd $fathersNameAdd $studentLastNameAdd",
+                                            "student_gender": gender,
+                                            "student_ID_UDISE": studentID,
+                                            "student_GR_No": grNumber,
+                                            "student_nationality": nationalityNameAdd,
+                                            "student_mother_tongue": motherTongueNameAdd,
+                                            "sibling": siblingsList,
+                                            "student_fathers_name": fathersNameAdd,
+                                            "student_mothers_name": mothersNameAdd,
+                                            "student_guardians_name": guardiansNameAdd,
+                                            "student_address_name": addressNameAdd,
+                                            "student_fathers_ph_no": "$fathersPhoneNoEXT$fathersPhoneNoMain",
+                                            "student_mothers_ph_no": "$mothersPhoneNoEXT$mothersPhoneNoMain",
+                                            "student_guardians_ph_no": "$guardiansPhoneNoEXT$guardiansPhoneNoMain",
+                                            "student_aadhar_no": aadharNumberAdd,
+                                            "student_RTE": rTE,
+                                            "student_date_of_birth":
+                                                "${selectedDateofBirth[0].day}/${selectedDateofBirth[0].month}/${selectedDateofBirth[0].year}",
+                                            "student_religion": religionAdd.isEmpty ? null : religionAdd[0],
+                                            "student_caste": casteListAdd.isEmpty ? null : casteListAdd[0],
+                                            "student_subcaste": subcasteListAdd.isEmpty ? null : subcasteListAdd[0],
+                                            "student_differently_abled": differentlyAbledListAdd.isEmpty ? null : differentlyAbledListAdd[0],
+                                            "student_differently_abled_bool": differentlyAbledBool,
+                                            "student_place_of_birth_villagecity": placeOfBirthAddVillageorCity,
+                                            "student_place_of_birth_taluka": placeOfBirthAddTaluka,
+                                            "student_place_of_birth_district": placeOfBirthAddDistrict,
+                                            "student_place_of_birth_state": placeOfBirthAddState,
+                                            "student_place_of_birth_country": placeOfBirthAddCountry,
+                                            "student_current_division": currentDivision,
+                                            "student_LastSchoolAttended": lastSchoolAttended,
+                                            "student_LastSchoolStandardAttended": lastSchoolStandardAttended,
+                                            "student_UDISEpreviousSchool": uDISEpreviousSchool,
+                                            "student_date_of_admission":
+                                                "${selectedDateofAdmission[0].day}/${selectedDateofAdmission[0].month}/${selectedDateofAdmission[0].year}",
+                                            "student_progress": progressAdd,
+                                            "student_conduct": conductAdd,
+                                            "student_reasonForLeaving": reasonForLeavingAdd,
+                                            "student_divisions": divList,
+                                            "student_divisionsData": "afds",
+                                            "student_username": userNameAdd ?? initialValueUserName,
+                                            "student_password": passwordAdd ?? initialValuePassword,
+                                            "student_enable_status": enableStatus.toString(),
+                                            "student_Leaving_Date":
+                                                "${selectedSchoolLeavingDate[0].day}/${selectedSchoolLeavingDate[0].month}/${selectedSchoolLeavingDate[0].year}",
+                                            "student_InSchool": inSchool,
+                                            "updatedBy": userName,
+                                            "student_firstAcadYr_Attended": firstAcadYr,
+                                            "student_firstClass_Attended": firstClass,
+                                            "student_firstDiv_Attended": firstDiv,
+                                            "student_lastAcadYr_Attended": lastAcadYr,
+                                            "student_lastClass_Attended": lastClass,
+                                            "student_lastDiv_Attended": lastDiv,
+                                          },
+                                          destinationPort: 8080,
+                                          destinationPost: "/addStudent/editStudentsInDB",
+                                          destinationUrl: mainDomain,
+                                        );
+                                        // addStudent_http_responseBody = json.decode(addStudent_http_responseBodyJSON!);
 
-                                     if (isValid == true) {
-                                       addStudent_http_responseBodyJSON = await httpPost(
-                                         msgToSend: {
-                                           "msg": "addStudent",
-                                           "student_first_name": studentFirstNameAdd,
-                                           "student_last_name": studentLastNameAdd,
-                                           "student_middle_name": fathersNameAdd,
-                                           "student_name": "$studentFirstNameAdd $fathersNameAdd $studentLastNameAdd",
-                                           "student_gender": gender,
-                                           "student_ID_UDISE": studentID,
-                                           "student_GR_No": grNumber,
-                                           "student_nationality": nationalityNameAdd,
-                                           "student_mother_tongue": motherTongueNameAdd,
-                                           "sibling": siblingsList,
-                                           "student_fathers_name": fathersNameAdd,
-                                           "student_mothers_name": mothersNameAdd,
-                                           "student_guardians_name": guardiansNameAdd,
-                                           "student_address_name": addressNameAdd,
-                                           "student_fathers_ph_no": "$fathersPhoneNoEXT$fathersPhoneNoMain",
-                                           "student_mothers_ph_no": "$mothersPhoneNoEXT$mothersPhoneNoMain",
-                                           "student_guardians_ph_no": "$guardiansPhoneNoEXT$guardiansPhoneNoMain",
-                                           "student_aadhar_no": aadharNumberAdd,
-                                           "student_RTE": rTE,
-                                           "student_date_of_birth":
-                                           "${selectedDateofBirth[0].day}/${selectedDateofBirth[0].month}/${selectedDateofBirth[0].year}",
-                                           "student_religion": religionAdd.isEmpty ? null : religionAdd[0],
-                                           "student_caste": casteListAdd.isEmpty ? null : casteListAdd[0],
-                                           "student_subcaste": subcasteListAdd.isEmpty ? null : subcasteListAdd[0],
-                                           "student_differently_abled": differentlyAbledListAdd.isEmpty ? null : differentlyAbledListAdd[0],
-                                           "student_differently_abled_bool": differentlyAbledBool,
-                                           "student_place_of_birth_villageorcity": placeOfBirthAddVillageorCity,
-                                           "student_place_of_birth_taluka": placeOfBirthAddTaluka,
-                                           "student_place_of_birth_district": placeOfBirthAddDistrict,
-                                           "student_place_of_birth_state": placeOfBirthAddState,
-                                           "student_place_of_birth_country": placeOfBirthAddCountry,
-                                           "student_current_division": currentDivision,
-                                           "student_LastSchoolAttended": lastSchoolAttended,
-                                           "student_LastSchoolStandardAttended": lastSchoolStandardAttended,
-                                           "student_UDISEpreviousSchool": uDISEpreviousSchool,
-                                           "student_date_of_admission":
-                                           "${selectedDateofAdmission[0].day}/${selectedDateofAdmission[0].month}/${selectedDateofAdmission[0].year}",
-                                           "student_progress": progressAdd,
-                                           "student_conduct": conductAdd,
-                                           "student_reasonForLeaving": reasonForLeavingAdd,
-                                           "student_divisions": divList,
-                                           "student_divisionsData": "afds",
-                                           "student_username": userNameAdd ?? initialValueUserName,
-                                           "student_password": passwordAdd ?? initialValuePassword,
-                                           "student_enable_status": enableStatus.toString(),
-                                           "student_Leaving_Date":
-                                           "${selectedSchoolLeavingDate[0].day}/${selectedSchoolLeavingDate[0].month}/${selectedSchoolLeavingDate[0].year}",
-                                           "student_InSchool": inSchool,
-                                           "updatedBy": userName,
-                                           "student_firstAcadYr_Attended": firstAcadYr,
-                                           "student_firstClass_Attended": firstClass,
-                                           "student_firstDiv_Attended": firstDiv,
-                                           "student_lastAcadYr_Attended": lastAcadYr,
-                                           "student_lastClass_Attended": lastClass,
-                                           "student_lastDiv_Attended": lastDiv,
-                                         },
-                                         destinationPort: 8080,
-                                         destinationPost: "/addStudent",
-                                         destinationUrl: mainDomain,
-                                       );
-                                       // addStudent_http_responseBody = json.decode(addStudent_http_responseBodyJSON!);
+                                        if (editStudent_http_responseBodyJSON != "Successfully Updated") {
+                                          String? _errMsg = editStudent_http_responseBodyJSON;
+                                          setState(() {
+                                            final snackBar = SnackBar(
+                                              content: Text(_errMsg!),
+                                              backgroundColor: (snackbarErrorBg),
+                                              action: SnackBarAction(
+                                                label: 'dismiss',
+                                                textColor: snackbarErrorTxt,
+                                                onPressed: () {},
+                                              ),
+                                            );
+                                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                          });
+                                        } else {
+                                          setState(() {
+                                            final snackBar = SnackBar(
+                                              content: const Text("Student Detials have been Successfully Updated"),
+                                              backgroundColor: (snackbarSuccessBg),
+                                              action: SnackBarAction(
+                                                label: 'dismiss',
+                                                textColor: snackbarSuccessTxt,
+                                                onPressed: () {},
+                                              ),
+                                            );
+                                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                          });
+                                          if (religionAddasStringList.isNotEmpty && religionAdd.isNotEmpty) {
+                                            if (religionAddasStringList[0] == Status.add && religionAddasStringList[0] != null) {
+                                              await httpPost(
+                                                  destinationUrl: mainDomain,
+                                                  destinationPort: 8080,
+                                                  destinationPost: "/getReligionData/addReligion",
+                                                  msgToSend: {"religion_name": religionAdd[0], "updatedBy": userName});
+                                            }
+                                          }
 
+                                          if (casteAddasStringList.isNotEmpty && casteListAdd.isNotEmpty) {
+                                            if (casteAddasStringList[0] == Status.add && casteAddasStringList[0] != null) {
+                                              await httpPost(
+                                                  destinationUrl: mainDomain,
+                                                  destinationPort: 8080,
+                                                  destinationPost: "/getDataCaste/addCaste",
+                                                  msgToSend: {"caste_name": casteListAdd[0], "updatedBy": userName});
+                                            }
+                                          }
 
+                                          if (subcasteAddasStringList.isNotEmpty && subcasteListAdd.isNotEmpty) {
+                                            if (subcasteAddasStringList[0] == Status.add && subcasteAddasStringList[0] != null) {
+                                              print("@@@@@@@@@@@@@@@@@@${subcasteListAdd[0]}");
+                                              await httpPost(
+                                                  destinationUrl: mainDomain,
+                                                  destinationPort: 8080,
+                                                  destinationPost: "/getDataSubcaste/addSubcaste",
+                                                  msgToSend: {"subcaste_name": subcasteListAdd[0], "updatedBy": userName});
+                                            }
+                                          }
 
-                                       if (addStudent_http_responseBodyJSON != "Saved") {
-                                         String? _errMsg = addStudent_http_responseBodyJSON;
-                                         setState(() {
-                                           final snackBar = SnackBar(
-                                             content: Text(_errMsg!),
-                                             backgroundColor: (snackbarErrorBg),
-                                             action: SnackBarAction(
-                                               label: 'dismiss',
-                                               textColor: snackbarErrorTxt,
-                                               onPressed: () {},
-                                             ),
-                                           );
-                                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                         });
-                                       }
-                                       else{
+                                          if (differentlyAbledAddasStringList.isNotEmpty && differentlyAbledListAdd.isNotEmpty) {
+                                            if (differentlyAbledAddasStringList[0] == Status.add) {
+                                              print("@@@@@@@@@@@@@@@@@@${differentlyAbledListAdd[0]}");
+                                              await httpPost(
+                                                  destinationUrl: mainDomain,
+                                                  destinationPort: 8080,
+                                                  destinationPost: "/getDataDifferentlyAbled/addDifferentlyAbled",
+                                                  msgToSend: {"student_differently_abled": differentlyAbledListAdd[0], "updatedBy": userName});
+                                            }
+                                          }
+                                          funcMakeVarNullStudents();
 
-                                         if (religionAddasStringList.isNotEmpty && religionAdd.isNotEmpty) {
-                                           if (religionAddasStringList[0] == Status.add && religionAddasStringList[0] != null) {
-                                             await httpPost(
-                                                 destinationUrl: mainDomain,
-                                                 destinationPort: 8080,
-                                                 destinationPost: "/getReligionData/addReligion",
-                                                 msgToSend: {"religion_name": religionAdd[0], "updatedBy": userName});
-                                           }
-                                         }
-
-                                         if (casteAddasStringList.isNotEmpty && casteListAdd.isNotEmpty) {
-                                           if (casteAddasStringList[0] == Status.add && casteAddasStringList[0] != null) {
-                                             await httpPost(
-                                                 destinationUrl: mainDomain,
-                                                 destinationPort: 8080,
-                                                 destinationPost: "/getDataCaste/addCaste",
-                                                 msgToSend: {"caste_name": casteListAdd[0], "updatedBy": userName});
-                                           }
-                                         }
-
-                                         if (subcasteAddasStringList.isNotEmpty && subcasteListAdd.isNotEmpty) {
-                                           if (subcasteAddasStringList[0] == Status.add && subcasteAddasStringList[0] != null) {
-                                             print("@@@@@@@@@@@@@@@@@@${subcasteListAdd[0]}");
-                                             await httpPost(
-                                                 destinationUrl: mainDomain,
-                                                 destinationPort: 8080,
-                                                 destinationPost: "/getDataSubcaste/addSubcaste",
-                                                 msgToSend: {"subcaste_name": subcasteListAdd[0], "updatedBy": userName});
-                                           }
-                                         }
-
-                                         if (differentlyAbledAddasStringList.isNotEmpty && differentlyAbledListAdd.isNotEmpty) {
-                                           if (differentlyAbledAddasStringList[0] == Status.add) {
-                                             print("@@@@@@@@@@@@@@@@@@${differentlyAbledListAdd[0]}");
-                                             await httpPost(
-                                                 destinationUrl: mainDomain,
-                                                 destinationPort: 8080,
-                                                 destinationPost: "/getDataDifferentlyAbled/addDifferentlyAbled",
-                                                 msgToSend: {"student_differently_abled": differentlyAbledListAdd[0], "updatedBy": userName});
-                                           }
-                                         }
-                                         funcMakeVarNullStudents();
-
-                                       }
-                                     }
+                                          setState(() {
+                                            showEditStudentDetials = false;
+                                            Provider.of<Data>(context, listen: false).refreshStudentMainfunc(true);
+                                            refreshStudentTable = true;
+                                          });
+                                        }
+                                      }
                                     },
-                                    child: Text("Create Student")),
+                                    child: const Text("Udate Student Info")),
                               ),
                             ) //CREATE STUDENT BUTTON
                           ],
@@ -1493,9 +1541,11 @@ class DropDownAndTextFieldWig extends StatefulWidget {
   String postLinkDel;
   String keyTosend;
   String fieldName;
+  String? selectedItem;
 
   DropDownAndTextFieldWig(
-      {required this.status,
+      {this.selectedItem,
+      required this.status,
       required this.valueHolderVar,
       required this.keyTosend,
       required this.fieldName,
@@ -1543,6 +1593,7 @@ class _DropDownAndTextFieldWigState extends State<DropDownAndTextFieldWig> {
             Container(
               constraints: const BoxConstraints(maxWidth: 300),
               child: DropdownSearch<String>(
+                selectedItem: widget.selectedItem,
                 dropdownSearchDecoration: InputDecoration(
                   labelText: "Choose ${widget.fieldName}",
                   border: OutlineInputBorder(),

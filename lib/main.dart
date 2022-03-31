@@ -26,9 +26,10 @@ class MyApp extends StatelessWidget {
       child:
       MaterialApp(
         title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ), initialRoute: '/Class_List',
+        // themeMode:ThemeMode.light,
+        // theme: ThemeClass.lightTheme,
+        // darkTheme: ThemeClass.darkTheme,
+        initialRoute: '/Class_List',
         routes: {
           '/Login_Page':(context) =>const Login_Page(),
           '/User_Profiles':(context) =>const User_Profiles(),
@@ -39,4 +40,26 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+
+
+//----------- Theme Class -------------------
+class ThemeClass{
+
+  static ThemeData lightTheme = ThemeData(
+      scaffoldBackgroundColor: Colors.white,
+      colorScheme: ColorScheme.light(),
+      appBarTheme: AppBarTheme(
+        backgroundColor: Colors.blue,
+      )
+  );
+
+  static ThemeData darkTheme = ThemeData(
+      scaffoldBackgroundColor: Colors.black,
+      colorScheme: ColorScheme.dark(),
+      appBarTheme: AppBarTheme(
+        backgroundColor: Colors.grey,
+      )
+  );
 }
