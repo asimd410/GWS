@@ -149,26 +149,24 @@ class _DataPageStudentInfoState extends State<DataPageStudentInfo> {
     _headers = [
       DatatableHeader(text: "Sr No.", value: "ShowID", flex: 1, show: true, sortable: true, textAlign: TextAlign.center),
       DatatableHeader(
-          text: "Student Name",
+          text: widget.width < 800?"Name": "Student Name",
           value: "name",
           show: true,
           flex: 1,
           sortable: true,
-          // editable: true,
           textAlign: TextAlign.center),
       DatatableHeader(
-          text: "Division",
+          text: widget.width < 800?"Div":"Division",
           value: "student_current_divison",
           show: true,
-          flex: 1,
+          flex: 2,
           sortable: true,
-          // editable: true,
           textAlign: TextAlign.center),
       DatatableHeader(
-          text: "Contact Number",
+          text: widget.width < 800?"Ph.":"Contact Number",
           value: "student_fathers_ph_no",
           show: true,
-          flex: 1,
+          flex: 2,
           sortable: true,
           sourceBuilder: (v, r) {
             List<Widget> _divList = [];
@@ -191,7 +189,7 @@ class _DataPageStudentInfoState extends State<DataPageStudentInfo> {
           },
           textAlign: TextAlign.center),
       DatatableHeader(
-          text: "In School Status",
+          text: widget.width < 800?"In Sch.":"In School Status",
           value: "student_InSchool",
           show: true,
           flex: 1,
@@ -199,29 +197,13 @@ class _DataPageStudentInfoState extends State<DataPageStudentInfo> {
           // editable: true,
           textAlign: TextAlign.center),
       DatatableHeader(
-          text: "Enable Status",
+          text:widget.width < 800?"Enable": "Enable Status",
           value: "student_enable_status",
           show: true,
           flex: 1,
           sortable: true,
-          // editable: true,
           textAlign: TextAlign.center),
-      // DatatableHeader(
-      //     text: "Notification Status",
-      //     value: "student_notification_status",
-      //     show: true,
-      //     flex: 1,
-      //     sortable: true,
-      //     // editable: true,
-      //     textAlign: TextAlign.center),
-      // DatatableHeader(
-      //     text: "Notification Profile",
-      //     value: "student_notification_profile",
-      //     show: true,
-      //     flex: 1,
-      //     sortable: true,
-      //     // editable: true,
-      //     textAlign: TextAlign.center),
+
 
       DatatableHeader(text: "Updated By", value: "updated_by", flex: 1, show: true, sortable: true, textAlign: TextAlign.center),
       DatatableHeader(text: "Updated", value: "date_time", flex: 1, show: true, sortable: true, textAlign: TextAlign.center),
@@ -229,14 +211,18 @@ class _DataPageStudentInfoState extends State<DataPageStudentInfo> {
 
     _initializeData();
   }
-
-  @override
-  // void dispose() {
-  //   super.dispose();
-  // }
-
-  @override
   final ScrollController _controllerOne = ScrollController();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controllerOne.dispose();
+  }
+  @override
+
+
+  @override
+
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -264,7 +250,7 @@ class _DataPageStudentInfoState extends State<DataPageStudentInfo> {
                       shadowColor: Colors.black,
                       clipBehavior: Clip.none,
                       child: Container(
-                        width: widget.width,
+                        width:widget.width < 800?800: widget.width ,
                         child: ResponsiveDatatable(
                           title: TextButton.icon(
                             onPressed: () {
@@ -323,8 +309,9 @@ class _DataPageStudentInfoState extends State<DataPageStudentInfo> {
                             /// print(header);
                           },
                           onTabRow: (data) {
-                            print(data);
+                            // print(data);
                           },
+
                           onSort: (value) {
                             setState(() => _isLoading = true);
 
@@ -348,7 +335,7 @@ class _DataPageStudentInfoState extends State<DataPageStudentInfo> {
                           sortColumn: _sortColumn,
                           isLoading: _isLoading,
                           onSelect: (value, item) {
-                            print("$value  $item ");
+                            // print("$value  $item ");
                             if (value!) {
                               setState(() => _selecteds.add(item));
                             } else {
@@ -1013,7 +1000,25 @@ class _DropDownContainerState extends State<_DropDownContainer> {
                       divList!.clear();
                     }
 
+                    if(divList!.isNotEmpty) {
+                      for (var e in divList!) {
+                        if (e.contains(firstAcadYrInSystem)) {
+                          setState(() {
+                            firstAcadYrISSelected = true;
+                            firstNlastClassDetials = funcGetAdmittedClassAnddiv();
+                            firstAcadYr = firstNlastClassDetials[2].substring(1, 10);
+                            firstClass = firstNlastClassDetials[1];
+                            firstDiv = firstNlastClassDetials[0];
 
+                            lastAcadYr = firstNlastClassDetials[5].substring(1, 10);
+                            lastClass = firstNlastClassDetials[4];
+                            lastDiv = firstNlastClassDetials[3];
+
+                            newAdmissioninFirstAcadYrinsystem = widget.data["student_AdmittedinAcadYr"] != null ? widget.data["student_AdmittedinAcadYr"] == firstAcadYrInSystem? true:false:false;
+                          });
+                        }
+                      }
+                    }
 
 
 
@@ -1027,7 +1032,7 @@ class _DropDownContainerState extends State<_DropDownContainer> {
                     setState(() {
                       showEditStudentDetials = true;
                       Provider.of<Data>(context, listen: false).refreshStudentMainfunc(true);
-                      print(showEditStudentDetials);
+                      // print(showEditStudentDetials);
                     });
                   },
                   child: Text("Edit"),

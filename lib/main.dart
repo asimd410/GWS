@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gws/functionAndVariables/funcCust.dart';
+import 'package:gws/screens/feesPage/feeInstallmentList.dart';
+import 'package:gws/screens/feesPage/createInstallments/feesInstallmentsCreate.dart';
 import 'package:gws/screens/login_page.dart';
 import 'package:gws/screens/students/StudentsMain.dart';
 import 'package:gws/screens/students/add_student_page.dart';
@@ -29,13 +31,14 @@ class MyApp extends StatelessWidget {
         // themeMode:ThemeMode.light,
         // theme: ThemeClass.lightTheme,
         // darkTheme: ThemeClass.darkTheme,
-        initialRoute: '/Class_List',
+        initialRoute: '/Fees_Installments_List',
         routes: {
           '/Login_Page':(context) =>const Login_Page(),
           '/User_Profiles':(context) =>const User_Profiles(),
           '/Class_List':(context) =>const ClassList(),
           '/Students_Main':(context) =>const StudentsMain(),
-          '/AddStudentPage':(context) => const AddStudentPage(),
+          '/Fees_Installments':(context) =>const FeesInstallments(),
+          '/Fees_Installments_List':(context) => FeeInstallmentList(),
         },
       ),
     );

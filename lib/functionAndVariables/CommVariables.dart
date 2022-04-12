@@ -36,6 +36,8 @@ bool showEditAcadYr = false;
 String? editAcadYrFromAndTo;
 String? editAcadYrFrom;
 String? editAcadYrTo;
+String? editAcadYrMonthFrom;
+String? editAcadYrMonthTo;
 //-------- EDIT Closed-----------------
 //-------- DELETE ------------------------
 String? deleteAcadYr_responseBody;
@@ -105,15 +107,13 @@ String? deleteDivisionName;
 
 //--------------------------------------------------- STUDENT -----------------------------------------------------
 //----------------------------------- Students Get Student Name for Sibling----------------------------------------
-String ? getdataStudentsNames_responseBody;
+String? getdataStudentsNames_responseBody;
 String? getdataStudentsNames_responseBodyJSON;
-String ? addStudent_http_responseBody;
+String? addStudent_http_responseBody;
 String? addStudent_http_responseBodyJSON;
-
 
 //----------------------------------- Students Filtered Search ----------------------------------------------------
 String? showStudentFilteredSearch_responseBodyJSON;
-
 
 //----------------------------------- Students Edit ---------------------------------------------------------------
 String? edit_ID;
@@ -126,6 +126,22 @@ String? deleteStudent_http_responseBodyJSON;
 //----------------------------------- Division Get Division ----------------------------------------
 String? getdataDivision_responseBody;
 String? getdataDivision_responseBodyJSON;
+
+
+//----------------------------------- INSTALLMENTS ---------------------------------------------------------------
+
+
+String?showInstallment_responseBodyJSON;
+
+
+
+
+
+
+
+
+
+
 
 //----------------------------------- Main VARS ----------------------------------------
 
@@ -145,5 +161,21 @@ Color snackbarSuccessTxt = Colors.white;
 Color editButtonAll = Colors.blue.shade700;
 Color deleteButtonAll = Colors.red;
 
-
 bool refreshStudentTable = true;
+
+Map<String, int> monthNumerical = {
+  "Jan": 1,
+  "Feb": 2,
+  "March": 3,
+  "April": 4,
+  "May": 5,
+  "June": 6,
+  "July": 7,
+  "Aug": 8,
+  "Sep": 9,
+  "Oct": 10,
+  "Nov": 11,
+  "Dec": 12
+};
+List<String> listOfAcadYrMonthforCV = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+bool debugMode = true;

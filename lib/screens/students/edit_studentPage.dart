@@ -928,6 +928,13 @@ class _EditStudentPageState extends State<EditStudentPage> {
                                                 }
                                               });
                                             }
+                                            for (var e in divList!) {
+                                              if(e.contains(firstAcadYrInSystem)){
+                                                setState(() {
+                                                  firstAcadYrISSelected = true;
+                                                });
+                                              }
+                                            }
 
                                             firstNlastClassDetials = funcGetAdmittedClassAnddiv();
 
@@ -962,6 +969,67 @@ class _EditStudentPageState extends State<EditStudentPage> {
                                             "Academic Year: ${acadYearNClassAdd == null ? "" : acadYearNClassAdd![0][acadYearNClassAdd![0].lastKey()]}-${acadYearNClassAdd == null ? "" : acadYearNClassAdd![0][acadYearNClassAdd![0].lastKey()] + 1}"),
                                       ),
                                     ), //ACADEMIC YEAR
+                                    firstAcadYrISSelected == true?
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 8.0,
+                                        left: 8,
+                                        top: 20,
+                                      ),
+                                      child: Container(
+                                        width: 300,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(width: 1, color: Colors.grey),
+                                            borderRadius: const BorderRadius.all(Radius.circular(3))),
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Column(
+                                                children: [
+                                                  Text("New Admission"),
+                                                  Text("in $firstAcadYrInSystem"),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 70,
+                                              child: ListTile(
+                                                title: const Text("Y"),
+                                                leading: Radio(
+                                                    value: true,
+                                                    groupValue: newAdmissioninFirstAcadYrinsystem,
+                                                    onChanged: (v) {
+                                                      setState(() {
+                                                        newAdmissioninFirstAcadYrinsystem = true;
+                                                      });
+                                                      print("newAdmissioninFirstAcadYrinsystem = $newAdmissioninFirstAcadYrinsystem");
+                                                    }),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 70,
+                                              child: ListTile(
+                                                title: const Text("N"),
+                                                leading: Radio(
+                                                    value: false,
+                                                    groupValue: newAdmissioninFirstAcadYrinsystem,
+                                                    onChanged: (v) {
+                                                      setState(() {
+                                                        newAdmissioninFirstAcadYrinsystem = false;
+                                                      });
+                                                      print("newAdmissioninFirstAcadYrinsystem = $newAdmissioninFirstAcadYrinsystem");
+                                                    }),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                        :
+                                    Container(),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                         right: 8.0,
@@ -1368,6 +1436,8 @@ class _EditStudentPageState extends State<EditStudentPage> {
                                         }
                                       });
 
+
+
                                       if (isValid == true) {
                                         editStudent_http_responseBodyJSON = await httpPost(
                                           msgToSend: {
@@ -1428,6 +1498,8 @@ class _EditStudentPageState extends State<EditStudentPage> {
                                             "student_lastAcadYr_Attended": lastAcadYr,
                                             "student_lastClass_Attended": lastClass,
                                             "student_lastDiv_Attended": lastDiv,
+                                            "firstAcadYrInSystem": firstAcadYrInSystem,
+                                            "newAdmissioninFirstAcadYrinsystem":newAdmissioninFirstAcadYrinsystem,
                                           },
                                           destinationPort: 8080,
                                           destinationPost: "/addStudent/editStudentsInDB",

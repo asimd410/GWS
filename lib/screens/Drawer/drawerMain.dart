@@ -34,12 +34,23 @@ class DrawerMAIN extends StatelessWidget {
             onTap: () {Navigator.pushNamed(context, '/Students_Main');},
           ),
           const Divider(),
-          ListTile(
-            title: const Text('Item 2'),
-            onTap: () {
 
-            },
-          ),
+         ExpansionTile(
+            title: const Text('Fees'),
+            leading: const FaIcon(FontAwesomeIcons.moneyBillWave),
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left:15.0),
+                child: ListTile(
+                  leading: const FaIcon(FontAwesomeIcons.handHoldingUsd),
+                  title: const Text('Fee Installment & Div List'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/Fees_Installments_List');
+                  },
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );

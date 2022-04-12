@@ -117,6 +117,10 @@ class _AcademicYrCreateViewADDState extends State<AcademicYrCreateViewADD> {
   int? _int_chosenValueAcadYr;
 
   String? _chosenValueAcadYrTwo;
+
+  String? monthFrom;
+  String? monthTo;
+
   List<String> listOfAcadYrforCV = [
     '2017',
     '2018',
@@ -158,28 +162,29 @@ class _AcademicYrCreateViewADDState extends State<AcademicYrCreateViewADD> {
     '2054',
     '2055'
   ];
+
   @override
   Widget build(BuildContext context) {
-
-    return GlassContainer(
+    double screenW = MediaQuery.of(context).size.width;
+    return Container(
         height: 500,
         width: (widget.screenW) - 2,
         child: Center(
           child: SizedBox(
             height: 280,
-            width: 260,
+            width: screenW < 500 ? 310 : 510,
             child: Card(
               child: Column(
                 children: [
                   Container(
                       height: 30,
-                      width: 250,
+                      width: screenW < 500 ? 300 : 500,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const SizedBox(
-                            width: 220,
-                            child: Center(
+                          SizedBox(
+                            width: screenW < 500 ? 270 : 470,
+                            child: const Center(
                               child: Padding(
                                 padding: EdgeInsets.only(left: 15.0),
                                 child: Text(
@@ -193,6 +198,11 @@ class _AcademicYrCreateViewADDState extends State<AcademicYrCreateViewADD> {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
+                                _chosenValueAcadYrOne = null;
+                                _int_chosenValueAcadYr = null;
+                                _chosenValueAcadYrTwo = null;
+                                monthFrom = null;
+                                monthTo = null;
                                 setState(() {
                                   showAddAcadYr = false;
                                   Provider.of<Data>(context, listen: false).refPageEditAcadyr(true);
@@ -217,116 +227,199 @@ class _AcademicYrCreateViewADDState extends State<AcademicYrCreateViewADD> {
                   Center(
                     child: SizedBox(
                         height: 240,
-                        width: 200,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: DropdownSearch<String>(
-                                mode: Mode.MENU,
-                                items: listOfAcadYrforCV,
-                                dropdownSearchDecoration: const InputDecoration(
-                                  hintText: "Select an Acad Yr From",
-                                  labelText: "Academic Year From*",
-                                  contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
-                                  border: OutlineInputBorder(),
-                                ),
-                                isFilteredOnline: true,
-                                showSearchBox: true,
-                                onChanged: (v) {
-                                  setState(() {
-                                    _chosenValueAcadYrOne = v;
-                                    _int_chosenValueAcadYr = _chosenValueAcadYrOne != null ? int.parse(_chosenValueAcadYrOne!) : null;
-                                    _chosenValueAcadYrTwo = _chosenValueAcadYrOne != null ? (_int_chosenValueAcadYr! + 1).toString() : null;
-                                  });
-                                },
-                                // selectedItem: "2021-2022",
-                              ),
-                            ), //AACADEMIC YEAR
-                            const Padding(
-                              padding: EdgeInsets.only(top: 20.0),
-                              child: Text("Academic Year To"),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                child: Center(child: Text(_chosenValueAcadYrTwo ?? "-")),
-                                height: 40,
-                                width: 200,
-                                decoration:
-                                    BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(4.0)), border: Border.all(color: containerBorderColor)),
-                              ),
-                            ),
-                            const SizedBox(height: 30),
-                            ElevatedButton(
-                                onPressed: () async {
-                                  if (_chosenValueAcadYrOne == null) {
-                                    setState(() {
-                                      final snackBar = SnackBar(
-                                        content: const Text(' Academic Year from or to cannot be empty'),
-                                        backgroundColor: (Colors.red),
-                                        action: SnackBarAction(
-                                          label: 'dismiss',
-                                          textColor: Colors.white,
-                                          onPressed: () {},
+                        width: screenW < 500 ? 290 : 490,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 2.0),
+                                child: Wrap(
+                                  children: [
+                                    Container(
+                                      width: 220,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: DropdownSearch<String>(
+                                          mode: Mode.MENU,
+                                          items: listOfAcadYrforCV,
+                                          dropdownSearchDecoration: const InputDecoration(
+                                            hintText: "Select an Acad Yr From",
+                                            labelText: "Academic Year From*",
+                                            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                                            border: OutlineInputBorder(),
+                                          ),
+                                          isFilteredOnline: true,
+                                          showSearchBox: true,
+                                          onChanged: (v) {
+                                            setState(() {
+                                              _chosenValueAcadYrOne = v;
+                                              _int_chosenValueAcadYr = _chosenValueAcadYrOne != null ? int.parse(_chosenValueAcadYrOne!) : null;
+                                              _chosenValueAcadYrTwo = _chosenValueAcadYrOne != null ? (_int_chosenValueAcadYr! + 1).toString() : null;
+                                            });
+                                          },
+                                          // selectedItem: "2021-2022",
                                         ),
-                                      );
-                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                    });
-                                  } else {
-                                    String tempAcadYr = "$_chosenValueAcadYrOne-$_chosenValueAcadYrTwo";
-                                    createAcadYr_responseBody = await httpPost(
-                                      msgToSend: {"acadYr": tempAcadYr.toString().toLowerCase(), "updatedBy": userName},
-                                      destinationPort: 8080,
-                                      destinationPost: "/addAcademicYear",
-                                      destinationUrl: mainDomain,
-                                    );
-                                    print("responseBody = $createAcadYr_responseBody");
-                                    if (createAcadYr_responseBody == "Academic Year Alread Exists") {
+                                      ),
+                                    ), //AACADEMIC YEAR FROM
+                                    Container(
+                                      width: 200,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: DropdownSearch<String>(
+                                          mode: Mode.MENU,
+                                          items: listOfAcadYrMonthforCV,
+                                          dropdownSearchDecoration: const InputDecoration(
+                                            hintText: "Select Month",
+                                            labelText: "Month From*",
+                                            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                                            border: OutlineInputBorder(),
+                                          ),
+                                          isFilteredOnline: true,
+                                          showSearchBox: true,
+                                          onChanged: (v) {
+                                            setState(() {
+                                              monthFrom = v;
+                                            });
+                                            print("monthFrom = $monthFrom");
+                                          },
+                                        ),
+                                      ),
+                                    ), //AACADEMIC MONTH FROM
+                                  ],
+                                ),
+                              ), //AACADEMIC YEAR FROM
+                              Wrap(
+                                children: [
+                                  Container(
+                                    width: 220,
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(top: screenW < 500 ? 30 : 20.0),
+                                          child: const Text("Academic Year To"),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            child: Center(child: Text(_chosenValueAcadYrTwo ?? "-")),
+                                            height: 40,
+                                            width: 200,
+                                            decoration: BoxDecoration(
+                                                borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                                                border: Border.all(color: containerBorderColor)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 200,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: screenW < 500 ? 8 : 37.0, left: 8, right: 8, bottom: 8),
+                                      child: DropdownSearch<String>(
+                                        mode: Mode.MENU,
+                                        items: listOfAcadYrMonthforCV,
+                                        dropdownSearchDecoration: const InputDecoration(
+                                          hintText: "Select Month",
+                                          labelText: "Month To*",
+                                          contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        isFilteredOnline: true,
+                                        showSearchBox: true,
+                                        onChanged: (v) {
+                                          setState(() {
+                                            monthTo = v;
+                                          });
+                                          print("monthTo = $monthTo");
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ), //AACADEMIC YEAR TO
+
+                              const SizedBox(height: 30),
+                              ElevatedButton(
+                                  onPressed: () async {
+                                    if (_chosenValueAcadYrOne == null || monthFrom == null || monthTo == null) {
                                       setState(() {
                                         final snackBar = SnackBar(
-                                          content: const Text("Academic Year Alread Exists"),
+                                          content: const Text(' Academic Yr & Mth from or to cannot be empty'),
                                           backgroundColor: (Colors.red),
                                           action: SnackBarAction(
                                             label: 'dismiss',
                                             textColor: Colors.white,
-                                            onPressed: () {},
-                                          ),
-                                        );
-                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                      });
-                                    } else if (createAcadYr_responseBody == "Saved") {
-                                      setState(() {
-                                        showAddAcadYr = false;
-                                        Provider.of<Data>(context, listen: false).refPageEditAcadyr(true);
-                                        final snackBar = SnackBar(
-                                          content: const Text('Academic Year has been added in the System'),
-                                          backgroundColor: (Colors.black),
-                                          action: SnackBarAction(
-                                            label: 'dismiss',
                                             onPressed: () {},
                                           ),
                                         );
                                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                       });
                                     } else {
-                                      setState(() {
-                                        final snackBar = SnackBar(
-                                          content: const Text('Sorry encountered a server error'),
-                                          backgroundColor: (Colors.red),
-                                          action: SnackBarAction(
-                                            label: 'dismiss',
-                                            textColor: Colors.white,
-                                            onPressed: () {},
-                                          ),
-                                        );
-                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                      });
+                                      String tempAcadYr = "$_chosenValueAcadYrOne-$_chosenValueAcadYrTwo";
+                                      createAcadYr_responseBody = await httpPost(
+                                        msgToSend: {
+                                          "acadYr": tempAcadYr.toString().toLowerCase(),
+                                          "starting_month":monthFrom,
+                                          "ending_month": monthTo,
+                                          "updatedBy": userName
+                                        },
+                                        destinationPort: 8080,
+                                        destinationPost: "/addAcademicYear",
+                                        destinationUrl: mainDomain,
+                                      );
+                                      print("responseBody = $createAcadYr_responseBody");
+                                      if (createAcadYr_responseBody == "Academic Year Alread Exists") {
+                                        setState(() {
+                                          final snackBar = SnackBar(
+                                            content: const Text("Academic Year Alread Exists"),
+                                            backgroundColor: (Colors.red),
+                                            action: SnackBarAction(
+                                              label: 'dismiss',
+                                              textColor: Colors.white,
+                                              onPressed: () {},
+                                            ),
+                                          );
+                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                        });
+                                      } else if (createAcadYr_responseBody == "Saved") {
+                                        setState(() {
+                                          showAddAcadYr = false;
+                                          Provider.of<Data>(context, listen: false).refPageEditAcadyr(true);
+                                          final snackBar = SnackBar(
+                                            content: const Text('Academic Year has been added in the System'),
+                                            backgroundColor: (Colors.black),
+                                            action: SnackBarAction(
+                                              label: 'dismiss',
+                                              onPressed: () {},
+                                            ),
+                                          );
+                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                        });
+                                        _chosenValueAcadYrOne = null;
+                                        _int_chosenValueAcadYr = null;
+                                        _chosenValueAcadYrTwo = null;
+                                        monthFrom = null;
+                                        monthTo = null;
+                                      } else {
+                                        setState(() {
+                                          final snackBar = SnackBar(
+                                            content: const Text('Sorry encountered a server error'),
+                                            backgroundColor: (Colors.red),
+                                            action: SnackBarAction(
+                                              label: 'dismiss',
+                                              textColor: Colors.white,
+                                              onPressed: () {},
+                                            ),
+                                          );
+                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                        });
+                                      }
                                     }
-                                  }
-                                },
-                                child: const Text("Create"))
-                          ],
+                                  },
+                                  child: const Text("Create"))
+                            ],
+                          ),
                         )),
                   ),
                 ],
@@ -447,7 +540,7 @@ class _AcadYrCreateViewDELETEState extends State<AcadYrCreateViewDELETE> {
                                       );
                                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                     });
-                                  }else if (deleteAcadYr_responseBody == "Academic year is in use in one or more of the divisions") {
+                                  } else if (deleteAcadYr_responseBody == "Academic year is in use in one or more of the divisions") {
                                     setState(() {
                                       final snackBar = SnackBar(
                                         content: Text("Academic Year $deleteAcadYrYear is in use in one or more of the Divisions"),
@@ -531,10 +624,15 @@ class _AcademicYrCreateViewEditState extends State<AcademicYrCreateViewEdit> {
     _controllerAcadYrFROM.dispose();
     _controllerAcadYrTO.dispose();
   }
+  bool firstchange = false;
   String? _chosenValueAcadYrOne;
   int? _int_chosenValueAcadYr;
 
+  String? monthFrom;
+  String? monthTo;
+
   String? _chosenValueAcadYrTwo;
+  List<String> listOfAcadYrMonthforCV = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
   List<String> listOfAcadYrforCV = [
     '2017',
     '2018',
@@ -576,28 +674,30 @@ class _AcademicYrCreateViewEditState extends State<AcademicYrCreateViewEdit> {
     '2054',
     '2055'
   ];
+
   @override
   Widget build(BuildContext context) {
+
     return GlassContainer(
         height: 500,
         width: (widget.screenW) - 2,
         child: Center(
           child: SizedBox(
             height: 280,
-            width: 260,
+            width: widget.screenW < 500 ? 310 : 510,
             child: Card(
               child: Column(
                 children: [
                   Container(
                       //TOP BAR
                       height: 30,
-                      width: 250,
+                      width: widget.screenW < 500 ? 300 : 500,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const SizedBox(
-                            width: 220,
-                            child: Center(
+                          SizedBox(
+                            width: widget.screenW < 500 ? 270 : 470,
+                            child: const Center(
                               child: Padding(
                                 padding: EdgeInsets.only(left: 15.0),
                                 child: Text(
@@ -611,6 +711,11 @@ class _AcademicYrCreateViewEditState extends State<AcademicYrCreateViewEdit> {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
+                                _chosenValueAcadYrOne = null;
+                                _int_chosenValueAcadYr = null;
+                                _chosenValueAcadYrTwo = null;
+                                monthFrom = null;
+                                monthTo = null;
                                 setState(() {
                                   showEditAcadYr = false;
                                   Provider.of<Data>(context, listen: false).refPageEditAcadyr(true);
@@ -639,46 +744,119 @@ class _AcademicYrCreateViewEditState extends State<AcademicYrCreateViewEdit> {
                   Center(
                     child: SizedBox(
                         height: 240,
-                        width: 200,
+                        width:widget.screenW < 500 ? 290 : 490,
                         child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: DropdownSearch<String>(
-                                mode: Mode.MENU,
-                                items: listOfAcadYrforCV,
-                                dropdownSearchDecoration: const InputDecoration(
-                                  hintText: "Select an Acad Yr From",
-                                  labelText: "Academic Year From*",
-                                  contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
-                                  border: OutlineInputBorder(),
-                                ),
-                                isFilteredOnline: true,
-                                showSearchBox: true,
-                                onChanged: (v) {
-                                  setState(() {
-                                    _chosenValueAcadYrOne = v;
-                                    _int_chosenValueAcadYr = _chosenValueAcadYrOne != null ? int.parse(_chosenValueAcadYrOne!) : null;
-                                    _chosenValueAcadYrTwo = _chosenValueAcadYrOne != null ? (_int_chosenValueAcadYr! + 1).toString() : null;
-                                  });
-                                },
-                                // selectedItem: "2021-2022",
+                              padding: const EdgeInsets.only(top: 2.0),
+                              child: Wrap(
+                                children: [
+                                  Container(
+                                    width:220,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: DropdownSearch<String>(
+                                        mode: Mode.MENU,
+                                        items: listOfAcadYrforCV,
+                                        dropdownSearchDecoration: const InputDecoration(
+                                          hintText: "Select an Acad Yr From",
+                                          labelText: "Academic Year From*",
+                                          contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        isFilteredOnline: true,
+                                        showSearchBox: true,
+                                        onChanged: (v) {
+                                          setState(() {
+                                            firstchange =true;
+                                            _chosenValueAcadYrOne = v;
+                                            _int_chosenValueAcadYr = _chosenValueAcadYrOne != null ? int.parse(_chosenValueAcadYrOne!) : null;
+                                            _chosenValueAcadYrTwo = _chosenValueAcadYrOne != null ? (_int_chosenValueAcadYr! + 1).toString() : null;
+                                          });
+                                        },
+                                        selectedItem: editAcadYrFrom,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 200,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: DropdownSearch<String>(
+                                        mode: Mode.MENU,
+                                        selectedItem: editAcadYrMonthFrom,
+                                        items: listOfAcadYrMonthforCV,
+                                        dropdownSearchDecoration: const InputDecoration(
+                                          hintText: "Select Month",
+                                          labelText: "Month From*",
+                                          contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        isFilteredOnline: true,
+                                        showSearchBox: true,
+                                        onChanged: (v) {
+                                          setState(() {
+                                            monthFrom = v;
+                                          });
+                                          print("monthFrom = $monthFrom");
+                                        },
+                                      ),
+                                    ),
+                                  ), //AACADEMIC MONTH FROM
+                                ],
                               ),
                             ), //AACADEMIC YEAR
-                            const Padding(
-                              padding: EdgeInsets.only(top: 20.0),
-                              child: Text("Academic Year To"),
+                            Wrap(
+                              children: [
+                                Container(
+                                  width:220,
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(top: widget.screenW < 500 ? 30 : 20.0),
+                                        child: const Text("Academic Year To"),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          child: Center(child: Text(firstchange == false? editAcadYrTo!: _chosenValueAcadYrTwo ?? "-")),
+                                          height: 40,
+                                          width: 200,
+                                          decoration: BoxDecoration(
+                                              borderRadius: const BorderRadius.all(Radius.circular(4.0)), border: Border.all(color: containerBorderColor)),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: 200,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: widget.screenW < 500 ? 8 : 37.0, left: 8, right: 8, bottom: 8),
+                                    child: DropdownSearch<String>(
+                                      selectedItem: editAcadYrMonthTo,
+                                      mode: Mode.MENU,
+                                      items: listOfAcadYrMonthforCV,
+                                      dropdownSearchDecoration: const InputDecoration(
+                                        hintText: "Select Month",
+                                        labelText: "Month To*",
+                                        contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                                        border: OutlineInputBorder(),
+                                      ),
+                                      isFilteredOnline: true,
+                                      showSearchBox: true,
+                                      onChanged: (v) {
+                                        setState(() {
+                                          monthTo = v;
+                                        });
+                                        print("monthTo = $monthTo");
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                child: Center(child: Text(_chosenValueAcadYrTwo ?? "-")),
-                                height: 40,
-                                width: 200,
-                                decoration:
-                                BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(4.0)), border: Border.all(color: containerBorderColor)),
-                              ),
-                            ),
+
                             const SizedBox(height: 30),
                             ElevatedButton(
                                 onPressed: () async {
@@ -709,11 +887,37 @@ class _AcademicYrCreateViewEditState extends State<AcademicYrCreateViewEdit> {
                                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                     });
                                   } else {
-                                    String tempAcadYr = "$_chosenValueAcadYrOne-$_chosenValueAcadYrTwo";
+                                    String tempAcadYr;
+
+                                    if(_chosenValueAcadYrOne == null){
+                                      tempAcadYr = "$editAcadYrFrom-$editAcadYrTo";
+                                    }else{
+                                      tempAcadYr = "$_chosenValueAcadYrOne-$_chosenValueAcadYrTwo";
+                                    }
+
+                                    String? monthFromSend;
+                                    if(monthFrom == null){
+                                      monthFromSend = editAcadYrMonthFrom;
+                                    }else{
+                                      monthFromSend = monthFrom;
+                                    }
+
+
+                                    String? monthToSend;
+                                    if(monthTo == null){
+                                      monthToSend = editAcadYrMonthTo;
+                                    }else{
+                                      monthToSend = monthTo;
+                                    }
+
+
+
                                     editAcadYr_responseBody = await httpPost(
                                       msgToSend: {
                                         "msg": "editAcadYrinDB",
                                         "acadYr": tempAcadYr.toString().toLowerCase(),
+                                        "starting_month": monthFromSend,
+                                        "ending_month":monthToSend,
                                         "updatedBy": userName,
                                         "yeartoEdit": editAcadYrFromAndTo!
                                       },

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gws/screens/classList/divisionCreateView.dart';
+import 'package:gws/screens/feesPage/createInstallments/feesInstallmentsCreate.dart';
 import 'package:gws/screens/students/FilteredPanelStudent.dart';
 import 'package:gws/screens/students/add_student_page.dart';
 import 'dart:io';
@@ -98,12 +99,21 @@ class Data extends ChangeNotifier {
     notifyListeners();
   }
   //
-  // bool refreshGetDataDiv = false;
-  //
-  // void refreshGetDataDivfunc(ref) {
-  //   refreshGetDataDiv= ref;
-  //   notifyListeners();
-  // }
+  bool refreshInstallmentDate = false;
+
+  void refreshInstallmentDatefunc(ref) {
+    refreshInstallmentDate= ref;
+    notifyListeners();
+  }
+
+  bool refInstallmentTable = true;
+
+  void refInstallmentTablefunc(ref) {
+    refInstallmentTable = ref;
+    notifyListeners();
+  }
+
+
 
 
 }
@@ -854,4 +864,80 @@ String functionPasswordGenerator() {
   generatedList.shuffle();
   String stringToReturn = generatedList.join();
   return stringToReturn;
+}
+
+
+
+String funcToGetAcadYrFromDiv(div){
+  List<String> splitDiv = div.split(" ");
+  String acadYr = splitDiv[2].substring(1,10);
+  return acadYr;
+}
+
+String funcToGetClassFromDiv(div){
+  List<String> splitDiv = div.split(" ");
+  String standardFromDiv = splitDiv[0];
+  return standardFromDiv;
+}
+
+
+
+Future<double> funcToGetMainFeeTotalFees(div)async{
+  List<dynamic> _divData = await getDatadivisionDataDetials([div]);
+  double _totalFees = double.parse(_divData[0][0]["fees"]["main_fees"][0]["total_fees"].toString());
+  debugMode == false ? null :print("_totalFees = $_totalFees");
+  return _totalFees;
+}
+
+double funcCalculatePendingFees(totalAmount){
+  double totalAmountfromInstallments = 0;
+  print("customInstallmentAmount = $customInstallmentAmount");
+  customInstallmentAmount.forEach((e) {
+    double _amount = double.parse(e);
+    totalAmountfromInstallments = totalAmountfromInstallments + _amount;
+  });
+  double pendingAmount = 0;
+  pendingAmount = totalAmount - totalAmountfromInstallments;
+  return pendingAmount;
+}
+
+//---------------------------------------- Validity Function for Installments -----------------------------------------
+
+String? funcValidPendingAmount(pendingAmount){
+  if(pendingAmount != 0){
+    return "Pending Amount Should be 0";
+  }else{ return null;}
+}
+
+String? funcValidInstallmentAmount(listofAmount){
+  if(listofAmount != null){
+    List<String?> _errorText  = [];
+  for(var i in listofAmount){
+    print("i = $i");
+    if(i != "0") {
+      _errorText.add(funcValEmptyOrNumber(i, "Installment Amount"));
+    }else{
+      _errorText.add("Installment Amount cannot be 0");
+    }
+    }
+  print("_errorText = $_errorText");
+  bool _isValid = false;
+  int? installmentnumb;
+    for (int e = 0; e < _errorText.length; e++) {
+      print("@@@@@@@@@@@@@@@@@@@@@@@ ${_errorText[e]} @@@@@@@@@@@@@@@");
+      if(e != null){
+        _isValid = false;
+        installmentnumb = e;
+      }else{
+        _isValid = true;
+      }
+    }
+    if(_isValid == false){
+      return _errorText[installmentnumb!];
+    }else{return null;}
+
+
+  }else{
+    return "Installment Amount cannot be empty";
+  }
 }

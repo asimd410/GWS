@@ -13,7 +13,8 @@ import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import 'StudentsMain.dart';
-
+String firstAcadYrInSystem = "2018-2019";
+bool firstAcadYrISSelected = false;
 String? studentFirstNameAdd;
 String? studentLastNameAdd;
 String? fathersNameAdd;
@@ -98,6 +99,10 @@ List<dynamic> subcasteAddasStringList = [Status.dropdown];
 List<String> differentlyAbledListAdd = [];
 List<dynamic> differentlyAbledAddasStringList = [Status.dropdown];
 bool differentlyAbledBool = false;
+
+bool newAdmissioninFirstAcadYrinsystem = false;
+
+
 
 bool rTE = false;
 bool enableStatus = true;
@@ -897,7 +902,13 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                                 }
                                               });
                                             }
-
+                                           for (var e in divList!) {
+                                             if(e.contains(firstAcadYrInSystem)){
+                                               setState(() {
+                                                 firstAcadYrISSelected = true;
+                                               });
+                                             }
+                                           }
                                             firstNlastClassDetials = funcGetAdmittedClassAnddiv();
 
                                             firstAcadYr = firstNlastClassDetials[2].substring(1, 10);
@@ -931,6 +942,67 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                             "Academic Year: ${acadYearNClassAdd == null ? "" : acadYearNClassAdd![0][acadYearNClassAdd![0].lastKey()]}-${acadYearNClassAdd == null ? "" : acadYearNClassAdd![0][acadYearNClassAdd![0].lastKey()] + 1}"),
                                       ),
                                     ), //ACADEMIC YEAR
+                                    firstAcadYrISSelected == true?
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 8.0,
+                                        left: 8,
+                                        top: 20,
+                                      ),
+                                      child: Container(
+                                        width: 300,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(width: 1, color: Colors.grey),
+                                            borderRadius: const BorderRadius.all(Radius.circular(3))),
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                             Padding(
+                                               padding: const EdgeInsets.all(8.0),
+                                               child: Column(
+                                                 children: [
+                                                   Text("New Admission"),
+                                                   Text("in $firstAcadYrInSystem"),
+                                                 ],
+                                               ),
+                                             ),
+                                            SizedBox(
+                                              width: 70,
+                                              child: ListTile(
+                                                title: const Text("Y"),
+                                                leading: Radio(
+                                                    value: true,
+                                                    groupValue: newAdmissioninFirstAcadYrinsystem,
+                                                    onChanged: (v) {
+                                                      setState(() {
+                                                        newAdmissioninFirstAcadYrinsystem = true;
+                                                      });
+                                                      print("newAdmissioninFirstAcadYrinsystem = $newAdmissioninFirstAcadYrinsystem");
+                                                    }),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 70,
+                                              child: ListTile(
+                                                title: const Text("N"),
+                                                leading: Radio(
+                                                    value: false,
+                                                    groupValue: newAdmissioninFirstAcadYrinsystem,
+                                                    onChanged: (v) {
+                                                      setState(() {
+                                                        newAdmissioninFirstAcadYrinsystem = false;
+                                                      });
+                                                      print("newAdmissioninFirstAcadYrinsystem = $newAdmissioninFirstAcadYrinsystem");
+                                                    }),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                        :
+                                    Container(),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                         right: 8.0,
@@ -1306,33 +1378,50 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       // funcforValidation(ValidityFuncStringNotEmpty(casteAdd, "Caste"));
                                       //  funcforValidation(ValidityFuncStringNotEmpty(placeOfBirthAdd, "Place Of Birth"));
                                       //  funcforValidation(ValidityFuncListNotEmpty(divList, "Division"));
-
-                                      divList!.forEach((e) {
-                                        int _count = 0;
-                                        List<String> _tempSplitofE = e.split(" ");
-                                        String _tempAcadYear = _tempSplitofE[2];
-                                        divList!.forEach((j) {
-                                          if(j.contains(_tempAcadYear)){
-                                            _count++;
+                                      if(divList!.isNotEmpty) {
+                                        divList!.forEach((e) {
+                                          int _count = 0;
+                                          List<String> _tempSplitofE = e.split(" ");
+                                          String _tempAcadYear = _tempSplitofE[2];
+                                          divList!.forEach((j) {
+                                            if (j.contains(_tempAcadYear)) {
+                                              _count++;
+                                            }
+                                          });
+                                          if (_count > 1) {
+                                            setState(() {
+                                              final snackBar = SnackBar(
+                                                content: Text("Two or more Divisions have the same Academic Year"),
+                                                backgroundColor: (snackbarErrorBg),
+                                                action: SnackBarAction(
+                                                  label: 'dismiss',
+                                                  textColor: snackbarErrorTxt,
+                                                  onPressed: () {},
+                                                ),
+                                              );
+                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                            });
+                                            isValid = false;
+                                          }
+                                          else{
+                                            isValid = true;
                                           }
                                         });
-                                        if(_count >1){
-                                          setState(() {
-                                            final snackBar = SnackBar(
-                                              content: Text("Two or more Divisions have the same Academic Year"),
-                                              backgroundColor: (snackbarErrorBg),
-                                              action: SnackBarAction(
-                                                label: 'dismiss',
-                                                textColor: snackbarErrorTxt,
-                                                onPressed: () {},
-                                              ),
-                                            );
-                                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                          });
-                                          isValid = false;
-                                        }
-                                      });
-
+                                      }else{
+                                        isValid = false;
+                                        setState(() {
+                                          final snackBar = SnackBar(
+                                            content: const Text("Select Division cannot be Empty"),
+                                            backgroundColor: (snackbarErrorBg),
+                                            action: SnackBarAction(
+                                              label: 'dismiss',
+                                              textColor: snackbarErrorTxt,
+                                              onPressed: () {},
+                                            ),
+                                          );
+                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                        });
+                                      }
 
                                      if (isValid == true) {
                                        addStudent_http_responseBodyJSON = await httpPost(
@@ -1393,6 +1482,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                            "student_lastAcadYr_Attended": lastAcadYr,
                                            "student_lastClass_Attended": lastClass,
                                            "student_lastDiv_Attended": lastDiv,
+                                           "firstAcadYrInSystem": firstAcadYrInSystem,
+                                           "newAdmissioninFirstAcadYrinsystem":newAdmissioninFirstAcadYrinsystem,
                                          },
                                          destinationPort: 8080,
                                          destinationPost: "/addStudent",
@@ -1461,7 +1552,12 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                            }
                                          }
                                          funcMakeVarNullStudents();
+                                         setState(() {
+                                           showAddStudent = false;
+                                           refreshStudentTable = true;
+                                           Provider.of<Data>(context, listen: false).refreshStudentMainfunc(true);
 
+                                         });
                                        }
                                      }
                                     },

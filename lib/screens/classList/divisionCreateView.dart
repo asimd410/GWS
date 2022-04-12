@@ -190,8 +190,9 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
   Widget build(BuildContext context) {
 
 
-    return GlassContainer(
+    return Container(
       width: (widget.screenW) - 2,
+      color:expansionPanelMainBodyColor,
       child: Center(
         child: SizedBox(
           width: 700,
@@ -286,6 +287,7 @@ class _DivisionCreateViewADDState extends State<DivisionCreateViewADD> {
                                                 onChanged: (val) {
                                                   setState(() {
                                                     divisionName = val;
+                                                    print("divisionName = $divisionName");
                                                   });
                                                 },
                                                 decoration: InputDecoration(
@@ -1822,7 +1824,7 @@ class _DevisionCreateViewEDITState extends State<DevisionCreateViewEDIT> {
   }
 
   Widget build(BuildContext context) {
-    return GlassContainer(
+    return Container(
       width: (widget.screenW) - 2,
       child: Center(
         child: SizedBox(
@@ -3372,7 +3374,7 @@ class DevisionCreateViewDELETE extends StatefulWidget {
 class _DevisionCreateViewDELETEState extends State<DevisionCreateViewDELETE> {
   @override
   Widget build(BuildContext context) {
-    return GlassContainer(
+    return Container(
         height: 500,
         child: Padding(
           padding: const EdgeInsets.only(top: 150.0),

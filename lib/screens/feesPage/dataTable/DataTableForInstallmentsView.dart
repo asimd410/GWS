@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gws/functionAndVariables/CommVariables.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_table/responsive_table.dart';
 import 'dart:math';
 import 'dart:convert';
@@ -7,17 +8,21 @@ import 'package:gws/functionAndVariables/funcCust.dart';
 import 'package:gws/screens/classList/academicYrCreateView.dart';
 import 'package:provider/provider.dart';
 import 'package:gws/functionAndVariables/funcCust.dart';
+import 'package:gws/screens/feesPage/createInstallments/feesInstallmentsCreate.dart';
 
-class DataPageAcadYr extends StatefulWidget {
+import '../feeInstallmentList.dart';
+
+class DataPageInstallment extends StatefulWidget {
   double width;
+  double height;
 
-  DataPageAcadYr({required this.width});
+  DataPageInstallment({required this.width, required this.height});
 
   @override
-  _DataPageAcadYrState createState() => _DataPageAcadYrState();
+  _DataPageInstallmentState createState() => _DataPageInstallmentState();
 }
 
-class _DataPageAcadYrState extends State<DataPageAcadYr> {
+class _DataPageInstallmentState extends State<DataPageInstallment> {
   late List<DatatableHeader> _headers;
 
   List<int> _perPages = [10, 20, 50, 100];
@@ -42,58 +47,41 @@ class _DataPageAcadYrState extends State<DataPageAcadYr> {
   bool _showSelect = true;
   var random = new Random();
 
-  // List<Map<String, dynamic>> _generateData({int n: 100}) {
-  //   final List source = List.filled(n, Random.secure());
-  //   List<Map<String, dynamic>> temps = [];
-  //   var i = 1;
-  //   print(i);
-  //   // ignore: unused_local_variable
-  //   for (var data in source) {
-  //     temps.add({
-  //       "id": "_id",
-  //       "standard_name": "standard_name",
-  //       "date_time":"date_time"
-  //     });
-  //     i++;
-  //   }
-  //   return temps;
-  // }
-
   _initializeData() async {
     _mockPullData();
   }
 
   _mockPullData() async {
-    showAcadYr_responseBodyJSON = await httpPost(
-      msgToSend: {"msg": "viewAcadYrinDB"},
+    showInstallment_responseBodyJSON = await httpPost(
+      msgToSend: {"msg": "viewInstallmentsDB"},
       destinationPort: 8080,
-      destinationPost: "/addAcademicYear/viewAcadYrinDB",
+      destinationPost: "/feeInstallment/viewInstallmentsDB",
       destinationUrl: mainDomain,
     );
-    var showAcadYr_responseBody = json.decode(showAcadYr_responseBodyJSON!);
-    // print("showAcadYr_responseBody .runtimeType = ${showAcadYr_responseBody.runtimeType}");
-    // print("showAcadYr_responseBody  = ${showAcadYr_responseBody[0]["_id"]}");
-    List<Map<String, dynamic>> showAcadYr_responseBodyTemp = [];
-    showAcadYr_responseBody.forEach((e) {
-      showAcadYr_responseBodyTemp.add(e);
+    var showInstallment_responseBody = json.decode(showInstallment_responseBodyJSON!);
+    print("showInstallment_responseBody .runtimeType = ${showInstallment_responseBody.runtimeType}");
+    print("showInstallment_responseBody  = ${showInstallment_responseBody[0]}");
+    List<Map<String, dynamic>> showInstallment_responseBodyTemp = [];
+    showInstallment_responseBody.forEach((e) {
+      showInstallment_responseBodyTemp.add(e);
     });
-    for (int i = 0; i < showAcadYr_responseBodyTemp.length; i++) {
-      showAcadYr_responseBodyTemp[i]["ShowID"] = i + 1;
-      showAcadYr_responseBodyTemp[i].remove("__v");
+    for (int i = 0; i < showInstallment_responseBodyTemp.length; i++) {
+      showInstallment_responseBodyTemp[i]["ShowID"] = i + 1;
+      showInstallment_responseBodyTemp[i].remove("__v");
     }
     _expanded = List.generate(_currentPerPage!, (index) => false);
     setState(() {
-      if (showAcadYr_responseBodyTemp.length <= 10) {
-        _perPages = [showAcadYr_responseBodyTemp.length];
-        _currentPerPage = showAcadYr_responseBodyTemp.length;
-      } else if (showAcadYr_responseBodyTemp.length > 10 && showAcadYr_responseBodyTemp.length < 20) {
-        _perPages = [10, showAcadYr_responseBodyTemp.length];
+      if (showInstallment_responseBodyTemp.length <= 10) {
+        _perPages = [showInstallment_responseBodyTemp.length];
+        _currentPerPage = showInstallment_responseBodyTemp.length;
+      } else if (showInstallment_responseBodyTemp.length > 10 && showInstallment_responseBodyTemp.length < 20) {
+        _perPages = [10, showInstallment_responseBodyTemp.length];
         _currentPerPage = 10;
-      } else if (showAcadYr_responseBodyTemp.length >= 20 && showAcadYr_responseBodyTemp.length < 50) {
-        _perPages = [10, 20, showAcadYr_responseBodyTemp.length];
+      } else if (showInstallment_responseBodyTemp.length >= 20 && showInstallment_responseBodyTemp.length < 50) {
+        _perPages = [10, 20, showInstallment_responseBodyTemp.length];
         _currentPerPage = 10;
-      } else if (showAcadYr_responseBodyTemp.length >= 50 && showAcadYr_responseBodyTemp.length < 100) {
-        _perPages = [10, 20, 50, showAcadYr_responseBodyTemp.length];
+      } else if (showInstallment_responseBodyTemp.length >= 50 && showInstallment_responseBodyTemp.length < 100) {
+        _perPages = [10, 20, 50, showInstallment_responseBodyTemp.length];
         _currentPerPage = 10;
       }
     });
@@ -106,7 +94,7 @@ class _DataPageAcadYrState extends State<DataPageAcadYr> {
     Future.delayed(Duration(seconds: 3)).then((value) {
       _expanded = List.generate(_currentPerPage!, (index) => false);
       _sourceOriginal.clear();
-      _sourceOriginal.addAll(showAcadYr_responseBodyTemp
+      _sourceOriginal.addAll(showInstallment_responseBodyTemp
           // _generateData(n: random.nextInt(10000))
           );
       _sourceFiltered = _sourceOriginal;
@@ -154,14 +142,82 @@ class _DataPageAcadYrState extends State<DataPageAcadYr> {
 
     /// set headers
     _headers = [
-      DatatableHeader(text: "ID", value: "ShowID", flex: 2, show: true, sortable: true, textAlign: TextAlign.center),
+      DatatableHeader(text: "ID", value: "ShowID", flex: 1, show: true, sortable: true, textAlign: TextAlign.center),
       DatatableHeader(
-          text: "Academic Year",
-          value: "year",
+          text: widget.width < 500 ?"Div":"Division",
+          value: "division",
+          show: true,
+          flex: 2,
+          sortable: true,
+          // editable: true,
+          sourceBuilder: (v, r) {
+            return Center(child: Text(v["division_name"].toString()));
+          },
+          textAlign: TextAlign.center),
+      DatatableHeader(
+          text: widget.width < 500 ? "Instl.":"Installments",
+          value: "installments",
           show: true,
           flex: 1,
           sortable: true,
           // editable: true,
+          sourceBuilder: (v, r) {
+            return v == null
+                ? Center(
+                    child: ElevatedButton(
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red.shade500)),
+                    onPressed: () {
+                      editInstallments = false;
+                      divSelectedFeeInstallment = r["division"]["division_name"];
+                      installmentID = r["_id"];
+                      setState(() {
+                        showInstallmentList = false;
+                      });
+                      Navigator.pushNamed(context, '/Fees_Installments');
+                    },
+                    child: widget.width < 500 ?Text("Add"):Text("Installments Not Added Yet"),
+                  ))
+                : Center(
+                    child: ElevatedButton(
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(editButtonAll)),
+                    onPressed: () {
+                      editInstallments = true;
+
+                      installmentsToShow.clear();
+                      customInstallmentAmount.clear();
+                      customInstallmentDateList.clear();
+                      customInstallmentDateListString.clear();
+
+                      installmentID = r["_id"];
+                      divSelectedFeeInstallment = r["division"]["division_name"];
+                      int j = 0;
+                      for (int i = 0; i < r["installments"].length; i++) {
+                        numberofInstallments = i + 1;
+                        String? _tempAmounttoAdd = r["installments"][i]["installment_Amount"].toString();
+                        customInstallmentAmount.add(_tempAmounttoAdd);
+                        print("customInstallmentAmount = $customInstallmentAmount");
+                        String? _tempdateString = r["installments"][i]["installment_date_String"].toString();
+                        print("_tempdateString = $_tempdateString");
+                        List<String> list_tempdateString = _tempdateString.split("/");
+                        customInstallmentDateListString.add(_tempdateString);
+                        // print(DateTime.now());
+                        customInstallmentDateList.add(new DateFormat("yyyy-MM-dd hh:mm:ss")
+                            .parse("${list_tempdateString[2]}-${list_tempdateString[1]}-${list_tempdateString[0]} 00:00:00"));
+                        installmentsToShow.add(InstallmentCard(
+                          installmentNumber: numberofInstallments,
+                        ));
+                      }
+                      setState(() {
+                        showInstallmentList = false;
+                        Navigator.pushNamed(context, '/Fees_Installments');
+                      });
+                    },
+                    child: widget.width < 500 ?Text("Edit"): const Text(
+                      "Edit Installments",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ));
+          },
           textAlign: TextAlign.center),
       DatatableHeader(text: "Updated By", value: "updated_by", flex: 2, show: true, sortable: true, textAlign: TextAlign.center),
       DatatableHeader(text: "Updated", value: "date_time", flex: 2, show: true, sortable: true, textAlign: TextAlign.center),
@@ -195,15 +251,15 @@ class _DataPageAcadYrState extends State<DataPageAcadYr> {
                   Container(
                     margin: EdgeInsets.all(10),
                     padding: EdgeInsets.all(0),
-                    constraints: const BoxConstraints(
-                      maxHeight: 380,
+                    constraints:  BoxConstraints(
+                      maxHeight: widget.height -60,
                     ),
                     child: Card(
                       elevation: 1,
                       shadowColor: Colors.black,
                       clipBehavior: Clip.none,
                       child: Container(
-                        width: widget.width,
+                        width: widget.width < 500 ?500 :widget.width,
                         child: ResponsiveDatatable(
                           title: TextButton.icon(
                             onPressed: () {
@@ -412,89 +468,80 @@ class _DropDownContainerState extends State<_DropDownContainer> {
     //   return w;
     // }).toList();
 
-    List<String> acadYrList = widget.data["year"].split("-");
+    // List<String> acadYrList = widget.data["year"].split("-");
+
+    List<Widget> installmentsList = [];
+    for(int i = 0; i < widget.data["installments"].length; i++){
+     Widget _tempWidgetToAdd =  Column(
+        children: [
+          const Divider(),
+          Text("${widget.data["installments"][i]["installment_name"]}", style: const TextStyle(fontWeight: FontWeight.bold)),
+          Row(
+            children: [
+              const Text("Amount: ", style: TextStyle(fontWeight: FontWeight.bold)),
+              Text("${widget.data["installments"][i]["installment_Amount"]}")
+            ],
+          ),
+          Row(
+            children: [
+              const Text("Due-Date:", style: TextStyle(fontWeight: FontWeight.bold)),
+              Text("${widget.data["installments"][i]["installment_date_String"]}"),
+
+            ],
+          ),
+          const Divider()
+        ],
+      );
+     installmentsList.add(_tempWidgetToAdd);
+    }
+    Widget installments = Column(
+      children: installmentsList,
+    );
 
 
-    Widget _child = Column(children: [
-      Row(
-        children: [
-          const Text("Sr.No. :-----", style:TextStyle(fontWeight: FontWeight.bold)),Text(widget.data["ShowID"].toString()),
-        ],
-      ),
-      Row(
-        children: [
-          const Text("Academic Year :-----", style:TextStyle(fontWeight: FontWeight.bold)),Text(widget.data["year"].toString()),
-        ],
-      ),
-      Row(
-        children: [
-          const Text("Academic From :-----", style:TextStyle(fontWeight: FontWeight.bold)),Text("${acadYrList[0]} ${widget.data["starting_month"].toString()}"),
-        ],
-      ),
-      Row(
-        children: [
-          const Text("Academic To :-----", style:TextStyle(fontWeight: FontWeight.bold)),Text("${acadYrList[1]} ${widget.data["ending_month"].toString()}"),
-        ],
-      ),
-      Row(
-        children: [
-          const Text("Updated By :-----", style:TextStyle(fontWeight: FontWeight.bold)),Text(widget.data["updated_by"].toString()),
-        ],
-      ),Row(
-        children: [
-          const Text("Updated On :-----", style:TextStyle(fontWeight: FontWeight.bold)),Text(widget.data["date_time"].toString()),
-        ],
-      )
-    ],);
+
+    Widget _child = Column(
+      children: [
+        Row(
+          children: [
+            const Text("Sr.No. :-----", style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(widget.data["ShowID"].toString()),
+          ],
+        ),
+        Row(
+          children: [
+            const Text("Division :-----", style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(widget.data["division"]["division_name"].toString()),
+          ],
+        ),
+        installments,
+        Row(
+          children: [
+            const Text("Updated By :-----", style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(widget.data["updated_by"].toString()),
+          ],
+        ),
+        Row(
+          children: [
+            const Text("Updated On :-----", style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(widget.data["date_time"].toString()),
+          ],
+        )
+      ],
+    );
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    List<String> _tempeditAcadYr = widget.data["year"].split("-");
-                    editAcadYrFromAndTo = widget.data["year"];
-                    editAcadYrFrom = _tempeditAcadYr[0];
-                    editAcadYrTo = _tempeditAcadYr[1];
-                    editAcadYrMonthFrom = widget.data["starting_month"];
-                    editAcadYrMonthTo = widget.data["ending_month"];
-                    setState(() {
-                      showEditAcadYr = true;
-                      Provider.of<Data>(context, listen: false).refPageEditAcadyr(true);
-                      print(showEditAcadYr);
-                    });
-                  },
-                  child: Text("Edit"),
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(editButtonAll)),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    print("deleteAcadYr_id = widget.data['_id']; ======  ${widget.data["_id"]} ");
-                    deleteAcadYr_id = widget.data["_id"];
-                    deleteAcadYrYear = widget.data["year"];
-                    setState(() {
-                      delAcadYr= true;
-                      Provider.of<Data>(context, listen: false).refPageEditAcadyr(true);
-                    });
-                  },
-                  child: const Text("Delete"),
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(deleteButtonAll)),
-                )
-              ],
-            ),
-          ),
           Container(
-            /// height: 100,
-            child: _child
-            // Column(
+
+              /// height: 100,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: _child,
+              )
+              // Column(
               /// children: [
               ///   Expanded(
               ///       child: Container(
@@ -504,8 +551,8 @@ class _DropDownContainerState extends State<_DropDownContainer> {
 
               /// ],
               // children: _children,
-            // ),
-          ),
+              // ),
+              ),
         ],
       ),
     );
