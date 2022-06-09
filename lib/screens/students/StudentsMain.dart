@@ -27,7 +27,7 @@ class _StudentsMainState extends State<StudentsMain> {
   @override
   Widget build(BuildContext context) {
     double screenW = MediaQuery.of(context).size.width;
-    print(_isExpanded);
+
     //---------------------------- Filter Search Expansion Panel -----------------------------
     List<Widget> _expansionPanelBody = [
       FilteredPanelDesktop(screenW: screenW),
@@ -85,7 +85,6 @@ class _StudentMainSubState extends State<StudentMainSub> {
   Widget build(BuildContext context) {
     double screenW = MediaQuery.of(context).size.width;
     double screenH = MediaQuery.of(context).size.height;
-    print(_isExpanded);
     //---------------------------- Filter Search Expansion Panel -----------------------------
     List<Widget> _expansionPanelBody = [
       FilteredPanelDesktop(screenW: screenW),
@@ -96,33 +95,64 @@ class _StudentMainSubState extends State<StudentMainSub> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 30,
-              width: 140,
-              child: ElevatedButton(
-                  onPressed: () async {
-                    final progress = ProgressHUD.of(context);
-                    progress?.show();
-                    // Navigator.pushNamed(context, '/AddStudentPage');
-                    await funcToGenerateRandomUserName(10);
-                    initialValuePassword = functionPasswordGenerator();
-                    progress?.dismiss();
-                    setState(() {
-                      showAddStudent = true;
-                      Provider.of<Data>(context, listen: false).refreshStudentMainfunc(true);
-                    });
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text("Add Student"),
-                      Icon(Icons.add),
-                    ],
-                  )),
-            ),
+          Wrap(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 30,
+                  width: 140,
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        final progress = ProgressHUD.of(context);
+                        progress?.show();
+                        // Navigator.pushNamed(context, '/AddStudentPage');
+                        await funcToGenerateRandomUserName(10);
+                        initialValuePassword = functionPasswordGenerator();
+                        progress?.dismiss();
+                        setState(() {
+                          showAddStudent = true;
+                          Provider.of<Data>(context, listen: false).refreshStudentMainfunc(true);
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text("Add Student"),
+                          Icon(Icons.add),
+                        ],
+                      )),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 30,
+                  width: 280,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      var exceldata  = await excelToJson();
+
+                      // print("exceldata = $exceldata");
+                     var reply = await httpPost(
+                     destinationUrl: mainDomain,
+                     destinationPort:8080,
+                     destinationPost:"/testingExcel",
+                     msgToSend: {"msg":"hi", "updatedBy":userName, "excelData":exceldata });
+                    print("reply = $reply");
+                     },
+                    child: Row(
+                      children: const [
+                        Text("Add Students Using Excel Sheet "),
+                        Icon(Icons.playlist_add_check),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ), //ADD STUDENT BUTTON
+
           ExpansionPanelList(
             expansionCallback: (index, isExpanded) => setState(() {
               setState(() {

@@ -43,6 +43,8 @@ dependencies:
   font_awesome_flutter: ^9.2.0
   intl: ^0.17.0
   country_code_picker: ^2.0.2
+  file_picker: ^4.6.1
+  excel: ^2.0.0-null-safety-3
 
 
 dev_dependencies:

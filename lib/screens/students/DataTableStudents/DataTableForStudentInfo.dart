@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gws/functionAndVariables/CommVariables.dart';
 import 'package:gws/screens/students/add_student_page.dart';
+import 'package:gws/screens/students/wigForStudent/discountsWig.dart';
 import 'package:responsive_table/responsive_table.dart';
 import 'dart:math';
 import 'dart:convert';
@@ -8,6 +9,9 @@ import 'package:gws/functionAndVariables/funcCust.dart';
 import 'package:provider/provider.dart';
 
 import '../FilteredPanelStudent.dart';
+
+bool alternateColorBool = true;
+
 
 class DataPageStudentInfo extends StatefulWidget {
   double width;
@@ -218,9 +222,6 @@ class _DataPageStudentInfoState extends State<DataPageStudentInfo> {
     super.dispose();
     _controllerOne.dispose();
   }
-  @override
-
-
   @override
 
 
@@ -461,365 +462,73 @@ class _DropDownContainerState extends State<_DropDownContainer> {
     // }).toList();
     Widget _child = Column(
       children: [
-        Row(
-          children: [
-            const Text("Sr.No. :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["ShowID"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Full Name :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["name"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("First Name :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["first_Name"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Middle Name :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["middle_Name"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Last Name :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["last_name"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Gender :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_gender"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("UDISE ID :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_ID_UDISE"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Gr No. :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_GR_No"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Nationality :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_nationality"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Mother Tongue :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_mother_tongue"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Sibling :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Column(children: [
-              if (widget.data["sibling"].isNotEmpty)
-                for (int i = 0; i < widget.data["sibling"].length; i++) Text(widget.data["sibling"][i]["name"])
-              else
-                Text("   - ")
-            ])
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Father's Name :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_fathers_name"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Mother's Name :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_mothers_name"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Guardian's Name :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_guardians_name"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Address :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_address"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Father's Ph. No. :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_fathers_ph_no"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Mother's Ph. No. :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_mothers_ph_no"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Guardian's Ph. No. :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_guardians_ph_no"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Aadhar Nummber :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_aadhar_no"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Religion :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_religion"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Caste :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_caste"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("SubCaste :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_subcaste"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("RTE :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_RTE"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Date Of Birth :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_date_of_birth"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Place Of Birth Village/City :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_place_of_birth_villagecity"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Place Of Birth Taluka :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_place_of_birth_taluka"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Place Of Birth District :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_place_of_birth_district"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Place Of Birth State :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_place_of_birth_state"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Place Of Birth Country :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_place_of_birth_country"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Current Division :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_current_divison"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("All Divisions :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            // Text(widget.data["student_divisions"].toString()),
-            Column(children: [
-              if (widget.data["student_divisions"].isNotEmpty)
-                for (int i = 0; i < widget.data["student_divisions"].length; i++) Text(widget.data["student_divisions"][i]["division_name"])
-              else
-                Text("   - ")
-            ])
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Different Abled :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_differently_abled_bool"].toString()),
-          ],
-        ),
+        DetailsEntry(title: "Sr.No. :",result: widget.data["ShowID"].toString()),
+        DetailsEntry(title: "Full Name :",result: widget.data["name"].toString()),
+        DetailsEntry(title: "First Name :",result: widget.data["first_Name"].toString()),
+        DetailsEntry(title: "Middle Name :",result: widget.data["middle_Name"].toString()),
+        DetailsEntry(title: "Last Name :",result: widget.data["last_name"].toString()),
+        DetailsEntry(title: "Gender :",result: widget.data["student_gender"].toString()),
+        DetailsEntry(title: "UDISE ID :",result:widget.data["student_ID_UDISE"].toString()),
+        DetailsEntry(title: "Nationality :",result: widget.data["student_nationality"].toString()),
+        DetailsEntry(title: "Mother Tongue :",result: widget.data["student_mother_tongue"].toString()),
+        DetailsEntryIFEMPTY(title:"Sibling :",result: widget.data["sibling"], resultSub: "name", ),
+        DetailsEntry(title: "Father's Name :",result: widget.data["student_fathers_name"].toString()),
+        DetailsEntry(title: "Mother's Name :",result: widget.data["student_mothers_name"].toString()),
+        DetailsEntry(title: "Guardian's Name :",result: widget.data["student_guardians_name"].toString()),
+        DetailsEntry(title: "Address :",result: widget.data["student_address"].toString()),
+        DetailsEntry(title: "Father's Ph. No.:",result: widget.data["student_fathers_ph_no"].toString()),
+        DetailsEntry(title: "Mother's Ph. No. :",result: widget.data["student_mothers_ph_no"].toString()),
+        DetailsEntry(title: "Guardian's Ph. No. :",result: widget.data["student_guardians_ph_no"].toString()),
+        DetailsEntry(title: "Aadhar Nummber :",result: widget.data["student_mothers_ph_no"].toString()),
+        DetailsEntry(title: "Religion :",result: widget.data["student_religion"].toString()),
+        DetailsEntry(title: "Caste :",result: widget.data["student_caste"].toString()),
+        DetailsEntry(title: "SubCaste :",result: widget.data["student_subcaste"].toString()),
+        DetailsEntry(title: "RTE :",result: widget.data["student_RTE"].toString()),
+        DetailsEntry(title: "Date Of Birth :",result: widget.data["student_date_of_birth"].toString()),
+        DetailsEntry(title: "Place Of Birth Village/City :",result: widget.data["student_place_of_birth_villagecity"].toString()),
+        DetailsEntry(title: "Place Of Birth Taluka :",result: widget.data["student_place_of_birth_taluka"].toString()),
+        DetailsEntry(title: "Place Of Birth District :",result: widget.data["student_place_of_birth_district"].toString()),
+        DetailsEntry(title: "Place Of Birth State :",result: widget.data["student_place_of_birth_state"].toString()),
+        DetailsEntry(title: "Place Of Birth Country :",result: widget.data["student_place_of_birth_country"].toString()),
+        DetailsEntry(title: "Current Division:",result: widget.data["student_current_divison"].toString()),
+        DetailsEntryIFEMPTY(title:"All Divisions :",result: widget.data["student_divisions"], resultSub: "division_name", ),
+        DetailsEntry(title: "Different Abled :",result: widget.data["student_differently_abled_bool"].toString()),
         widget.data["student_differently_abled_bool"] == true
-            ? Row(
-                children: [
-                  const Text("Different Abled Details :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-                  widget.data["student_differently_abled_bool"] == false ? Text("NA") : Text(widget.data["student_differently_abled"].toString()),
-                ],
-              )
-            : Container(),
-        Row(
-          children: [
-            const Text("Total Fees :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text("Null"),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Pending Fees :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["Null"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Next Reminder :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["Null"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("In School Status :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_InSchool"] == true ? "Is Still a Student" : "Left School No More a Student"),
-          ],
-        ),
+            ? DetailsEntryDifferentlyAbled(conditionTitle: widget.data["student_differently_abled_bool"],result: widget.data["student_differently_abled"].toString(),) : Container(),
+        DetailsEntry(title: "Total Fees :",result: '${widget.data["student_fee_total"].toString() }----(from Admission Till Date)'),
+        DetailsEntry(title: "Pending Fees :",result: widget.data["student_fee_pending_calculated"].toString()),
+        DetailsEntry(title: "Next Reminder :",result: widget.data["Null"].toString()),
+        DetailsEntryInSchoolStatus(conditionTitle: widget.data["student_InSchool"],),
         widget.data["student_InSchool"] == false
-            ? Row(
-                children: [
-                  const Text("Leaving Date :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(widget.data["year"].toString()),
-                ],
-              )
+            ? DetailsEntry(title: "Leaving Date :",result:widget.data["year"].toString())
             : Container(),
         widget.data["student_InSchool"] == false
-            ? Row(
-                children: [
-                  const Text("Leaving from Division :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(widget.data["year"].toString()),
-                ],
-              )
+            ? DetailsEntry(title: "Leaving from Division :",result:widget.data["div_from_which_student_left"].toString())
             : Container(),
         widget.data["student_InSchool"] == false
-            ? Row(
-                children: [
-                  const Text("Reason For Leaving :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(widget.data["year"].toString()),
-                ],
-              )
+            ?DetailsEntry(title: "Reason For Leaving :",result:widget.data["reason_for_leaving_school"].toString())
             : Container(),
         widget.data["student_InSchool"] == false
-            ? Row(
-                children: [
-                  const Text("Student Progress :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(widget.data["year"].toString()),
-                ],
-              )
+            ? DetailsEntry(title: "Student Progress :",result:widget.data["student_progress"].toString())
             : Container(),
         widget.data["student_InSchool"] == false
-            ? Row(
-                children: [
-                  const Text("Student Conduct :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(widget.data["year"].toString()),
-                ],
-              )
+            ? DetailsEntry(title: "Student Conduct :",result:widget.data["student_conduct"].toString())
             : Container(),
-        Row(
-          children: [
-            const Text("Date Of Admission :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_DateOfAdmission"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Admitted in Acad Yr :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_AdmittedinAcadYr"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Admitted in Standard :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_AdmittedtoStandard"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Admitted in Division :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_AdmittedtoDiv"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Last School Attended :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_LastSchoolAttended"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Last School Attended Standard :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_LastSchoolStandard"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Last School Attended UDISE No. :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_LastSchoolUdiseNo"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Enabled Status :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_enable_status"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Notification Status :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_notification_status"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Notification Profile :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_notification_profile"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Username :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_username"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Password :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["student_password"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Updated By :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["updated_by"].toString()),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Updated On :-----", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(widget.data["date_time"].toString()),
-          ],
-        )
+        DetailsEntry(title: "Date Of Admission :",result: widget.data["student_DateOfAdmission"].toString()),
+        DetailsEntry(title: "Admitted in Acad Yr :",result: widget.data["student_AdmittedinAcadYr"].toString()),
+        DetailsEntry(title: "Admitted in Standard :",result: widget.data["student_AdmittedtoStandard"].toString()),
+        DetailsEntry(title: "Admitted in Division :",result: widget.data["student_AdmittedtoDiv"].toString()),
+        DetailsEntry(title: "Last School Attended :",result: widget.data["student_LastSchoolAttended"].toString()),
+        DetailsEntry(title: "Last School Attended Standard :",result: widget.data["student_LastSchoolStandard"].toString()),
+        DetailsEntry(title: "Last School Attended UDISE No. :",result: widget.data["student_LastSchoolUdiseNo"].toString()),
+        DetailsEntry(title: "Enabled Status :",result: widget.data["student_enable_status"].toString()),
+        DetailsEntry(title: "Notification Status :",result: widget.data["student_notification_status"].toString()),
+        DetailsEntry(title: "Notification Profile :",result: widget.data["student_notification_profile"].toString()),
+        DetailsEntry(title: "Username :",result: widget.data["student_username"].toString()),
+        DetailsEntry(title: "Password :",result: widget.data["student_password"].toString()),
+        DetailsEntry(title: "Updated By :",result: widget.data["updated_by"].toString()),
+        DetailsEntry(title: "Updated On :",result:widget.data["date_time"].toString()),
+
       ],
     );
 
@@ -984,6 +693,7 @@ class _DropDownContainerState extends State<_DropDownContainer> {
                       for(var i in widget.data["student_divisions"]){
                         divList!.add(i["division_name"]);
                       }
+                      funcSortDivList(divList);
                       divData = await getDatadivisionDataDetials(divList) as List;
                       acadYearNClassAdd = await funcGetClassAndAcadYrFromDiv();
                       if (acadYearNClassAdd != null) {
@@ -995,30 +705,44 @@ class _DropDownContainerState extends State<_DropDownContainer> {
                           }
                         });
                       }
-
+                      List<dynamic> listofINITAmt = [];
+                      for(int w = 0 ; w <widget.data["student_discount"].length ; w++){
+                        print('widget.data["student_discount"][w]["discount_amount"] = ${widget.data["student_discount"][w]["discount_amount"]}');
+                        listofINITAmt.add([widget.data["student_discount"][w]["acadyr"],widget.data["student_discount"][w]["discount_amount"]]);
+                      }
+                      functomakeListofDiscountWigsINIT(listofINITAmt);
                     }else{
                       divList!.clear();
+                      // fINALlistofDiscountsWigs.clear();
                     }
 
-                    if(divList!.isNotEmpty) {
-                      for (var e in divList!) {
-                        if (e.contains(firstAcadYrInSystem)) {
-                          setState(() {
-                            firstAcadYrISSelected = true;
-                            firstNlastClassDetials = funcGetAdmittedClassAnddiv();
-                            firstAcadYr = firstNlastClassDetials[2].substring(1, 10);
-                            firstClass = firstNlastClassDetials[1];
-                            firstDiv = firstNlastClassDetials[0];
 
-                            lastAcadYr = firstNlastClassDetials[5].substring(1, 10);
-                            lastClass = firstNlastClassDetials[4];
-                            lastDiv = firstNlastClassDetials[3];
 
-                            newAdmissioninFirstAcadYrinsystem = widget.data["student_AdmittedinAcadYr"] != null ? widget.data["student_AdmittedinAcadYr"] == firstAcadYrInSystem? true:false:false;
-                          });
-                        }
-                      }
-                    }
+                    asPerSystemFeePaid = widget.data["student_fee_paid_calculated"].toString();
+                    feePaid = widget.data["student_fee_paid_calculated"].toString();
+                    asPerSystemFeePending = widget.data["student_fee_pending_calculated_withDisocunt"].toString();
+                    feePending = widget.data["student_fee_pending_calculated_withDisocunt"].toString() ;
+
+
+                    // if(divList!.isNotEmpty) {
+                    //   for (var e in divList!) {
+                    //     if (e.contains(firstAcadYrInSystem)) {
+                    //       setState(() {
+                    //         firstAcadYrISSelected = true;
+                    //         firstNlastClassDetials = funcGetAdmittedClassAnddiv();
+                    //         firstAcadYr = firstNlastClassDetials[2].substring(1, 10);
+                    //         firstClass = firstNlastClassDetials[1];
+                    //         firstDiv = firstNlastClassDetials[0];
+                    //
+                    //         lastAcadYr = firstNlastClassDetials[5].substring(1, 10);
+                    //         lastClass = firstNlastClassDetials[4];
+                    //         lastDiv = firstNlastClassDetials[3];
+                    //
+                    //         newAdmissioninFirstAcadYrinsystem = widget.data["student_AdmittedinAcadYr"] != null ? widget.data["student_AdmittedinAcadYr"] == firstAcadYrInSystem? true:false:false;
+                    //       });
+                    //     }
+                    //   }
+                    // }
 
 
 
@@ -1078,6 +802,99 @@ class _DropDownContainerState extends State<_DropDownContainer> {
               ),
         ],
       ),
+    );
+  }
+}
+
+
+
+class DetailsEntry extends StatelessWidget {
+  String title;
+  String result;
+  DetailsEntry({required this.title,required this.result});
+
+  @override
+  Widget build(BuildContext context) {
+    alternateColorBool = !alternateColorBool;
+    return  Container(
+        width: 350,
+        color:alternateColorBool == true? Colors.grey.shade100:null,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(width: 100, child: Align(alignment: Alignment.topLeft, child: Text(title,overflow: TextOverflow.visible, style: TextStyle(fontWeight: FontWeight.bold)))),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(width:200, child: Align(alignment: Alignment.centerLeft, child: Text(result, overflow: TextOverflow.visible,))),
+          ),
+
+        ],
+      ),
+    );
+  }
+}
+
+
+
+class DetailsEntryIFEMPTY extends StatelessWidget {
+  String title;
+  var result;
+  String resultSub;
+  DetailsEntryIFEMPTY({required this.title,required this.result,required this.resultSub});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(width: 100, child: Align(alignment:Alignment.topLeft,child: Text(title,overflow: TextOverflow.visible, style: TextStyle(fontWeight: FontWeight.bold)))),
+        Column(children: [
+          if (result.isNotEmpty)
+            for (int i = 0; i < result.length; i++) Container(width:200 ,child: Align(alignment:Alignment.centerLeft,child: Text(result[i][resultSub],overflow: TextOverflow.visible)))
+          else
+            Container(width:200, child: Align(alignment:Alignment.centerLeft,child: Text("   - ",overflow: TextOverflow.visible)))
+        ])
+      ],
+    );
+  }
+}
+
+
+
+class DetailsEntryDifferentlyAbled extends StatelessWidget {
+  var conditionTitle;
+  String result;
+  DetailsEntryDifferentlyAbled({required this.conditionTitle, required this.result});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(width:100,child: Align(alignment:Alignment.topLeft,child: const Text("Different Abled Details :",overflow: TextOverflow.visible, style: TextStyle(fontWeight: FontWeight.bold)))),
+        conditionTitle == false ?
+        Container(width:200,child: Align(alignment:Alignment.centerLeft,child: Text("NA",overflow: TextOverflow.visible))) :
+        Container(width:200,child: Align(alignment:Alignment.centerLeft,child: Text(result,overflow: TextOverflow.visible))),
+      ],
+    );
+  }
+}
+
+
+class DetailsEntryInSchoolStatus extends StatelessWidget {
+
+  var conditionTitle;
+
+
+  DetailsEntryInSchoolStatus({required this.conditionTitle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Text("In School Status :",overflow: TextOverflow.visible, style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(conditionTitle == true ? "Is Still a Student" : "Left School No More a Student",overflow: TextOverflow.visible),
+      ],
     );
   }
 }

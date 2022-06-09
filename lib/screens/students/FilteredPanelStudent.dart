@@ -174,7 +174,7 @@ class _FilteredPanelDesktopState extends State<FilteredPanelDesktop> {
                       ),
                       showSearchBox: true,
                       onChanged: (data) {
-                        print(data);
+                        print("data  = $data");
                       },
                       onFind: (filter) => getDataUniversalForStudent(filter: filter, postlink: "studentClass", keytosend: "studentClass"),
                     ),
@@ -195,7 +195,7 @@ class _FilteredPanelDesktopState extends State<FilteredPanelDesktop> {
                       ),
                       showSearchBox: true,
                       onChanged: (data) {
-                        print(data);
+                        print("data  = $data");
                       },
                       onFind: (filter) => getDataUniversalForStudent(filter: filter, postlink: "studentClass", keytosend: "studentClass"),
                     ),

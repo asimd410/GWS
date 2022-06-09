@@ -1,17 +1,19 @@
 import 'dart:collection';
 import 'dart:math';
-
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:gws/screens/classList/divisionCreateView.dart';
 import 'package:gws/screens/feesPage/createInstallments/feesInstallmentsCreate.dart';
 import 'package:gws/screens/students/FilteredPanelStudent.dart';
 import 'package:gws/screens/students/add_student_page.dart';
+import 'package:gws/screens/students/wigForStudent/discountsWig.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-
+import 'package:excel/excel.dart';
 import 'CommVariables.dart';
+import 'dart:typed_data';
 // import 'commonWidgets/snackBarForError.dart';
 
 //__________________________________________________ HTTP POST FUNC _________________________________________________________________________
@@ -98,11 +100,12 @@ class Data extends ChangeNotifier {
     refreshStudentMain = ref;
     notifyListeners();
   }
+
   //
   bool refreshInstallmentDate = false;
 
   void refreshInstallmentDatefunc(ref) {
-    refreshInstallmentDate= ref;
+    refreshInstallmentDate = ref;
     notifyListeners();
   }
 
@@ -113,14 +116,17 @@ class Data extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool refDiscountWig = true;
 
-
-
+  void refDiscountWigfunc(ref) {
+    refDiscountWig = ref;
+    notifyListeners();
+  }
 }
 
 // SETTER =   Provider.of<Data>(context, listen: false).refPage(true);
 
-// LISTENER =   Provider.of<Data>(context, listen: true).refrashPage == true;
+// LISTENER =   Provider.of<Data>(context, listen: true).refrashPage == true ? : ;
 
 //__________________________________________________ PROVIDER FUNC Closed _________________________________________________________________________
 
@@ -170,8 +176,6 @@ String? ValidityFuncOnlyNumber(assignVal, nameofField) {
   }
 }
 
-
-
 //-------- Phone Number /aadhar no. 10digit Validation not empty ------
 String? ValidityFuncTenDigOnlyNumber(assignVal, nameofField) {
   // print("assignVal = $assignVal");
@@ -197,7 +201,7 @@ String? ValidityFuncTenDigOnlyNumber(assignVal, nameofField) {
   }
 }
 
-//Not Empty and only Numbers(infinite)
+//Not Empty and only Numbers(infinite) decimal allowed
 String? funcValEmptyOrNumber(assignval, nameofField) {
   // print("nameofField = $nameofField");
   // print("assignval = $assignval");
@@ -419,7 +423,7 @@ List<dynamic> funcGetClassAndAcadYrFromDiv() {
 }
 
 //________________________________________________ Function to get Class from Div to which admitted ____________________________________________________________________________
-List<String> funcGetAdmittedClassAnddiv(){
+List<String> funcGetAdmittedClassAnddiv() {
   int? firstYearofAdmission;
   int? LastYearofAdmission;
   String firstDivOfAdmission;
@@ -431,15 +435,14 @@ List<String> funcGetAdmittedClassAnddiv(){
 
   List<String> dataToReturn = [];
 
-
-  if(divList!.length >=1) {
+  if (divList!.length >= 1) {
     List<int> _temdivList = [];
     divList!.forEach((element) {
       List<String> _tempsplitone = element.split(" ");
       List<String> _tempsplit = _tempsplitone[2].split("-");
-      
+
       String yeartoaddOne = _tempsplit[0];
-      String yeartoadd = yeartoaddOne.substring(1,5);
+      String yeartoadd = yeartoaddOne.substring(1, 5);
       _temdivList.add(int.parse(yeartoadd));
     });
     _temdivList.sort();
@@ -452,7 +455,7 @@ List<String> funcGetAdmittedClassAnddiv(){
   //   firstYearofAdmission = _temdivList[0];
   //   LastYearofAdmission = _temdivList[0];
   // }
-  else{
+  else {
     firstYearofAdmission = null;
     LastYearofAdmission = null;
   }
@@ -463,8 +466,8 @@ List<String> funcGetAdmittedClassAnddiv(){
   divList!.forEach((element) {
     List<String> toCheckSplit = element.split(" ");
     List<String> toCheckSplittwo = toCheckSplit[2].split("-");
-    String tocheck = toCheckSplittwo[0].substring(1,5);
-    if(tocheck.contains(firstYearofAdmission.toString())){
+    String tocheck = toCheckSplittwo[0].substring(1, 5);
+    if (tocheck.contains(firstYearofAdmission.toString())) {
       firstDivOfAdmission = element;
       List<String> _divSplit = element.split(" ");
       firstClassOfAdmission = _divSplit[0];
@@ -478,9 +481,9 @@ List<String> funcGetAdmittedClassAnddiv(){
   divList!.forEach((element) {
     List<String> toCheckSplit = element.split(" ");
     List<String> toCheckSplittwo = toCheckSplit[2].split("-");
-    String tocheck = toCheckSplittwo[0].substring(1,5);
+    String tocheck = toCheckSplittwo[0].substring(1, 5);
 
-    if(tocheck.contains(LastYearofAdmission.toString())){
+    if (tocheck.contains(LastYearofAdmission.toString())) {
       lastDivOfAdmission = element;
       List<String> _lastdivSplitLast = element.split(" ");
       lastClassOfAdmission = _lastdivSplitLast[0];
@@ -495,30 +498,22 @@ List<String> funcGetAdmittedClassAnddiv(){
   return dataToReturn;
 }
 
-
-
-
 //-------------------------------------------------- Filtered Search ------------------------------------------------------------------------------------------
 
-bool functoenableStudentNamefilteredSearch(){
-  if(acadYrFilteredSearch == null && classFilteredSearch == null && divisionFilteredSearch == null){
-   return true;
-  }
-  else{
+bool functoenableStudentNamefilteredSearch() {
+  if (acadYrFilteredSearch == null && classFilteredSearch == null && divisionFilteredSearch == null) {
+    return true;
+  } else {
     return false;
   }
 }
 
-
-
-
 //-------------------------------------------------- GET DATA ------------------------------------------------------------------------------------------
-
 
 //-------- GetData Universal for Student-------------
 Future<List<String>> getDataUniversalForStudent({filter, postlink, keytosend}) async {
-  getdataStudentsNames_responseBodyJSON = await httpPost(
-      destinationUrl: mainDomain, destinationPort: 8080, destinationPost: "/addStudent/$postlink", msgToSend: {keytosend: filter});
+  getdataStudentsNames_responseBodyJSON =
+      await httpPost(destinationUrl: mainDomain, destinationPort: 8080, destinationPost: "/addStudent/$postlink", msgToSend: {keytosend: filter});
   var getdataStudentsNamesResponseBody = await json.decode(await getdataStudentsNames_responseBodyJSON!);
   print(await getdataStudentsNamesResponseBody["msg"][1]);
   List<String> toStringList = [];
@@ -528,11 +523,10 @@ Future<List<String>> getDataUniversalForStudent({filter, postlink, keytosend}) a
   return await toStringList;
 }
 
-
 //-------- GetData Really Universal -------------
 Future<List<String>> getDataUniversal({filter, postlink, keytosend}) async {
-  var getdata_responseBodyJSON = await httpPost(
-      destinationUrl: mainDomain, destinationPort: 8080, destinationPost: postlink, msgToSend: {keytosend: filter});
+  var getdata_responseBodyJSON =
+      await httpPost(destinationUrl: mainDomain, destinationPort: 8080, destinationPost: postlink, msgToSend: {keytosend: filter});
   var getdataResponseBody = await json.decode(await getdata_responseBodyJSON);
   // print(await getdataResponseBody["msg"][1]);
   List<String> toStringList = [];
@@ -542,43 +536,36 @@ Future<List<String>> getDataUniversal({filter, postlink, keytosend}) async {
   return await toStringList;
 }
 
-
-
 //-------- GetData for Div -------------
-Future<List<String>>funcGetSortedDivs(filter)async {
+Future<List<String>> funcGetSortedDivs(filter) async {
   List<String> fullListOfDiv = await getDataUniversalForStudent(filter: filter, postlink: "studentdiv", keytosend: "studentdiv");
   List<String> finallisttoSend = [];
 
   if (acadYrFilteredSearch != null && classFilteredSearch != null) {
     for (var i in fullListOfDiv) {
-      if(i.contains(acadYrFilteredSearch!) && i.contains(classFilteredSearch!)){
+      if (i.contains(acadYrFilteredSearch!) && i.contains(classFilteredSearch!)) {
         finallisttoSend.add(i);
       }
     }
     return finallisttoSend;
-  }
-  else if(acadYrFilteredSearch != null && classFilteredSearch == null){
+  } else if (acadYrFilteredSearch != null && classFilteredSearch == null) {
     for (var i in fullListOfDiv) {
-      if(i.contains(acadYrFilteredSearch!)){
+      if (i.contains(acadYrFilteredSearch!)) {
         finallisttoSend.add(i);
       }
     }
     return finallisttoSend;
-  }
-  else if(acadYrFilteredSearch == null && classFilteredSearch != null){
+  } else if (acadYrFilteredSearch == null && classFilteredSearch != null) {
     for (var i in fullListOfDiv) {
-      if(i.contains(classFilteredSearch!)){
+      if (i.contains(classFilteredSearch!)) {
         finallisttoSend.add(i);
       }
     }
     return finallisttoSend;
-  }
-  else{
+  } else {
     return fullListOfDiv;
   }
 }
-
-
 
 //-------- GetData Division-------------
 Future<List<String>> getDatadivision(filter) async {
@@ -610,6 +597,26 @@ Future<List<String>> getDatadivision(filter) async {
   print("toStringList = $toStringList");
   return await toStringList;
 }
+
+Future<dynamic> getStudentDiscountDataDetials(_tempDiscounts) async {
+  var _data = await httpPost(
+      destinationUrl: mainDomain,
+      destinationPort: 8080,
+      destinationPost: "/addStudent/studentDiscountData",
+      msgToSend: {"msg": "Send Discount Data", "studentID":edit_ID});
+
+ var decodedData = await json.decode(await _data);
+ print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+ print('decodedData["student_discount"] = ${decodedData["allstudentFound"]["student_discount"]}');
+  print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+  for(var _k in decodedData["allstudentFound"]["student_discount"]){
+    print("_k = $_k");
+    print('[_k["acadyr"] = ${_k["acadyr"]}');print('[_k["acadyr"] = ${_k["discount_amount"]}');
+    _tempDiscounts.add([_k["acadyr"], _k["discount_amount"]]);
+  }
+}
+
+
 
 Future<dynamic> getDatadivisionDataDetials(listOfDiv) async {
   getdataDivision_responseBodyJSON = await httpPost(
@@ -644,30 +651,29 @@ Widget funcIfElseWidgetReturnFalse(boolVar, widgetToReturn) {
   }
 }
 
-
 //-------------------------- MAke all Vars null -------------------------------------------
 
-funcMakeVarNullStudents(){
+funcMakeVarNullStudents() {
   //-----------Nulling All Vars---------------------
-  studentFirstNameAdd= null;
-  studentLastNameAdd= null;
-  fathersNameAdd= null;
-  mothersNameAdd= null;
-  guardiansNameAdd= null;
-  addressNameAdd= null;
+  studentFirstNameAdd = null;
+  studentLastNameAdd = null;
+  fathersNameAdd = null;
+  mothersNameAdd = null;
+  guardiansNameAdd = null;
+  addressNameAdd = null;
 //---- Father's ----------
   fathersPhoneNoEXT = "+91";
-  fathersPhoneNoMain= null;
+  fathersPhoneNoMain = null;
 
   fathersPhoneNofisttime = true;
 //---- Mother's ----------
   mothersPhoneNoEXT = "+91";
-  mothersPhoneNoMain= null;
+  mothersPhoneNoMain = null;
 
   mothersPhoneNofisttime = true;
 //---- Guardian's ----------
   guardiansPhoneNoEXT = "+91";
-  guardiansPhoneNoMain= null;
+  guardiansPhoneNoMain = null;
 
   guardiansPhoneNofisttime = true;
 
@@ -675,40 +681,40 @@ funcMakeVarNullStudents(){
 
   gender = "Male";
 
-  studentID= null;
+  studentID = null;
 
-  grNumber= null;
+  grNumber = null;
   grNumberAddfirstTime = true;
 
-  nationalityNameAdd= null;
-  motherTongueNameAdd= null;
+  nationalityNameAdd = null;
+  motherTongueNameAdd = null;
 
 //------------------------------------
-  userNameAdd= null;
-  initialValueUserName= null;
-  usernameErrorString= null;
+  userNameAdd = null;
+  initialValueUserName = null;
+  usernameErrorString = null;
 
-  passwordAdd= null;
-  passwordErrorString= null;
+  passwordAdd = null;
+  passwordErrorString = null;
   passwordnotTyped = true;
-  initialValuePassword= null;
+  initialValuePassword = null;
 
   siblingsList!.clear();
 
 //------------- Aadhar -----------------------
-  aadharNumberAdd= null;
+  aadharNumberAdd = null;
   aadharNumberAddfirstTime = true;
 
 //------------- First Class -----------------------
   firstNlastClassDetials.clear();
-  firstAcadYr= null;
-  firstClass= null;
-  firstDiv= null;
+  firstAcadYr = null;
+  firstClass = null;
+  firstDiv = null;
 
 //------------- Last Class -----------------------
-  lastAcadYr= null;
-  lastClass= null;
-  lastDiv= null;
+  lastAcadYr = null;
+  lastClass = null;
+  lastDiv = null;
 
   //------------- Religion -----------------------
   religionAdd.clear();
@@ -732,18 +738,17 @@ funcMakeVarNullStudents(){
 
 //------------- Date of Birth -----------------------
 
-
 //------------- Place of Birth -----------------------
-  placeOfBirthAddVillageorCity= null;
-  placeOfBirthAddTaluka= null;
-  placeOfBirthAddDistrict= null;
-  placeOfBirthAddState= null;
-  placeOfBirthAddCountry= null;
+  placeOfBirthAddVillageorCity = null;
+  placeOfBirthAddTaluka = null;
+  placeOfBirthAddDistrict = null;
+  placeOfBirthAddState = null;
+  placeOfBirthAddCountry = null;
 
 //------------- Last School Attended -----------------------
-  lastSchoolAttended= null;
-  lastSchoolStandardAttended= null;
-  uDISEpreviousSchool= null;
+  lastSchoolAttended = null;
+  lastSchoolStandardAttended = null;
+  uDISEpreviousSchool = null;
   uDISEpreviousSchoolAddfirstTime = true;
 
 //--------------- Date Of Admission -----------------------
@@ -754,21 +759,16 @@ funcMakeVarNullStudents(){
   selectedSchoolLeavingDate.add(DateTime.now());
   selectedDateofBirth.add(DateTime.now());
 //--------------- Leaving ---------------------------------
-  progressAdd= null;
-  conductAdd= null;
-  reasonForLeavingAdd= null;
-
+  progressAdd = null;
+  conductAdd = null;
+  reasonForLeavingAdd = null;
 
   divList!.clear();
-  divData= null;
-  acadYearNClassAdd= null;
-  currentDivision= null;
+  divData = null;
+  acadYearNClassAdd = null;
+  currentDivision = null;
   refDivGetter = true;
-
-
 }
-
-
 
 //-------------------------- Generate Random UserName -------------------------------------------
 
@@ -844,9 +844,9 @@ String functionPasswordGenerator() {
   const _chars1 = '1234567890';
   const _charsSC = '!@#\$%^&*()_+-=[]{};:"\\|,<>/?';
   Random _rnd = Random();
-  List<String>generatedList = [];
+  List<String> generatedList = [];
   String a1 = String.fromCharCodes(Iterable.generate(2, (_) => _charsa.codeUnitAt(_rnd.nextInt(_charsa.length))));
-  String A1= String.fromCharCodes(Iterable.generate(2, (_) => _charsA.codeUnitAt(_rnd.nextInt(_charsA.length))));
+  String A1 = String.fromCharCodes(Iterable.generate(2, (_) => _charsA.codeUnitAt(_rnd.nextInt(_charsA.length))));
   String num1 = String.fromCharCodes(Iterable.generate(2, (_) => _chars1.codeUnitAt(_rnd.nextInt(_chars1.length))));
   String sC1 = String.fromCharCodes(Iterable.generate(2, (_) => _charsSC.codeUnitAt(_rnd.nextInt(_charsSC.length))));
   String a2 = String.fromCharCodes(Iterable.generate(2, (_) => _charsa.codeUnitAt(_rnd.nextInt(_charsa.length))));
@@ -866,30 +866,26 @@ String functionPasswordGenerator() {
   return stringToReturn;
 }
 
-
-
-String funcToGetAcadYrFromDiv(div){
+String funcToGetAcadYrFromDiv(div) {
   List<String> splitDiv = div.split(" ");
-  String acadYr = splitDiv[2].substring(1,10);
+  String acadYr = splitDiv[2].substring(1, 10);
   return acadYr;
 }
 
-String funcToGetClassFromDiv(div){
+String funcToGetClassFromDiv(div) {
   List<String> splitDiv = div.split(" ");
   String standardFromDiv = splitDiv[0];
   return standardFromDiv;
 }
 
-
-
-Future<double> funcToGetMainFeeTotalFees(div)async{
+Future<double> funcToGetMainFeeTotalFees(div) async {
   List<dynamic> _divData = await getDatadivisionDataDetials([div]);
   double _totalFees = double.parse(_divData[0][0]["fees"]["main_fees"][0]["total_fees"].toString());
-  debugMode == false ? null :print("_totalFees = $_totalFees");
+  debugMode == false ? null : print("_totalFees = $_totalFees");
   return _totalFees;
 }
 
-double funcCalculatePendingFees(totalAmount){
+double funcCalculatePendingFees(totalAmount) {
   double totalAmountfromInstallments = 0;
   print("customInstallmentAmount = $customInstallmentAmount");
   customInstallmentAmount.forEach((e) {
@@ -903,41 +899,339 @@ double funcCalculatePendingFees(totalAmount){
 
 //---------------------------------------- Validity Function for Installments -----------------------------------------
 
-String? funcValidPendingAmount(pendingAmount){
-  if(pendingAmount != 0){
+String? funcValidPendingAmount(pendingAmount) {
+  if (pendingAmount != 0) {
     return "Pending Amount Should be 0";
-  }else{ return null;}
+  } else {
+    return null;
+  }
 }
 
-String? funcValidInstallmentAmount(listofAmount){
-  if(listofAmount != null){
-    List<String?> _errorText  = [];
-  for(var i in listofAmount){
-    print("i = $i");
-    if(i != "0") {
-      _errorText.add(funcValEmptyOrNumber(i, "Installment Amount"));
-    }else{
-      _errorText.add("Installment Amount cannot be 0");
+String? funcValidInstallmentAmount(listofAmount) {
+  if (listofAmount != null) {
+    List<String?> _errorText = [];
+    for (var i in listofAmount) {
+      print("i = $i");
+      if (i != "0") {
+        _errorText.add(funcValEmptyOrNumber(i, "Installment Amount"));
+      } else {
+        _errorText.add("Installment Amount cannot be 0");
+      }
     }
-    }
-  print("_errorText = $_errorText");
-  bool _isValid = false;
-  int? installmentnumb;
+    print("_errorText = $_errorText");
+    bool _isValid = false;
+    int? installmentnumb;
     for (int e = 0; e < _errorText.length; e++) {
       print("@@@@@@@@@@@@@@@@@@@@@@@ ${_errorText[e]} @@@@@@@@@@@@@@@");
-      if(e != null){
+      if (e != null) {
         _isValid = false;
         installmentnumb = e;
-      }else{
+      } else {
         _isValid = true;
       }
     }
-    if(_isValid == false){
+    if (_isValid == false) {
       return _errorText[installmentnumb!];
-    }else{return null;}
-
-
-  }else{
+    } else {
+      return null;
+    }
+  } else {
     return "Installment Amount cannot be empty";
   }
+}
+
+//-------------------------------- Function to add Discount Sub Wigs to List of Discount Wigs -------------------------------------------------------------
+functomakeListofDiscountWigs() {
+
+  if (divList != null) {
+    listofDiscountsWigs.clear();
+    listofDiscountsWigsMAP.clear();
+    fINALlistofDiscountsWigs.clear();
+    int _c = 0;
+    for (String i in divList!) {
+      List<String> _tempDiv = i.split(" ");
+      String _tempacadYr = _tempDiv[2].substring(1, 10);
+      listofDiscountsWigs.add(DiscountWigSub(
+        divName: i,
+        title: divData![_c][0]["fees"]["main_fees"][0]["fee_title"].toString(),
+        amount: divData![_c][0]["fees"]["main_fees"][0]["total_fees"].toString(),
+      ));
+      listofDiscountsWigsMAP.add({"acadyr": _tempacadYr, "discount_amount": "0", "discount_percentage": "0"});
+      List<Widget> _tempListofWigs = [];
+      // for (var o in divData!) {
+      //   if (o[0]["division_name"] == i) {
+      //     for (var k in o[0]["fees"]["extra_fee"]) {
+      //       String _extra_fee_title = k["extra_fee_title"];
+      //       String _extra_total_fee = k["extra_total_fee"].toString();
+      //       _tempListofWigs.add( Column(
+      //         children: [
+      //           DiscountSubE(divName: i, title: _extra_fee_title, amount: double.parse(_extra_total_fee)),
+      //           Divider(),
+      //         ],
+      //       ));
+      //       listofDiscountsWigsMAP_EXTRA
+      //           .add({"acadyr": _tempacadYr, "discount_fee_title": _extra_fee_title, "discount_amount": "0", "discount_percentage": "0"});
+      //     }
+      //   }
+      // }
+      // listofDiscountsWigsEXTRA.add(_tempListofWigs);
+      _c++;
+    }
+    if (listofDiscountsWigs.isNotEmpty) {
+      for (int j = 0; j < divList!.length; j++) {
+        Widget _tempWidget = Card(
+          child: Column(
+            children: [
+               Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Main Fee for Div: ${divList![j]}"),
+              ),
+              listofDiscountsWigs[j],
+              // Divider(),
+              // Column(
+              //   children: [
+              //    Padding(
+              //       padding: EdgeInsets.all(8.0),
+              //       child: Text("Extra Fee for Div: ${divList![j]}"),
+              //     ),
+              //     Column(
+              //       children: listofDiscountsWigsEXTRA[j],
+              //     ),
+              //   ],
+              // )
+            ],
+          ),
+        );
+        fINALlistofDiscountsWigs.add(_tempWidget);
+
+      }
+    }
+  } else {
+    divList!.clear();
+    listofDiscountsWigs.clear();
+    listofDiscountsWigsMAP.clear();
+    fINALlistofDiscountsWigs.clear();
+  }
+  print("divList = $divList");
+  print("fINALlistofDiscountsWigs = $fINALlistofDiscountsWigs");
+  print("listofDiscountsWigs = $listofDiscountsWigs");
+  print("listofDiscountsWigsMAP = $listofDiscountsWigsMAP");
+}
+
+funcSortDivList(divList){
+  print("Before = $divList");
+  List<String> tempdivList = [];
+  divList.forEach((v){
+    tempdivList.add(v);
+  });
+  divList.clear();
+  Map<int,String> tempdivListOne = {};
+  Map<int,String> tempdivListTwo = {};
+  for(int p = 0 ; p < tempdivList.length; p++){
+    String divToWorkOn = tempdivList[p];
+    tempdivListOne[p] = divToWorkOn;
+    String _acadYR = divToWorkOn.split(" ")[2].split("-")[0];
+    tempdivListTwo[p] = _acadYR;
+  }
+  Map<int,String>tempdivListTwoSorted = Map.fromEntries(
+      tempdivListTwo.entries.toList()
+        ..sort((e1, e2) => e1.value.compareTo(e2.value)));
+  tempdivListTwoSorted.forEach((k,v){
+    divList.add(tempdivListOne[k]);
+  });
+  print("After = $divList");
+}
+
+functomakeListofDiscountWigsINIT(initAmt) {
+
+  if (divList != null) {
+    funcSortDivList(divList);
+    listofDiscountsWigs.clear();
+    listofDiscountsWigsMAP.clear();
+    fINALlistofDiscountsWigs.clear();
+    List<String> tempAllDivListVal = [];
+    initAmt.forEach((e) {
+      tempAllDivListVal.add(e[0]);
+    });
+
+
+    int _c = 0;
+    for (String i in divList!) {
+      List<String> _tempDiv = i.split(" ");
+      String _tempacadYr = _tempDiv[2].substring(1, 10);
+
+      String _title = divData![_c][0]["fees"]["main_fees"][0]["fee_title"].toString();
+      String _amount = divData![_c][0]["fees"]["main_fees"][0]["total_fees"].toString();
+      String _divActive = i;
+
+      print("_title = $_title "
+          "_amount = $_amount"
+          "_divActive  = $_divActive");
+      print("initAmt = $initAmt");
+
+
+      if(tempAllDivListVal.contains(i.split(" ")[2].substring(1,10))){
+      for(var u in initAmt){
+
+        if(u[0] == i.split(" ")[2].substring(1,10)){
+          print("u[1].toString() = ${u[1].toString()}");
+          listofDiscountsWigs.add(DiscountINITWigSub(
+              divName: i,
+              title: divData![_c][0]["fees"]["main_fees"][0]["fee_title"].toString(),
+              amount: divData![_c][0]["fees"]["main_fees"][0]["total_fees"].toString(),
+              initAmount:  u[1].toString()
+          ));
+
+          String tempAmt = divData![_c][0]["fees"]["main_fees"][0]["total_fees"].toString();
+          double perTempAmt = double.parse(u[1].toString())/double.parse(tempAmt.toString())*100;
+          listofDiscountsWigsMAP.add({"acadyr": _tempacadYr, "discount_amount": u[1].toString(), "discount_percentage": perTempAmt.toString()});
+        }
+      }}
+      if (tempAllDivListVal.contains(i.split(" ")[2].substring(1,10)) == false) {
+        listofDiscountsWigs.add(DiscountWigSub(
+          divName: i,
+          title: divData![_c][0]["fees"]["main_fees"][0]["fee_title"].toString(),
+          amount: divData![_c][0]["fees"]["main_fees"][0]["total_fees"].toString(),
+        ));
+        listofDiscountsWigsMAP.add({"acadyr": _tempacadYr, "discount_amount": "0", "discount_percentage": "0"});
+      }
+      _c++;
+    }
+    if (listofDiscountsWigs.isNotEmpty) {
+      for (int j = 0; j < divList!.length; j++) {
+        Widget _tempWidget = Card(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Main Fee for Div: ${divList![j]}"),
+              ),
+              listofDiscountsWigs[j],
+
+            ],
+          ),
+        );
+        fINALlistofDiscountsWigs.add(_tempWidget);
+
+      }
+    }
+  } else {
+    divList!.clear();
+    listofDiscountsWigs.clear();
+    listofDiscountsWigsMAP.clear();
+    fINALlistofDiscountsWigs.clear();
+  }
+  print("divList = $divList");
+  print("fINALlistofDiscountsWigs = $fINALlistofDiscountsWigs");
+  print("listofDiscountsWigs = $listofDiscountsWigs");
+  print("listofDiscountsWigsMAP = $listofDiscountsWigsMAP");
+}
+
+//
+// List<String>  funcdivList(){
+//   functomakeListofDiscountWigsINIT();
+//   return divList!;
+// }
+
+
+//----------------------------------- EXCEL to JSON -------------------------
+
+Future<String> excelToJson() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['xls', 'xlsx', 'csv']);
+  // print("result = $result");
+  var excelFile;
+  if (result != null && result.files.isNotEmpty) {
+    excelFile = result.files.first.bytes!;
+  }
+  print("excelFile = ${excelFile.runtimeType}");
+
+
+  // var bytes = excelFile!.readAsBytesSync();
+
+  //-------------------------------------------
+  var excel = Excel.decodeBytes(excelFile);
+  print("excel = ${excel.tables.keys}");
+  int i = 0;
+  List<dynamic> keys = [];
+  var jsonMap = [];
+
+  for (var table in excel.tables.keys) {
+    // dev.log(table.toString());
+    for (var row in excel.tables[table]!.rows) {
+      // dev.log(row.toString());
+      print("row = ${row.runtimeType}");
+      List<String> tempRow = [];
+      row.forEach((e) {
+        print("e = $e");
+        if (e == null) {
+          tempRow.add("");
+        } else {
+          tempRow.add(e.value.toString());
+        }
+      });
+
+      if (i == 0) {
+        keys = tempRow;
+        i++;
+      } else {
+        var temp = {};
+        int j = 0;
+        String tk = '';
+        for (var key in keys) {
+          tk = '\"${key.toString()}\"';
+          temp[tk] = (tempRow[j].runtimeType == String)
+              ? '\"${tempRow[j].toString()}\"'
+              : tempRow[j];
+          j++;
+        }
+
+        jsonMap.add(temp);
+      }
+    }
+  }
+  // dev.log(
+  //   jsonMap.length.toString(),
+  //   name: 'excel to json',
+  // );
+  // dev.log(jsonMap.toString(), name: 'excel to json');
+  jsonMap.removeRange(0, 1);
+  String fullJson =
+  jsonMap.toString().substring(1, jsonMap
+      .toString()
+      .length - 1);
+  // dev.log(
+  //   fullJson.toString(),
+  //   name: 'excel to json',
+  // );
+  // print("fullJson = $fullJson");
+  // Map<dynamic,dynamic> mapFullJson = {};
+  // List<String> splitOneFullJson = fullJson.split("},");
+  // splitOneFullJson.forEach((el) {el.replaceAll("}", ""); });
+  // splitOneFullJson.forEach((el) {el.replaceAll("{", ""); });
+  // print("splitOneFullJson = $splitOneFullJson");
+  // splitOneFullJson.forEach((element) {
+  //   List<String> splitFullJson = element.split(",");
+  //   splitFullJson.forEach((e){
+  //     String keyf = e.split(":")[0] == null ? "":e.split(":")[0];
+  //     String valf = e.split(":").length < 2 ? "": e.split(":")[1] == null ? "":e.split(":")[1];
+  //     mapFullJson[keyf] = valf;
+  //   });
+  // });
+
+String finalfullJson  = "[$fullJson]";
+
+
+
+
+
+
+
+
+ // Map<String,dynamic> finalone = funcStrtoJson(fullJson);
+  //-------------------------------------------
+  // String fullJson = bString;
+// print("fullJson = $finalfullJson");
+// print("mapFullJson = $mapFullJson");
+// print("finalone = $finalone");
+  return finalfullJson;
 }

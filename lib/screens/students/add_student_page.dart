@@ -1,19 +1,27 @@
-import 'dart:convert';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:glassmorphism_widgets/glassmorphism_widgets.dart';
 import 'package:gws/functionAndVariables/CommVariables.dart';
 import 'package:gws/functionAndVariables/funcCust.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:gws/screens/Drawer/drawerMain.dart';
+import 'package:gws/screens/students/wigForStudent/discountsWig.dart';
 import 'package:provider/provider.dart';
-
-import '../../main.dart';
 import 'StudentsMain.dart';
-String firstAcadYrInSystem = "2018-2019";
+
+//--- Fee ---------
+String? feePaid;
+String? asPerSystemFeePaid;
+bool firstfeePaid = false;
+String? feePending;
+String? asPerSystemFeePending;
+bool firstfeePending = false;
+bool showPaidOrPending = true;
+bool pendingPaidwithDiscount = true;
+
+double totalfeeTillDate = 0;
+// String firstAcadYrInSystem = "2018-2019";
 bool firstAcadYrISSelected = false;
 String? studentFirstNameAdd;
 String? studentLastNameAdd;
@@ -100,9 +108,7 @@ List<String> differentlyAbledListAdd = [];
 List<dynamic> differentlyAbledAddasStringList = [Status.dropdown];
 bool differentlyAbledBool = false;
 
-bool newAdmissioninFirstAcadYrinsystem = false;
-
-
+// bool newAdmissioninFirstAcadYrinsystem = false;
 
 bool rTE = false;
 bool enableStatus = true;
@@ -132,7 +138,6 @@ String? progressAdd;
 String? conductAdd;
 String? reasonForLeavingAdd;
 var selectedSchoolLeavingDate = [DateTime.now()];
-
 
 List<String>? divList = [];
 List<dynamic>? divData;
@@ -167,13 +172,6 @@ class _AddStudentPageState extends State<AddStudentPage> {
   late ScrollController _controllerOne = ScrollController();
 
   @override
-  initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  //
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -465,7 +463,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                                   setState(() {
                                                     mothersPhoneNofisttime = false;
                                                     mothersPhoneNoMain = val;
-                                                    print(mothersPhoneNoMain);
+                                                    print("mothersPhoneNoMain = $mothersPhoneNoMain");
                                                   });
                                                 },
                                                 decoration: InputDecoration(
@@ -503,7 +501,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                                   setState(() {
                                                     guardiansPhoneNofisttime = false;
                                                     guardiansPhoneNoMain = val;
-                                                    print(guardiansPhoneNoMain);
+                                                    print("guardiansPhoneNoMain = $guardiansPhoneNoMain");
                                                   });
                                                 },
                                                 decoration: InputDecoration(
@@ -891,8 +889,11 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                           showSearchBox: true,
                                           onChanged: (data) async {
                                             divList = data;
+                                            funcSortDivList(divList);
+                                            if(divList!.isNotEmpty){
                                             divData = await getDatadivisionDataDetials(divList) as List;
                                             acadYearNClassAdd = await funcGetClassAndAcadYrFromDiv();
+                                            print("acadYearNClassAdd = $acadYearNClassAdd");
                                             if (acadYearNClassAdd != null) {
                                               divList!.forEach((element) {
                                                 if (element.contains(acadYearNClassAdd![1]["currentClass"]) &&
@@ -902,13 +903,8 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                                 }
                                               });
                                             }
-                                           for (var e in divList!) {
-                                             if(e.contains(firstAcadYrInSystem)){
-                                               setState(() {
-                                                 firstAcadYrISSelected = true;
-                                               });
-                                             }
-                                           }
+                                            print(" divList! = $divList");
+
                                             firstNlastClassDetials = funcGetAdmittedClassAnddiv();
 
                                             firstAcadYr = firstNlastClassDetials[2].substring(1, 10);
@@ -922,9 +918,21 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                             setState(() {
                                               divData = divData;
                                               refDivGetter = !refDivGetter;
+
+                                              functomakeListofDiscountWigs();
+                                              print("_____________________________");
                                             });
+                                            }else{
+
+                                              setState(() {
+                                                functomakeListofDiscountWigs();
+                                                acadYearNClassAdd = null;
+                                                firstAcadYrISSelected = false;
+                                                print("_____________________________");
+                                              });
+                                            }
                                           },
-                                          onFind: (filter) => refDivGetter == true ?getDatadivision(filter):getDatadivision(filter),
+                                          onFind: (filter) => refDivGetter == true ? getDatadivision(filter) : getDatadivision(filter),
                                         ),
                                       ),
                                     ), //SELECT DIVISIONS
@@ -942,67 +950,11 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                             "Academic Year: ${acadYearNClassAdd == null ? "" : acadYearNClassAdd![0][acadYearNClassAdd![0].lastKey()]}-${acadYearNClassAdd == null ? "" : acadYearNClassAdd![0][acadYearNClassAdd![0].lastKey()] + 1}"),
                                       ),
                                     ), //ACADEMIC YEAR
-                                    firstAcadYrISSelected == true?
+
                                     Padding(
-                                      padding: const EdgeInsets.only(
-                                        right: 8.0,
-                                        left: 8,
-                                        top: 20,
-                                      ),
-                                      child: Container(
-                                        width: 300,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(width: 1, color: Colors.grey),
-                                            borderRadius: const BorderRadius.all(Radius.circular(3))),
-                                        child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                             Padding(
-                                               padding: const EdgeInsets.all(8.0),
-                                               child: Column(
-                                                 children: [
-                                                   Text("New Admission"),
-                                                   Text("in $firstAcadYrInSystem"),
-                                                 ],
-                                               ),
-                                             ),
-                                            SizedBox(
-                                              width: 70,
-                                              child: ListTile(
-                                                title: const Text("Y"),
-                                                leading: Radio(
-                                                    value: true,
-                                                    groupValue: newAdmissioninFirstAcadYrinsystem,
-                                                    onChanged: (v) {
-                                                      setState(() {
-                                                        newAdmissioninFirstAcadYrinsystem = true;
-                                                      });
-                                                      print("newAdmissioninFirstAcadYrinsystem = $newAdmissioninFirstAcadYrinsystem");
-                                                    }),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 70,
-                                              child: ListTile(
-                                                title: const Text("N"),
-                                                leading: Radio(
-                                                    value: false,
-                                                    groupValue: newAdmissioninFirstAcadYrinsystem,
-                                                    onChanged: (v) {
-                                                      setState(() {
-                                                        newAdmissioninFirstAcadYrinsystem = false;
-                                                      });
-                                                      print("newAdmissioninFirstAcadYrinsystem = $newAdmissioninFirstAcadYrinsystem");
-                                                    }),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                        :
-                                    Container(),
+                                     padding: EdgeInsets.all(8.0),
+                                     child: DiscountWig(),
+                                   ), //DISCOUNT PANEL
                                     Padding(
                                       padding: const EdgeInsets.only(
                                         right: 8.0,
@@ -1287,6 +1239,112 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       ), //DIFFERENTLY ABLED DROPDOWN
                                     ),
                                     Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 8.0,
+                                        left: 8,
+                                        top: 20,
+                                      ),
+                                      child: Container(
+                                        width: 300,
+                                        height: 100,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(width: 1, color: Colors.grey),
+                                            borderRadius: const BorderRadius.all(Radius.circular(3))),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: 200,
+                                              child: ListTile(
+                                                title: Text("Fee Paid Till Date"),
+                                                leading: Radio(
+                                                    value: true,
+                                                    groupValue: showPaidOrPending,
+                                                    onChanged: (v) {
+                                                      setState(() {
+                                                        showPaidOrPending = true;
+                                                        feePending = null;
+                                                      });
+                                                      print("showPaidOrPending = $showPaidOrPending");
+                                                    }),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: 200,
+                                              child: ListTile(
+                                                title: Text("Fee Pending Till Date"),
+                                                leading: Radio(
+                                                    value: false,
+                                                    groupValue: showPaidOrPending,
+                                                    onChanged: (v) {
+                                                      setState(() {
+                                                        showPaidOrPending = false;
+                                                        feePaid = null;
+                                                      });
+                                                      print("showPaidOrPending= $showPaidOrPending");
+                                                    }),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ), //Fee Paid or Pending
+                                    showPaidOrPending == true
+                                        ? Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              constraints: const BoxConstraints(maxWidth: 300),
+                                              child: Column(
+                                                children: [
+                                                  TextField(
+                                                    onChanged: (val) {
+                                                      setState(() {
+                                                        feePaid = val;
+                                                        firstfeePaid = true;
+                                                      });
+                                                    },
+                                                    decoration: InputDecoration(
+                                                        errorText: firstfeePaid == true ? funcValEmptyOrNumber(feePaid, "Fee Paid Till Date") : null,
+                                                        label: const Text("Fee Paid Till Date")),
+                                                  ),
+                                                  SizedBox(height:8),
+                                                  const Text("Fee Pending or Paid Calculated"),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      const Text("Without Discount"),
+                                                      Switch(
+                                                          value: pendingPaidwithDiscount, onChanged: (v){
+                                                            setState(() {
+                                                              pendingPaidwithDiscount = v;
+                                                            });
+                                                          }),
+                                                      const Text("With Discount"),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ) //FEES PAID TILL DATE
+                                        : Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              constraints: const BoxConstraints(maxWidth: 300),
+                                              child: TextField(
+                                                onChanged: (val) {
+                                                  setState(() {
+                                                    feePending = val;
+                                                    firstfeePending = true;
+                                                  });
+                                                },
+                                                decoration: InputDecoration(
+                                                    errorText:
+                                                        firstfeePending == true ? funcValEmptyOrNumber(feePending, "Fee Pending Till Date") : null,
+                                                    label: const Text("Fee Pending Till Date")),
+                                              ),
+                                            ),
+                                          ), //FEES PENDING TILL DATE
+                                    Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         constraints: const BoxConstraints(maxWidth: 300),
@@ -1377,8 +1435,10 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                       // funcforValidation(ValidityFuncStringNotEmpty(religionAdd, "Religion"));
                                       // funcforValidation(ValidityFuncStringNotEmpty(casteAdd, "Caste"));
                                       //  funcforValidation(ValidityFuncStringNotEmpty(placeOfBirthAdd, "Place Of Birth"));
-                                      //  funcforValidation(ValidityFuncListNotEmpty(divList, "Division"));
-                                      if(divList!.isNotEmpty) {
+                                       funcforValidation(ValidityFuncListNotEmpty(divList, "Division"));
+
+                                       //-------- Division cannot be empty and Division year is not repeated more than once ---------------------
+                                      if (divList!.isNotEmpty) {
                                         divList!.forEach((e) {
                                           int _count = 0;
                                           List<String> _tempSplitofE = e.split(" ");
@@ -1391,7 +1451,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                           if (_count > 1) {
                                             setState(() {
                                               final snackBar = SnackBar(
-                                                content: Text("Two or more Divisions have the same Academic Year"),
+                                                content: const Text("Two or more Divisions have the same Academic Year"),
                                                 backgroundColor: (snackbarErrorBg),
                                                 action: SnackBarAction(
                                                   label: 'dismiss',
@@ -1402,12 +1462,12 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                             });
                                             isValid = false;
-                                          }
-                                          else{
+                                          } else {
                                             isValid = true;
                                           }
                                         });
-                                      }else{
+                                      }
+                                      else {
                                         isValid = false;
                                         setState(() {
                                           final snackBar = SnackBar(
@@ -1422,144 +1482,144 @@ class _AddStudentPageState extends State<AddStudentPage> {
                                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                         });
                                       }
+                                      //------- CLOSED Division cannot be empty and Division year is not repeated more than once ---------------------
 
-                                     if (isValid == true) {
-                                       addStudent_http_responseBodyJSON = await httpPost(
-                                         msgToSend: {
-                                           "msg": "addStudent",
-                                           "student_first_name": studentFirstNameAdd,
-                                           "student_last_name": studentLastNameAdd,
-                                           "student_middle_name": fathersNameAdd,
-                                           "student_name": "$studentFirstNameAdd $fathersNameAdd $studentLastNameAdd",
-                                           "student_gender": gender,
-                                           "student_ID_UDISE": studentID,
-                                           "student_GR_No": grNumber,
-                                           "student_nationality": nationalityNameAdd,
-                                           "student_mother_tongue": motherTongueNameAdd,
-                                           "sibling": siblingsList,
-                                           "student_fathers_name": fathersNameAdd,
-                                           "student_mothers_name": mothersNameAdd,
-                                           "student_guardians_name": guardiansNameAdd,
-                                           "student_address_name": addressNameAdd,
-                                           "student_fathers_ph_no": "$fathersPhoneNoEXT$fathersPhoneNoMain",
-                                           "student_mothers_ph_no": "$mothersPhoneNoEXT$mothersPhoneNoMain",
-                                           "student_guardians_ph_no": "$guardiansPhoneNoEXT$guardiansPhoneNoMain",
-                                           "student_aadhar_no": aadharNumberAdd,
-                                           "student_RTE": rTE,
-                                           "student_date_of_birth":
-                                           "${selectedDateofBirth[0].day}/${selectedDateofBirth[0].month}/${selectedDateofBirth[0].year}",
-                                           "student_religion": religionAdd.isEmpty ? null : religionAdd[0],
-                                           "student_caste": casteListAdd.isEmpty ? null : casteListAdd[0],
-                                           "student_subcaste": subcasteListAdd.isEmpty ? null : subcasteListAdd[0],
-                                           "student_differently_abled": differentlyAbledListAdd.isEmpty ? null : differentlyAbledListAdd[0],
-                                           "student_differently_abled_bool": differentlyAbledBool,
-                                           "student_place_of_birth_villageorcity": placeOfBirthAddVillageorCity,
-                                           "student_place_of_birth_taluka": placeOfBirthAddTaluka,
-                                           "student_place_of_birth_district": placeOfBirthAddDistrict,
-                                           "student_place_of_birth_state": placeOfBirthAddState,
-                                           "student_place_of_birth_country": placeOfBirthAddCountry,
-                                           "student_current_division": currentDivision,
-                                           "student_LastSchoolAttended": lastSchoolAttended,
-                                           "student_LastSchoolStandardAttended": lastSchoolStandardAttended,
-                                           "student_UDISEpreviousSchool": uDISEpreviousSchool,
-                                           "student_date_of_admission":
-                                           "${selectedDateofAdmission[0].day}/${selectedDateofAdmission[0].month}/${selectedDateofAdmission[0].year}",
-                                           "student_progress": progressAdd,
-                                           "student_conduct": conductAdd,
-                                           "student_reasonForLeaving": reasonForLeavingAdd,
-                                           "student_divisions": divList,
-                                           "student_divisionsData": "afds",
-                                           "student_username": userNameAdd ?? initialValueUserName,
-                                           "student_password": passwordAdd ?? initialValuePassword,
-                                           "student_enable_status": enableStatus.toString(),
-                                           "student_Leaving_Date":
-                                           "${selectedSchoolLeavingDate[0].day}/${selectedSchoolLeavingDate[0].month}/${selectedSchoolLeavingDate[0].year}",
-                                           "student_InSchool": inSchool,
-                                           "updatedBy": userName,
-                                           "student_firstAcadYr_Attended": firstAcadYr,
-                                           "student_firstClass_Attended": firstClass,
-                                           "student_firstDiv_Attended": firstDiv,
-                                           "student_lastAcadYr_Attended": lastAcadYr,
-                                           "student_lastClass_Attended": lastClass,
-                                           "student_lastDiv_Attended": lastDiv,
-                                           "firstAcadYrInSystem": firstAcadYrInSystem,
-                                           "newAdmissioninFirstAcadYrinsystem":newAdmissioninFirstAcadYrinsystem,
-                                         },
-                                         destinationPort: 8080,
-                                         destinationPost: "/addStudent",
-                                         destinationUrl: mainDomain,
-                                       );
-                                       // addStudent_http_responseBody = json.decode(addStudent_http_responseBodyJSON!);
+                                      if (isValid == true) {
+                                        addStudent_http_responseBodyJSON = await httpPost(
+                                          msgToSend: {
+                                            "msg": "addStudent",
+                                            "student_first_name": studentFirstNameAdd,
+                                            "student_last_name": studentLastNameAdd,
+                                            "student_middle_name": fathersNameAdd,
+                                            "student_name": "${studentFirstNameAdd!.trim()} ${fathersNameAdd!.trim()} ${studentLastNameAdd!.trim()}",
+                                            "student_gender": gender,
+                                            "student_ID_UDISE": studentID,
+                                            "student_GR_No": grNumber,
+                                            "student_nationality": nationalityNameAdd,
+                                            "student_mother_tongue": motherTongueNameAdd,
+                                            "sibling": siblingsList,
+                                            "student_fathers_name": fathersNameAdd,
+                                            "student_mothers_name": mothersNameAdd,
+                                            "student_guardians_name": guardiansNameAdd,
+                                            "student_address_name": addressNameAdd,
+                                            "student_fathers_ph_no": "$fathersPhoneNoEXT$fathersPhoneNoMain",
+                                            "student_mothers_ph_no": "$mothersPhoneNoEXT$mothersPhoneNoMain",
+                                            "student_guardians_ph_no": "$guardiansPhoneNoEXT$guardiansPhoneNoMain",
+                                            "student_aadhar_no": aadharNumberAdd,
+                                            "student_RTE": rTE,
+                                            "student_date_of_birth":
+                                                "${selectedDateofBirth[0].day}/${selectedDateofBirth[0].month}/${selectedDateofBirth[0].year}",
+                                            "student_religion": religionAdd.isEmpty ? null : religionAdd[0],
+                                            "student_caste": casteListAdd.isEmpty ? null : casteListAdd[0],
+                                            "student_subcaste": subcasteListAdd.isEmpty ? null : subcasteListAdd[0],
+                                            "student_differently_abled": differentlyAbledListAdd.isEmpty ? null : differentlyAbledListAdd[0],
+                                            "student_differently_abled_bool": differentlyAbledBool,
+                                            "student_place_of_birth_villageorcity": placeOfBirthAddVillageorCity,
+                                            "student_place_of_birth_taluka": placeOfBirthAddTaluka,
+                                            "student_place_of_birth_district": placeOfBirthAddDistrict,
+                                            "student_place_of_birth_state": placeOfBirthAddState,
+                                            "student_place_of_birth_country": placeOfBirthAddCountry,
+                                            "student_current_division": currentDivision,
+                                            "student_LastSchoolAttended": lastSchoolAttended,
+                                            "student_LastSchoolStandardAttended": lastSchoolStandardAttended,
+                                            "student_UDISEpreviousSchool": uDISEpreviousSchool,
+                                            "student_date_of_admission":
+                                                "${selectedDateofAdmission[0].day}/${selectedDateofAdmission[0].month}/${selectedDateofAdmission[0].year}",
+                                            "student_progress": progressAdd,
+                                            "student_conduct": conductAdd,
+                                            "student_reasonForLeaving": reasonForLeavingAdd,
+                                            "student_divisions": divList,
+                                            "student_divisionsData": "afds",
+                                            "student_username": userNameAdd ?? initialValueUserName,
+                                            "student_password": passwordAdd ?? initialValuePassword,
+                                            "student_enable_status": enableStatus.toString(),
+                                            "student_Leaving_Date":
+                                                "${selectedSchoolLeavingDate[0].day}/${selectedSchoolLeavingDate[0].month}/${selectedSchoolLeavingDate[0].year}",
+                                            "student_InSchool": inSchool,
+                                            "updatedBy": userName,
+                                            "student_firstAcadYr_Attended": firstAcadYr,
+                                            "student_firstClass_Attended": firstClass,
+                                            "student_firstDiv_Attended": firstDiv,
+                                            "student_lastAcadYr_Attended": lastAcadYr,
+                                            "student_lastClass_Attended": lastClass,
+                                            "student_lastDiv_Attended": lastDiv,
+                                            "student_discount_mainFee": listofDiscountsWigsMAP,
+                                            "student_fee_pending_input": feePending,
+                                            "student_fee_paid_input":feePaid,
+                                            "pendingPaidwithDiscount":pendingPaidwithDiscount,
+                                          },
+                                          destinationPort: 8080,
+                                          destinationPost: "/addStudent",
+                                          destinationUrl: mainDomain,
+                                        );
 
 
+                                        print("RESPONSE ========== ${addStudent_http_responseBodyJSON}");
 
-                                       if (addStudent_http_responseBodyJSON != "Saved") {
-                                         String? _errMsg = addStudent_http_responseBodyJSON;
-                                         setState(() {
-                                           final snackBar = SnackBar(
-                                             content: Text(_errMsg!),
-                                             backgroundColor: (snackbarErrorBg),
-                                             action: SnackBarAction(
-                                               label: 'dismiss',
-                                               textColor: snackbarErrorTxt,
-                                               onPressed: () {},
-                                             ),
-                                           );
-                                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                         });
-                                       }
-                                       else{
+                                        if (addStudent_http_responseBodyJSON != "Saved") {
+                                          String? _errMsg = addStudent_http_responseBodyJSON;
+                                          setState(() {
+                                            final snackBar = SnackBar(
+                                              content: Text(_errMsg!),
+                                              backgroundColor: (snackbarErrorBg),
+                                              action: SnackBarAction(
+                                                label: 'dismiss',
+                                                textColor: snackbarErrorTxt,
+                                                onPressed: () {},
+                                              ),
+                                            );
+                                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                          });
+                                        } else {
+                                          if (religionAddasStringList.isNotEmpty && religionAdd.isNotEmpty) {
+                                            if (religionAddasStringList[0] == Status.add && religionAddasStringList[0] != null) {
+                                              await httpPost(
+                                                  destinationUrl: mainDomain,
+                                                  destinationPort: 8080,
+                                                  destinationPost: "/getReligionData/addReligion",
+                                                  msgToSend: {"religion_name": religionAdd[0], "updatedBy": userName});
+                                            }
+                                          }
 
-                                         if (religionAddasStringList.isNotEmpty && religionAdd.isNotEmpty) {
-                                           if (religionAddasStringList[0] == Status.add && religionAddasStringList[0] != null) {
-                                             await httpPost(
-                                                 destinationUrl: mainDomain,
-                                                 destinationPort: 8080,
-                                                 destinationPost: "/getReligionData/addReligion",
-                                                 msgToSend: {"religion_name": religionAdd[0], "updatedBy": userName});
-                                           }
-                                         }
+                                          if (casteAddasStringList.isNotEmpty && casteListAdd.isNotEmpty) {
+                                            if (casteAddasStringList[0] == Status.add && casteAddasStringList[0] != null) {
+                                              await httpPost(
+                                                  destinationUrl: mainDomain,
+                                                  destinationPort: 8080,
+                                                  destinationPost: "/getDataCaste/addCaste",
+                                                  msgToSend: {"caste_name": casteListAdd[0], "updatedBy": userName});
+                                            }
+                                          }
 
-                                         if (casteAddasStringList.isNotEmpty && casteListAdd.isNotEmpty) {
-                                           if (casteAddasStringList[0] == Status.add && casteAddasStringList[0] != null) {
-                                             await httpPost(
-                                                 destinationUrl: mainDomain,
-                                                 destinationPort: 8080,
-                                                 destinationPost: "/getDataCaste/addCaste",
-                                                 msgToSend: {"caste_name": casteListAdd[0], "updatedBy": userName});
-                                           }
-                                         }
+                                          if (subcasteAddasStringList.isNotEmpty && subcasteListAdd.isNotEmpty) {
+                                            if (subcasteAddasStringList[0] == Status.add && subcasteAddasStringList[0] != null) {
+                                              print("@@@@@@@@@@@@@@@@@@${subcasteListAdd[0]}");
+                                              await httpPost(
+                                                  destinationUrl: mainDomain,
+                                                  destinationPort: 8080,
+                                                  destinationPost: "/getDataSubcaste/addSubcaste",
+                                                  msgToSend: {"subcaste_name": subcasteListAdd[0], "updatedBy": userName});
+                                            }
+                                          }
 
-                                         if (subcasteAddasStringList.isNotEmpty && subcasteListAdd.isNotEmpty) {
-                                           if (subcasteAddasStringList[0] == Status.add && subcasteAddasStringList[0] != null) {
-                                             print("@@@@@@@@@@@@@@@@@@${subcasteListAdd[0]}");
-                                             await httpPost(
-                                                 destinationUrl: mainDomain,
-                                                 destinationPort: 8080,
-                                                 destinationPost: "/getDataSubcaste/addSubcaste",
-                                                 msgToSend: {"subcaste_name": subcasteListAdd[0], "updatedBy": userName});
-                                           }
-                                         }
-
-                                         if (differentlyAbledAddasStringList.isNotEmpty && differentlyAbledListAdd.isNotEmpty) {
-                                           if (differentlyAbledAddasStringList[0] == Status.add) {
-                                             print("@@@@@@@@@@@@@@@@@@${differentlyAbledListAdd[0]}");
-                                             await httpPost(
-                                                 destinationUrl: mainDomain,
-                                                 destinationPort: 8080,
-                                                 destinationPost: "/getDataDifferentlyAbled/addDifferentlyAbled",
-                                                 msgToSend: {"student_differently_abled": differentlyAbledListAdd[0], "updatedBy": userName});
-                                           }
-                                         }
-                                         funcMakeVarNullStudents();
-                                         setState(() {
-                                           showAddStudent = false;
-                                           refreshStudentTable = true;
-                                           Provider.of<Data>(context, listen: false).refreshStudentMainfunc(true);
-
-                                         });
-                                       }
-                                     }
+                                          if (differentlyAbledAddasStringList.isNotEmpty && differentlyAbledListAdd.isNotEmpty) {
+                                            if (differentlyAbledAddasStringList[0] == Status.add) {
+                                              print("@@@@@@@@@@@@@@@@@@${differentlyAbledListAdd[0]}");
+                                              await httpPost(
+                                                  destinationUrl: mainDomain,
+                                                  destinationPort: 8080,
+                                                  destinationPost: "/getDataDifferentlyAbled/addDifferentlyAbled",
+                                                  msgToSend: {"student_differently_abled": differentlyAbledListAdd[0], "updatedBy": userName});
+                                            }
+                                          }
+                                          funcMakeVarNullStudents();
+                                          setState(() {
+                                            showAddStudent = false;
+                                            refreshStudentTable = true;
+                                            Provider.of<Data>(context, listen: false).refreshStudentMainfunc(true);
+                                          });
+                                        }
+                                      }
                                     },
                                     child: Text("Create Student")),
                               ),
